@@ -1,8 +1,10 @@
 # AI Growth Systems website – rules for every session
 
 Owner: Steve Harrison, AI Growth Systems (aigrowthsystems.co.uk).
-Full brief: `docs/BRIEF.md` (v2.0, 9 October 2026). Read the relevant section before starting any phase.
+Full brief: `docs/BRIEF.md` (v2.1, 9 October 2026). Read the relevant section before starting any phase.
 This file captures the rules from brief sections 0, 4, 6, 9 and 16. If this file and the brief disagree, ask Steve.
+
+**The funnel (v2.1):** Facebook ad → Free AI Growth Audit (instant score + top 3 quick wins) → free 30-minute discovery call → AI Integration (fixed price) → optional monthly care plan. The £997 Full AI Assessment and online checkout from v2.0 are gone. Visitors always see the name "Free AI Growth Audit"; the page addresses stay `/assessment`.
 
 ## 1. How to work with Steve (brief section 0)
 
@@ -23,6 +25,9 @@ Steve has never built a website in code before and runs the business part-time (
 
 - Never invent a price, statistic, case study, testimonial, client name, URL or result.
 - Prices shown are tests. No fake urgency, no fake scarcity, no countdowns, no "someone just bought" pop-ups, no income claims.
+- Never promise more enquiries, sales or income. Nothing is presented as a guaranteed outcome; the only guarantee is about delivery ("live in 14 days").
+- Every price is a test kept in one settings file (`src/config/offer.ts`).
+- Nothing non-essential (including the Meta pixel) loads before cookie consent.
 - Instant results are automatic. **The full audit is never sent without Steve's approval.**
 - Every blog post has something original from Steve. No generic AI tutorials.
 - Every Higgsfield generation is approved by Steve first (brief, prompt, model and estimated credits shown before generating).
@@ -37,7 +42,7 @@ Related copy rules from the brief:
 - Never claim Steve has run marketing for hundreds of businesses.
 - The Skool group is called "free AI group" on the site. Confirm its current name with Steve before writing the name anywhere. It appears in the footer and thank-you page only.
 - Testimonials, the stats bar and "What I'm seeing in audits" stay hidden until real data exists. Never type numbers in by hand.
-- The calculator shows a cost the visitor already has. It never promises savings or income.
+- The calculator shows the value of enquiries the visitor already has at risk, from their own numbers, labelled "An estimate from your own numbers — not a promise of results." It never promises savings, sales or income.
 - Every data-safety claim must be confirmed true by Steve.
 
 ## 3. Tech stack (brief section 4)
@@ -50,22 +55,23 @@ Use these tools and no others without asking Steve. Items marked *(verify)* must
 | Animation | CSS animations first; Motion (motion.dev) only where CSS can't do it *(verify package name)* |
 | Code storage | GitHub, private repo. Pushes trigger deploys |
 | Hosting | Cloudflare – current recommended way to host Astro with server functions (Workers with static assets or Pages; *verify which*) |
-| Database | Cloudflare D1 (submissions, results, report drafts, purchases, events) |
+| Database | Cloudflare D1 (submissions, results, report drafts, bookings, register-interest sign-ups, events) |
 | Spam protection | Cloudflare Turnstile |
 | AI for results and reports | Anthropic API, current Sonnet model, with web search and web fetch tools |
 | Email list | Kit (sequences need a paid plan; *verify price*) |
 | Transactional email | Resend *(verify free-plan limits)* |
-| Payments | Stripe Checkout + webhook *(verify UK fees)* |
-| Booking calls | Google Workspace appointment schedule *(verify on Business Starter)*; fallback Cal.com free plan |
+| Payments | Stripe invoices sent by Steve after the discovery call. No online checkout and no Stripe webhook for now; keep buttons reading their destination from the settings file so payment can be added later |
+| Booking calls | Cal.com free plan connected to Steve's Google Calendar *(recommended; confirm on official docs at the start of Phase 3)*; alternative Google Workspace appointment schedule |
+| Ad tracking | Meta pixel + Meta Conversions API, only after cookie consent *(verify Meta's docs and UK consent rules, report to Steve, and get his yes before building)* |
 | Mailbox | info@aigrowthsystems.co.uk on Google Workspace Business Starter |
-| Analytics | Cloudflare Web Analytics + Google Search Console + our own D1 event log (no analytics cookies) |
+| Analytics | Cloudflare Web Analytics + Google Search Console + our own D1 event log (no analytics cookies). The site still has a cookie consent banner because of the Meta pixel |
 | Site search | Pagefind |
 | Video | YouTube for blog videos (click-to-load via youtube-nocookie); Cloudflare Stream or self-hosted MP4/WebM for short silent hero loops (self-hosted fine under ~3 MB) |
 | Visual assets | Higgsfield – paid credits, Steve approves every brief and prompt first |
 
 **Domain:** registered at GoDaddy and stays there. At go-live, DNS moves to Cloudflare by changing nameservers. **Recreate the email records (MX, SPF, DKIM, DMARC) for info@ in Cloudflare before switching**, or email will break.
 
-**One-setting price:** the £997 price lives in one setting in one file; every page reads from it.
+**One settings file:** the AI Integration price (£1,997 test price), payment split (50/50), timeline (14 days), care-plan price (£199/month test price) and booking link live in `src/config/offer.ts`; every page and email reads from it. Never type these values anywhere else.
 
 ## 4. Design system (brief section 6)
 
@@ -136,8 +142,10 @@ All text must pass WCAG AA contrast. Check `--muted` and `--subtle` on `--card` 
 
 - A server function calls the Anthropic API with the form answers. The model uses web fetch on the visitor's site (home, services, about, contact) and web search for public information, and returns **structured JSON**: score, score meaning, 3 quick wins (problem, fix, tool, effort, estimated hours saved per week, one-line reasoning), and a list of what it couldn't verify.
 - **Score rubric** (each area 0–20, total 0–100; Steve approves the rubric): enquiry handling, repetitive admin, follow-up, content and marketing, current AI use (inverted: less use = more opportunity).
+- One of the top 3 quick wins always assesses enquiry handling, using the form answers on how enquiries arrive and how fast they're answered.
+- The result ends with "The first system I'd build for you:", naming one system Steve has defined.
 - Every time estimate is labelled "estimate" with its reasoning.
-- No promises of results. No money figures for income.
+- No promises of results. No money figures for income. Never promise more enquiries or sales.
 - If the website can't be read, say so and base the result on the form answers.
 - If the call fails or takes over 90 seconds, show a friendly message and email the result when it's ready.
 - Save every result to D1.
@@ -146,13 +154,13 @@ All text must pass WCAG AA contrast. Check `--muted` and `--subtle` on `--card` 
 ### Full audit (Steve reviews before sending)
 
 - Runs in the background after the instant result. The draft is emailed **to Steve only**, subject `Audit draft: [Business] – fit: High/Medium/Low`.
-- **Part A – client-facing draft:** what the business does and how it makes money; where time and money are being lost; specific AI fixes with named tools and real costs (searched, with the date checked); rough expected impact labelled as an estimate with reasoning; what Steve would build first and why; anything that couldn't be verified; next step (the £997 Full AI Assessment with the credit guarantee).
-- **Part B – for Steve only, never sent to the prospect:** fit score and why; which offer fits; questions for a call; red flags.
+- **Part A – client-facing draft:** what the business does and how it makes money; where time and money are being lost; specific AI fixes with named tools and real costs (searched, with the date checked); rough expected impact labelled as an estimate with reasoning; what Steve would build first and why; anything that couldn't be verified; next step (book the free 30-minute call / AI Integration).
+- **Part B – for Steve only, never sent to the prospect:** fit score and why; which system fits first; likely price (from the settings file); questions for a call; red flags.
 - **Nothing in Part A or B is ever sent automatically.** Steve always edits and approves.
 - Steve's final versions go in `audits/final/`. `/improve-audit-prompt` compares drafts with finals and suggests changes to the instructions.
 
 ### Follow-up emails (Kit)
 
 - Only for people who ticked consent.
-- Day 0 result + link; day 2 one quick win in depth with a build-log video; day 5 full audit sent by Steve (manual); day 7 the £997 Full Assessment and the credit; day 14 a real build story + free AI group link.
+- Day 0 result + booking link; day 2 how the Enquiry Responder works (with a build video when Steve has one); day 4 what happens on the free call; day 7 the AI Integration offer + guarantee; day 14 a real build story + free AI group link.
 - No fake deadlines. Steve approves every email before it's used.

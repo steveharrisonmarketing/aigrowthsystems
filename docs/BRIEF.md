@@ -1,10 +1,10 @@
 # Brief – AI Growth Systems Website Build
 
-**Version:** 2.0
+**Version:** 2.1
 **Date:** 9 October 2026
 **Owner:** Steve Harrison, AI Growth Systems (aigrowthsystems.co.uk)
 **Built with:** Claude Code
-**Replaces:** v1.0 (6 October 2026)
+**Replaces:** v2.0 (9 October 2026)
 **Status:** for Steve's review
 
 ---
@@ -33,22 +33,26 @@ Steve has **never built a website in code before**. He runs the business part-ti
 
 ## 1. What we're building
 
-A premium, dark, AI-quality website with **three main pages** and one job: **get small business owners to take the free AI assessment, then buy the £997 Full AI Assessment.**
+A premium, dark, AI-quality website with **three main pages** and one job: **get small business owners to take the Free AI Growth Audit, then book a free 30-minute discovery call that leads to AI Integration.**
+
+**The funnel:** Facebook ad → Free AI Growth Audit (instant score + top 3 quick wins) → free 30-minute discovery call → AI Integration (fixed price) → optional monthly care plan.
 
 | Page | Job |
 |---|---|
-| **Home** (`/`) | Very simple. One action: start the free AI assessment. Second action: buy the £997 Full AI Assessment |
-| **Programmes** (`/programmes`) | Sells coaching programmes and productised AI builds |
+| **Home** (`/`) | Very simple. One action: start the Free AI Growth Audit. Second action: see how AI Integration works |
+| **Programmes** (`/programmes`) | Shows the AI Integration systems and coaching programmes |
 | **Blog** (`/blog`) | Daily articles and videos showing real AI builds. Builds search traffic and audience |
 
-Everything else on the site (sections 5 and 7) is a supporting page these three need: the assessment flow, checkout, an author page, legal pages.
+Everything else on the site (sections 5 and 7) is a supporting page these three need: the audit flow, the AI Integration page, call booking, an author page, legal pages.
+
+**Naming:** the free assessment is called the **"Free AI Growth Audit"** everywhere a visitor sees it (buttons, labels, emails). Where this brief says "free assessment" or "free AI assessment", it means the Free AI Growth Audit. The page addresses stay `/assessment` and `/assessment/result/[id]`.
 
 **Success is measured by:**
 
-1. Free assessments started
-2. Free assessments completed
-3. £997 assessments bought
-4. Programme enquiries or sales
+1. Free audits started
+2. Free audits completed
+3. Discovery calls booked
+4. AI Integration and programme enquiries or sales
 
 Every page and every test is judged against these numbers (section 13).
 
@@ -58,8 +62,8 @@ Every page and every test is judged against these numbers (section 13).
 
 - **AI Growth Systems** helps businesses use AI to make more money.
 - **It is consulting, not training.** Revenue comes from:
-  - the £997 Full AI Assessment;
-  - productised AI builds: one named problem, fixed scope, fixed price, fixed delivery time;
+  - AI Integration: productised AI builds, each with one named problem, fixed scope, fixed price, fixed delivery time;
+  - an optional monthly care plan;
   - coaching programmes.
 
   Courses and general AI training are not sold.
@@ -69,9 +73,10 @@ Every page and every test is judged against these numbers (section 13).
 - **Everything shown is something Steve actually does.** Content shows real builds in his own business and client work, never generic AI tutorials.
 - **Audience now:** broad. Small and local UK businesses. It narrows later when the data shows who buys. Do not invent an ideal customer.
 - **Prices shown on the site are tests.**
-  - £997 is the first test price for the Full AI Assessment.
-  - Prices can change based on the data.
+  - £1,997 (AI Integration) and £199/month (care plan) are the first test prices.
+  - Prices can change based on the data. They live in one settings file (section 10.3).
   - Never use "price going up", countdowns or fake scarcity.
+  - Never promise more enquiries, sales or income.
 - **Skool group:** URL is `skool.com/we-teach-marketing-5052`. Its name has changed several times, so **confirm the current name with Steve before writing it anywhere.** On the site, call it "free AI group". It appears in the footer and on the thank-you page only.
 
 ---
@@ -100,15 +105,16 @@ Steve asked for the site to be modelled on Acquisition.com, with the design qual
 | Animation | **CSS animations** first; **Motion** (motion.dev) only where CSS can't do it *(verify current package name)* | Smooth, premium feel without slowing the site | Free |
 | Code storage & history | **GitHub** (private repo) | Every change saved and reversible. Pushes trigger deploys | Free |
 | Hosting | **Cloudflare** (use Cloudflare's current recommended way to host Astro with server functions: Workers with static assets or Pages; *verify which*) | Fast, includes server functions, database, spam protection and analytics in one provider | Free plan *(verify limits)* |
-| Database | **Cloudflare D1** | Stores assessment submissions, results, report drafts, purchases, events | Free tier |
+| Database | **Cloudflare D1** | Stores assessment submissions, results, report drafts, bookings, register-interest sign-ups, events | Free tier |
 | Spam protection | **Cloudflare Turnstile** | Stops bots using the assessment (each one costs API money) | Free |
 | AI for results and reports | **Anthropic API** (current Sonnet model, with web search and web fetch tools) | Researches the business, writes the instant result and the full audit draft | Pay per use (section 14) |
 | Email list | **Kit** | Steve's choice. Automated sequences need a paid plan *(verify current price)* | Free to start |
 | Sending emails from the site | **Resend** | Result emails to visitors, notifications to Steve *(verify free-plan limits)* | Free to start |
-| Payments | **Stripe Checkout** | £997 assessment and later programmes. Hosted payment page, no shop software. Webhook confirms payment back to the site *(verify UK fees)* | Per sale |
-| Booking calls | **Google Workspace appointment schedule** (comes with the info@ mailbox) *(verify it's on Business Starter)*. Fallback: **Cal.com** free plan | Lets £997 buyers book their call straight after paying | Included / free |
+| Payments | **Stripe invoices**, sent by Steve after the discovery call | No online checkout and no Stripe webhook for now. Buttons take their destination from the one settings file (section 10.3), so online payment can be added later with a small change *(verify UK invoice fees)* | Per paid invoice |
+| Booking calls | **Cal.com** free plan, connected to Steve's Google Calendar *(recommended; confirm on Cal.com's and Google's own docs at the start of Phase 3)*. Alternative: **Google Workspace appointment schedule** | An embedded calendar on the result page and `/ai-integration`. Cal.com can tell the site the moment a call is booked, which the Kit tag and the email to Steve depend on. No direct way was found for a Google appointment schedule to do that | Free *(verify)* |
 | Business mailbox | **info@aigrowthsystems.co.uk** on Google Workspace Business Starter *(verify UK price)* | Real mailbox, calendar, booking page | Paid |
-| Analytics | **Cloudflare Web Analytics** + **Google Search Console** + our own D1 event log | No cookies needed for Cloudflare analytics, so no cookie banner for analytics *(verify API access on free plan)* | Free |
+| Analytics | **Cloudflare Web Analytics** + **Google Search Console** + our own D1 event log | Cloudflare analytics needs no cookies. The Meta pixel does, so the site has a cookie consent banner (section 19) *(verify API access on free plan)* | Free |
+| Ad tracking | **Meta pixel** + **Meta Conversions API**, both only after cookie consent (section 19) *(verify Meta's current docs and UK consent rules before building)* | Tells Facebook which ads lead to completed audits and booked calls | Free; ad spend is separate |
 | Site search | **Pagefind** | Search box across blog posts | Free |
 | Video hosting | **YouTube** (blog videos, click-to-load embed via youtube-nocookie) + **Cloudflare Stream** or self-hosted MP4/WebM for short silent hero loops *(verify Stream pricing; self-hosted is fine if under ~3 MB)* | Free hosting and YouTube ranking for long videos. Fast, ad-free loops for the design | Free / low |
 | Visual assets | **Higgsfield** (connected to Claude) | Cinematic hero loop, section images, blog and video thumbnails | Paid credits. **Steve approves every brief and prompt before generation** |
@@ -120,12 +126,11 @@ Steve asked for the site to be modelled on Acquisition.com, with the design qual
 ## 5. Site map
 
 ```
-/                              Home – free assessment + £997 offer
-/assessment                    Free AI assessment – short multi-step form
-/assessment/result/[id]        Instant result + £997 offer (private link, not indexed)
-/full-assessment               £997 Full AI Assessment sales page (for ads, emails and the nav)
-/full-assessment/booked        After payment: book your call
-/programmes                    Coaching programmes + productised builds
+/                              Home – Free AI Growth Audit + AI Integration offer
+/assessment                    Free AI Growth Audit – short multi-step form
+/assessment/result/[id]        Instant result + book a free call (private link, not indexed)
+/ai-integration                AI Integration sales page (for ads, emails and the nav)
+/programmes                    AI Integration systems + coaching programmes
 /programmes/[slug]             One programme or build
 /blog                          All posts (filter by category, search)
 /blog/category/[category]      Category hub pages
@@ -137,16 +142,16 @@ Steve asked for the site to be modelled on Acquisition.com, with the design qual
 
 **Main navigation:**
 
-- Programmes · Blog · Full Assessment £997 · **[Free AI Assessment]** (gold button, sticky)
+- AI Integration · Programmes · Blog · **[Free AI Growth Audit]** (gold button, sticky)
 - On mobile: the logo plus the gold button always visible; everything else in a menu.
 
 **Footer:**
 
-- Programmes, Blog, About, Full Assessment
+- AI Integration, Programmes, Blog, About
 - Free AI group (Skool link)
 - Newsletter sign-up
 - info@ email
-- Privacy, Cookies, Terms
+- Privacy, Cookies, Terms, Cookie settings (reopens the consent banner; section 19)
 - Company details (ask Steve: legal name, company number if a limited company, registered address)
 
 **Removed from v1.0:**
@@ -243,43 +248,44 @@ Simple, like Acquisition.com: a few sections, one main action repeated.
 
 1. **Header:**
    - wordmark, nav;
-   - sticky gold "Free AI Assessment" button.
+   - sticky gold "Free AI Growth Audit" button.
 2. **Hero:**
    - Higgsfield cinematic loop in a rounded frame (asset H1, section 8).
-   - Eyebrow pill: "Free AI assessment".
+   - Eyebrow pill: "Free AI Growth Audit".
    - H1: one of the three options below, chosen by Steve.
    - Subheadline: "Tell us about your business. Get your AI score and top 3 quick wins on screen in minutes — then a full audit reviewed by Steve."
-   - **Inline form start:** website address + email + gold button "Get my free assessment". This carries both values into `/assessment` step 2.
+   - **Industry variants:** with `?for=[industry]` in the address, the subheadline swaps to name that industry (section 19.4). The default stays general.
+   - **Inline form start:** website address + email + gold button "Get my free AI Growth Audit". This carries both values into `/assessment` step 2.
    - Small line under the button: "Free. No call needed. UK businesses."
-   - **Headline options** (each names one specific problem, not "we implement AI"):
-     - A: "HOW MANY HOURS A WEEK DOES ADMIN COST YOU?"
-     - B: "STOP DOING THE SAME TASKS BY HAND EVERY WEEK."
-     - C: "EVERY ENQUIRY YOU ANSWER LATE IS A SALE AT RISK."
+   - **Headline options** (each names one specific problem, not "we implement AI"). The A/B/C test stays; A is the default:
+     - A: "EVERY ENQUIRY YOU ANSWER LATE IS ONE A COMPETITOR CAN ANSWER FIRST."
+     - B: "YOUR WEBSITE SAYS 'WE'LL GET BACK TO YOU'. AI CAN GET BACK TO THEM IN 60 SECONDS."
+     - C: "HOW MANY HOURS A WEEK DOES ADMIN COST YOU?"
 3. **How it works:**
    - Eyebrow: "How it works".
    - H2: "3 STEPS. NO SALES CALL NEEDED."
    - Three cards:
-     - (1) Answer a few questions about your business.
-     - (2) Get your AI score and top 3 quick wins instantly.
-     - (3) Steve reviews your business and emails your full audit.
+     - (1) Take the free audit (2 minutes).
+     - (2) See your score and top 3 quick wins instantly.
+     - (3) Book a free call — Steve shows you the first system he'd build.
    - Button.
-4. **Calculator** (Higgsfield-style):
+4. **Calculator** (Higgsfield-style) – an enquiries calculator:
    - Eyebrow: "What it's costing you".
-   - H2: "WHAT IS REPETITIVE WORK COSTING YOU?"
+   - H2: draft "WHAT ARE SLOW REPLIES PUTTING AT RISK?" (Steve to approve; section 17).
    - Sliders:
-     - hours a week your team spends on repetitive tasks (1–60);
-     - average hourly cost of that time (£10–£100).
-   - Output: cost per year in a big gold number (= hours × cost × 48 working weeks), with a small bar chart over 12 months.
-   - Label under it: "Your estimate, from your numbers. The free assessment shows where AI could take some of that work."
-   - Button: "Find out what AI could take off your plate".
-   - **This shows a cost the visitor already has. It never promises savings or income.**
-5. **Full AI Assessment (£997):**
+     - enquiries a week you miss or reply to late (0–50);
+     - average value of a job/sale (£50–£5,000).
+   - Output: "value of enquiries at risk per year" in a big gold number (= enquiries × value × 48), with a small bar chart over 12 months.
+   - Label under it: "An estimate from your own numbers — not a promise of results." Shown directly under the number at normal body size, never as small print.
+   - Button: "Find out where you're losing enquiries".
+   - **This shows a value the visitor already has at risk, from their own numbers. It never promises savings, sales or income.**
+5. **AI Integration:**
    - Eyebrow: "Go deeper".
-   - H2: "THE FULL AI ASSESSMENT".
-   - What's included (from section 10.1, once Steve confirms).
-   - Big price "£997".
-   - Guarantee line: "Your £997 comes off the price of any build or programme you buy within [X] days." (X to confirm.)
-   - Buttons: primary "Get the Full Assessment — £997" → Stripe Checkout; secondary "See what's included" → `/full-assessment`.
+   - H2: "YOUR FIRST AI SYSTEM, LIVE IN 14 DAYS".
+   - Enquiry Responder summary (from section 10.1).
+   - Big price "£1,997" (read from the settings file, section 10.3).
+   - Guarantee line: "Live in 14 days, or we keep working free until it is — and you don't pay the second half until it's live."
+   - Buttons: primary "Get my free AI Growth Audit" → `/assessment`; secondary "How AI Integration works" → `/ai-integration`.
 6. **Your data stays safe:**
    - H2: "YOUR CLIENT DATA STAYS YOURS."
    - Three plain points on how Steve handles business data, which tools keep data private, and UK GDPR. Steve must confirm every claim (section 17).
@@ -302,12 +308,14 @@ Simple, like Acquisition.com: a few sections, one main action repeated.
     - Build the component but keep it hidden.
     - Show only real, attributable testimonials, with permission.
     - Never invent one.
-11. **FAQ** (5–7 questions). Draft answers for Steve to approve:
+11. **FAQ** (up to 9 questions). Draft answers for Steve to approve:
     - Is it really free?
     - What do I get instantly, and what comes later?
     - How long until I get the full audit?
-    - What's in the £997 Full Assessment and how is it different?
-    - How does the £997 credit work?
+    - What happens on the free call?
+    - What does AI Integration cost?
+    - What if it isn't live in 14 days?
+    - Do I need to change my tools?
     - Is my business data safe?
     - Do I need to be technical?
 12. **Final call to action band:** H2 "FIND YOUR FIRST AI QUICK WIN.", gold button.
@@ -326,7 +334,9 @@ Multi-step form with a progress bar, mobile-first, about 2 minutes. Fewer questi
 - **Step 2:**
   - business type: dropdown of ~15 common small-business types plus "Other";
   - team size: Just me / 2–5 / 6–20 / 21–50 / 50+;
-  - main goal: More leads / More sales / Save time / Better follow-up / Other.
+  - main goal: More leads / More sales / Save time / Better follow-up / Other;
+  - "How do enquiries reach you?" (tick boxes: phone, website form, email, Facebook/Instagram, Google, WhatsApp, other);
+  - "How fast do you usually reply?" (within minutes / within an hour / same day / next day or later / not sure).
 - **Step 3:**
   - "What eats most of your week?" (short text);
   - tools you use now (optional, tick boxes: Gmail/Outlook, WhatsApp, a CRM, Xero/QuickBooks, a booking system, social media, other);
@@ -355,62 +365,77 @@ The page shows:
 1. **AI Opportunity Score** (0–100):
    - big gold number with a circular gauge;
    - one-line meaning: "Lots of room for AI to help" / "Some clear opportunities" / "Already using AI well".
-2. **Your top 3 quick wins.** Each one has:
+2. **Your top 3 quick wins.** One of the three always assesses enquiry handling (section 9.1). Each one has:
    - the problem in plain words;
    - the AI fix, naming a tool type or real tool;
    - effort to set up (Low / Medium / High);
    - a rough time saving, **labelled "estimate"**, with the reasoning in one line.
-3. **What happens next:** "Steve will review your business and email your full audit within [X working days]." (X to confirm.)
-4. **The £997 offer:**
-   - H2: "WANT THE FULL PICTURE NOW?"
-   - what's included, the credit guarantee, the price;
-   - button → Stripe Checkout.
-   - Secondary: "Book a free 15-minute call instead" (only if Steve wants this; section 17).
-5. **Secondary:** a link to the free AI group.
+3. **"The first system I'd build for you:"** naming one system (section 9.1).
+4. **What happens next:** "Steve will review your business and email your full audit within [X working days]." (X to confirm.)
+5. **Book the call:**
+   - Main button: "Book your free 30-minute call" → the embedded booking calendar (section 4).
+   - Under the button: "Steve will walk you through your full audit and the first AI system he'd build for your business. No obligation."
+   - Secondary link: "See how AI Integration works" → `/ai-integration`.
+6. **Secondary:** a link to the free AI group.
+
+**After booking:**
+
+- a confirmation screen, plus a confirmation email to the visitor;
+- Kit tag `call-booked`;
+- an email to Steve with the booking details and the audit result attached;
+- the booking saved in D1 with `utm_source`, `utm_campaign` and `utm_content`;
+- event `call_booked` (and Meta "CallBooked" if the visitor consented; section 19).
 
 **Also:**
 
 - The same result is emailed to the visitor (Resend) with a link back to this page.
 - The page is private: not indexed by search engines, with a long random ID in the address.
+- There is no online payment on the site for now. Steve invoices clients by Stripe invoice after the call.
 
-### 7.4 Full AI Assessment (`/full-assessment`)
+### 7.4 AI Integration (`/ai-integration`)
 
-A sales page for ads and emails. Same design system. Sections:
+A sales page for ads and emails. Same design system. It replaces the `/full-assessment` page from v2.0. Price, timeline and care-plan price are read from the one settings file (section 10.3).
 
-1. Hero: "THE FULL AI ASSESSMENT — £997"
-2. Who it's for
-3. What's included (section 10.1)
-4. A sample report preview, built for a clearly fictional business and labelled "Example"
-5. How it works: pay → book your call → assessment delivered → £997 credited if you go ahead with a build or programme
-6. The credit guarantee
-7. About Steve
-8. FAQ
-9. Buy button
+**Name:** "AI Integration — your first AI system, live in 14 days"
 
-**After payment:** Stripe sends the buyer to `/full-assessment/booked`, which:
+Sections:
 
-- thanks them;
-- shows the booking calendar to choose their call;
-- says what to prepare.
+1. Hero
+2. The problem: slow and missed enquiries. One line here changes for industry landing variants (section 19)
+3. What the Enquiry Responder does (section 10.1)
+4. How it works: call → build → live in 14 days → care plan
+5. What's included
+6. Price + guarantee
+7. A sample "how it works" diagram, clearly labelled as an example
+8. About Steve
+9. FAQ
+10. Button "Book your free call" (the same booking calendar as the result page)
 
-The Stripe webhook (Stripe's automatic message back to the site confirming payment) records the purchase in D1, tags them in Kit (`bought-full-assessment`) and emails Steve.
+**Second system:** the Admin Assistant, as a "Coming soon" card with register-interest (Kit tag `interest-admin-assistant`, event `integration_interest`).
+
+**Tracking:** event `ai_integration_view` when the page is viewed.
+
+**Never promise more enquiries, sales or income** anywhere on this page.
 
 ### 7.5 Programmes (`/programmes`)
 
-Two groups of cards, Acquisition.com style (one image, one title, one line, one button each):
+Two groups of cards, Acquisition.com style (one image, one title, one line, one button each), in this order:
 
-- **Coaching programmes:** Steve guides a business owner through putting AI into their business.
-- **Productised AI builds:** one named problem, fixed scope, fixed price, fixed delivery time (for example, a missed-enquiry responder or a client-chasing automation). Only show builds Steve has actually defined.
+- **AI Integration** (first): one named problem, fixed scope, fixed price, fixed delivery time.
+  - Enquiry Responder – **Live**; button → `/ai-integration`.
+  - Admin Assistant – **Coming soon**; register interest.
+  - Only show systems Steve has actually defined.
+- **Coaching programmes** (second): Steve guides a business owner through putting AI into their business. All **Coming soon** with register interest until Steve defines them.
 
 **Each card has a status:**
 
 - **Coming soon:**
   - button "Register interest" (email form, Kit tag `interest-[slug]`);
   - the interest count is recorded in D1 as demand data.
-- **Live, buy online:** price (labelled clearly), button → Stripe Checkout.
+- **Live:** button → its page, where the visitor books a free call. There is no online payment for now.
 - **Live, apply:** button "Apply" → short form + booking calendar, for programmes that need a call first.
 
-**At launch, every card is "Coming soon"** until Steve defines it. Steve supplies names, descriptions and prices; never invent them.
+Steve supplies names, descriptions and prices; never invent them.
 
 **Above the cards:** "Not sure which fits? Start with the free AI assessment."
 
@@ -459,7 +484,7 @@ Interview Steve with 5–8 questions to write it.
 |---|---|---|---|
 | H1 | Home hero loop, 6–8 s, seamless, silent | 1920 × 1080 (16:9) master, cropped to 1080 × 1350 for mobile | Cinematic slow dolly shot across a small UK business workspace at dusk: a laptop on a wooden desk, soft screen glow, abstract streams of warm gold light (#E3B341 to #F6D27A) flowing from the laptop into the room like data. Near-black background (#0B0B0D), shallow depth of field, anamorphic lens look, subtle film grain, moody low-key lighting, no people's faces, no readable text or logos. Keep the left 50% darker for headline text |
 | H2 | "How it works" card visuals ×3 | 800 × 600 | Same palette and lighting as H1. (1) A hand typing on a laptop, gold rim light. (2) A glowing gold circular gauge floating above a desk. (3) An email arriving on a phone screen, gold glow, no readable text. Dark background #0B0B0D, soft 35% bloom, no logos |
-| H3 | Full Assessment section visual | 1200 × 900 | A premium printed report lying on a dark desk, gold light raking across its cover, blank cover (no text), shallow depth of field, #0B0B0D background, warm gold highlights #E3B341 |
+| H3 | AI Integration section visual | 1200 × 900 | A phone lying on a dark desk beside a laptop, its screen glowing as a message arrives, thin streams of gold light linking the phone to the laptop, no readable text, shallow depth of field, #0B0B0D background, warm gold highlights #E3B341 |
 | H4 | Data-safety section visual | 1200 × 900 | A softly glowing gold padlock made of light lines over an abstract dark network, #0B0B0D background, gold #E3B341 lines, subtle blue-grey secondary light at 10%, cinematic, minimal |
 | H5 | Video thumbnail template background | 1280 × 720 | Dark cinematic gradient, #0B0B0D to #17181C, gold light leak from the right edge, space on the left two-thirds for Steve's cut-out photo and up to 4 words added in code |
 | H6 | Programme card images (one per programme when defined) | 1200 × 900 | Brief per programme when Steve defines it |
@@ -488,7 +513,7 @@ A server function calls the Anthropic API with the form answers. The model:
 
 - uses web fetch on the visitor's website (home, services, about, contact);
 - uses web search for public information (reviews, Google Business Profile);
-- returns **structured JSON** (data in a fixed format the page can read): score, score meaning, 3 quick wins (problem, fix, tool, effort, estimated hours saved per week, one-line reasoning), and a list of what it couldn't verify.
+- returns **structured JSON** (data in a fixed format the page can read): score, score meaning, 3 quick wins (problem, fix, tool, effort, estimated hours saved per week, one-line reasoning), the first system Steve would build, and a list of what it couldn't verify.
 
 **Score rubric** (drafted for Steve to approve; the model scores each 0–20):
 
@@ -502,8 +527,10 @@ A server function calls the Anthropic API with the form answers. The model:
 
 **Rules:**
 
+- One of the top 3 quick wins must always assess enquiry handling, using the answers to "How do enquiries reach you?" and "How fast do you usually reply?".
+- The result ends with "The first system I'd build for you:", naming one system. Only name a system Steve has defined (section 10).
 - Every time estimate is labelled "estimate" with its reasoning.
-- No promises of results, no money figures for income.
+- No promises of results, no money figures for income. Never promise more enquiries or sales.
 - If the website can't be read, say so and base the result on the form answers.
 - If the call fails or takes over 90 seconds, show a friendly message and email the result when it's ready.
 - Save every result to D1.
@@ -520,12 +547,13 @@ Runs in the background after the instant result. It drafts the full audit and em
 4. Rough expected impact, labelled as an estimate with reasoning
 5. What Steve would build first and why
 6. Anything that couldn't be verified
-7. Next step: the £997 Full AI Assessment (link), with the credit guarantee
+7. Next step: book the free 30-minute call (link) / AI Integration (link to `/ai-integration`)
 
 **Part B – for Steve only (never sent to the prospect):**
 
 - fit score and why;
-- which offer fits (Full Assessment, a productised build, or coaching);
+- which system fits first (Enquiry Responder, Admin Assistant, or coaching);
+- likely price (from the settings file; never an invented figure);
 - questions for a call;
 - red flags.
 
@@ -542,11 +570,11 @@ Only for people who ticked consent. Written in Phase 4, for Steve to approve:
 
 | Day | Email |
 |---|---|
-| 0 | Your result + link |
-| 2 | One quick win explained in more depth, with a build-log video |
-| 5 | Full audit sent by Steve (manual) |
-| 7 | The £997 Full Assessment: what's in it, and the credit |
-| 14 | A real build story from the blog + free AI group link |
+| 0 | Your result + booking link |
+| 2 | How the Enquiry Responder works (with a build video when Steve has one) |
+| 4 | What happens on the free call |
+| 7 | The AI Integration offer + guarantee |
+| 14 | A real build story + free AI group link |
 
 No fake deadlines.
 
@@ -554,27 +582,41 @@ No fake deadlines.
 
 ## 10. Offers on the site
 
-### 10.1 Full AI Assessment – £997 (test price)
+### 10.1 AI Integration – £1,997 (test price)
 
-**Draft of what's included, for Steve to confirm or change before launch:**
+**Name:** "AI Integration — your first AI system, live in 14 days"
 
-- 60-minute video call with Steve to map how the business runs
-- A review of the business's processes, tools and marketing
-- A written report: every place AI can save time or bring in customers, each with the tool, the cost and the effort
-- A prioritised build plan: what to do first, second and third
-- Delivered within [X] working days of the call
+**First system: the Enquiry Responder.**
 
-**Guarantee:** the £997 is credited in full against any productised build or coaching programme bought within [X] days.
+- Every enquiry from the website, phone, Facebook and Google gets a reply within minutes, is qualified, and is followed up until it books.
+- Missed calls get an automatic text back.
+- Built into the tools the business already uses.
+
+**Price:** £1,997 fixed. 50% to start, 50% when it's live.
+
+**Guarantee:** "Live in 14 days, or we keep working free until it is — and you don't pay the second half until it's live."
+
+**Never promise more enquiries, sales or income.** The guarantee is about delivery only.
+
+**Optional care plan:** £199/month (monitoring, fixes, small changes). No lock-in. Steve to confirm exactly what it includes (section 17).
+
+**Second system (coming soon, register interest):** the Admin Assistant – quote drafting from voice notes, chasing invoices and paperwork.
 
 **Payment:**
 
-- Stripe Checkout, one payment.
-- **VAT:** ask Steve whether he is VAT-registered. If he is, the page must say whether £997 includes VAT.
-- Terms state the service is for businesses.
+- No online checkout for now. Steve sends a Stripe invoice after the discovery call.
+- **VAT:** ask Steve whether he is VAT-registered. If he is, the page must say whether £1,997 and £199 include VAT.
+- Terms state the service is for businesses, and set out the 50/50 payment and the guarantee.
 
-### 10.2 Programmes and builds
+### 10.2 Programmes
 
-Defined by Steve later (section 7.5). Each is added by creating one content file and pasting its Stripe price ID.
+Coaching programmes are defined by Steve later (section 7.5). Each is added by creating one content file.
+
+### 10.3 One settings file
+
+Every price is a test. The AI Integration price, the payment split, the delivery timeline (14 days), the care-plan price and the booking link all live in **one settings file** (`src/config/offer.ts`). Change a value there and every page, email and structured-data label updates.
+
+Buttons also take their destination from this file, so online payment can be added later by changing one line.
 
 ---
 
@@ -660,12 +702,12 @@ These target high-intent searches. Run one per industry, starting with the indus
 - Automatic `sitemap.xml`, `robots.txt`, RSS feed.
 - Unique title (≤60 characters) and description per page.
 - Structured data (labels in the page code that help Google understand it):
-  - Organization, Person (Steve), Article, BreadcrumbList, FAQPage, VideoObject, Service (Full Assessment), ItemList on hubs.
+  - Organization, Person (Steve), Article, BreadcrumbList, FAQPage, VideoObject, Service (AI Integration), ItemList on hubs.
 - Category hub pages linking to every post in the topic.
 - Breadcrumbs, related posts, a redirects file so renamed pages never break.
 - 404 page with search and popular posts.
 - Descriptive image file names and alt text.
-- Result pages and `/full-assessment/booked` set to noindex (hidden from search engines).
+- Result pages, including the booking confirmation screen, set to noindex (hidden from search engines).
 - Submit the sitemap in Search Console at go-live.
 
 ---
@@ -679,19 +721,22 @@ These target high-intent searches. Run one per industry, starting with the indus
 | `hero_form_start` | Hero form started |
 | `assessment_step_1` / `assessment_step_2` / `assessment_step_3` | Each form step completed |
 | `result_viewed` | Result page viewed |
-| `full_assessment_click` | £997 button clicked (with which page it was on) |
-| `checkout_started` / `purchase_completed` | From the Stripe webhook |
+| `ai_integration_view` | `/ai-integration` page viewed |
 | `call_booked` | Call booked |
+| `integration_interest` | Register interest in a coming-soon AI Integration system (e.g. Admin Assistant) |
 | `programme_interest` | Register interest, by programme |
 | `newsletter_signup` | Newsletter sign-up |
 
-Each event is stored with source, UTM tags and page.
+Each event is stored with source, UTM tags (`utm_source`, `utm_campaign`, `utm_content`) and page. Every audit and every booking also stores these three UTM tags. `utm_content` carries the ad hook ID.
+
+There are no checkout or purchase events: there is no online payment for now.
 
 ### 13.2 Weekly loop
 
 1. A GitHub Action pulls Search Console, Cloudflare and D1 data weekly into `data/weekly/YYYY-MM-DD.json`.
 2. `/weekly-review` writes `reports/weekly-YYYY-MM-DD.md`:
-   - **funnel numbers:** visits → assessments started → completed → £997 bought, this week vs the last 4 weeks;
+   - **funnel numbers:** visits → audits started → completed → calls booked, this week vs the last 4 weeks;
+   - **per hook (`utm_content`):** audits completed and calls booked; and, once Steve has entered ad spend in `data/ad-spend.csv`, cost per completed audit and cost per booked call (section 19.5);
    - pages close to page one of Google (positions 8–20);
    - pages with high impressions and low clicks;
    - pages with traffic but no assessments;
@@ -706,7 +751,7 @@ Each event is stored with source, UTM tags and page.
 ### 13.3 Tests the site must support
 
 - **Headline A/B/C** on the home page: one version per visitor, kept for that visitor. Note: Cloudflare has no built-in A/B tool on the free plan *(verify)*, so build a simple cookie-free split in a server function.
-- **£997 price test:** the price is one setting in one file. Change it, and every page updates.
+- **Price test:** the AI Integration price, timeline and care-plan price are settings in one file (section 10.3). Change one, and every page updates.
 
 ---
 
@@ -720,10 +765,12 @@ All prices below must be re-checked at setup. Figures from v1.0 were checked 6 O
 | GitHub | £0 | High |
 | Kit | £0 to start; sequences need the paid Creator plan (listed at $33/month on 6 Oct 2026) | Verify |
 | Resend | £0 up to 3,000 emails/month (6 Oct 2026) | Verify |
-| Stripe | 1.5% + 20p per standard UK card payment (6 Oct 2026); about £15 on a £997 sale | Verify |
+| Stripe | Invoices sent by Steve; fee per paid invoice not yet checked | Verify |
 | Anthropic API | **Estimate: roughly $0.20–$0.50 per instant result plus $0.20–$0.50 per full audit draft.** Reasoning: a few page reads and searches each, at Sonnet pricing checked 6 Oct 2026. Set a monthly spend limit in the Anthropic Console | Low–moderate; measure in Phase 4 |
 | Google Workspace (info@) | Check UK price | Not confirmed |
 | Higgsfield | Credits per generation; check balance and cost before each | Not confirmed |
+| Cal.com (booking) | £0 on the free plan | Verify |
+| Facebook ads | Steve's own ad spend, entered in `data/ad-spend.csv`. The Meta pixel and Conversions API are free | – |
 | Post drafting | Uses Steve's Claude plan in Claude Code | – |
 
 ---
@@ -742,8 +789,9 @@ Stop after each phase, show Steve the result, and wait for approval.
 **Phase 1 – Design system and Home**
 
 - Tokens, fonts, components (section 6), header, footer.
-- Home page (7.1) with all three headline options switchable.
-- The calculator.
+- The one settings file (10.3) and the industry variants data file (19.4).
+- Home page (7.1) with all three headline options switchable (default A).
+- The enquiries calculator.
 - Placeholder visuals until the Higgsfield assets are approved.
 - Write the Higgsfield briefs for H1–H5 and present them to Steve for approval and credits.
 - **Done when:** Steve approves the look on his phone and desktop.
@@ -754,18 +802,19 @@ Stop after each phase, show Steve the result, and wait for approval.
 - Anthropic instant result (9.1) → result page (7.3).
 - Result email via Resend.
 - Kit sign-up with consent.
-- Event tracking (13.1).
+- Event tracking (13.1), with `utm_source`, `utm_campaign` and `utm_content` stored with every audit.
 - Steve sets an Anthropic spend limit first.
 - **Done when:** Steve submits a test assessment for a real local business and sees a sensible result in under 60 seconds, and gets the email.
 
-**Phase 3 – £997 checkout and full audit**
+**Phase 3 – AI Integration page, call booking and full audit**
 
-- `/full-assessment` page.
-- Stripe Checkout (test mode first) + webhook.
-- `/full-assessment/booked` with the booking calendar.
+- Confirm the booking tool on official docs first (section 4) and tell Steve what was found.
+- `/ai-integration` page (7.4), with the Admin Assistant "Coming soon" card and register-interest.
+- Result page booking: embedded calendar, confirmation screen and email, Kit tag `call-booked`, email to Steve with the audit result attached, booking saved in D1 with UTM tags (7.3).
 - Full audit draft emailed to Steve (9.2).
 - `/test-assessment`, `/improve-audit-prompt`.
-- **Done when:** a test purchase in Stripe test mode records in D1, books a call and emails Steve, and a full audit draft arrives in Steve's inbox.
+- No Stripe Checkout and no Stripe webhook. Steve invoices by Stripe invoice after the call.
+- **Done when:** a test booking from a result page records in D1, tags the contact in Kit and emails Steve with the audit result, and a full audit draft arrives in Steve's inbox.
 
 **Phase 4 – Blog and content engine**
 
@@ -777,27 +826,31 @@ Stop after each phase, show Steve the result, and wait for approval.
 - Draft the first 7 posts (at least 3 from his material).
 - **Done when:** Steve can drop a transcript in `inbox/`, run one command, review the draft and schedule it.
 
-**Phase 5 – Programmes, About and legal**
+**Phase 5 – Programmes, About, legal and ads readiness**
 
-- `/programmes` with "Coming soon" cards and register-interest.
+- `/programmes` with AI Integration cards first, then coaching "Coming soon" cards with register-interest (7.5).
 - `/programmes/[slug]`.
 - `/about` (interview Steve).
-- Privacy, cookies and terms pages drafted for Steve to check (B2B terms for the £997 service).
-- **Done when:** a register-interest test lands in Kit and D1.
+- Privacy, cookies and terms pages drafted for Steve to check (B2B terms for AI Integration: 50/50 payment, the 14-day guarantee, the care plan).
+- Cookie consent banner (19.1).
+- Meta pixel after consent, with "AuditCompleted" and "CallBooked" (19.2).
+- Meta Conversions API: report findings on Meta's docs and UK consent rules to Steve first; build only after his yes (19.2).
+- **Done when:** a register-interest test lands in Kit and D1, and nothing from Meta loads until Accept is clicked.
 
 **Phase 6 – Go live**
 
 - info@ mailbox records.
 - DNS move from GoDaddy to Cloudflare, step by step, with email records preserved.
 - Connect aigrowthsystems.co.uk with HTTPS; redirect www to non-www.
-- Switch Stripe to live mode.
 - Search Console + sitemap; Cloudflare Web Analytics.
+- Check on the live site that the Meta pixel stays silent until Accept, and that both conversions fire after it.
 - Final mobile speed check.
-- **Done when:** the site is live on the real domain, email still works, a real £1 test payment works and is refunded, and the sitemap is accepted.
+- **Done when:** the site is live on the real domain, email still works, a real test booking works end to end, and the sitemap is accepted.
 
 **Phase 7 – Learning loop**
 
 - Weekly data pull + `/weekly-review` (section 13).
+- `data/ad-spend.csv` for Steve's ad spend per hook, and the per-hook report (19.5).
 - **Done when:** the weekly pull runs on its own and produces a report.
 
 ---
@@ -806,6 +859,9 @@ Stop after each phase, show Steve the result, and wait for approval.
 
 - Never invent a price, statistic, case study, testimonial, client name, URL or result.
 - Prices shown are tests. No fake urgency, no fake scarcity, no countdowns, no "someone just bought" pop-ups, no income claims.
+- Never promise more enquiries, sales or income. Nothing is presented as a guaranteed outcome; the only guarantee is about delivery (section 10.1).
+- Every price is a test kept in one settings file (section 10.3).
+- Nothing non-essential (including the Meta pixel) loads before cookie consent.
 - Instant results are automatic. **The full audit is never sent without Steve's approval.**
 - Every blog post has something original from Steve. No generic AI tutorials.
 - Every Higgsfield generation is approved by Steve first.
@@ -820,29 +876,95 @@ Stop after each phase, show Steve the result, and wait for approval.
 
 | # | Question | Phase |
 |---|---|---|
-| 1 | Which hero headline (A, B or C) launches first? (All three will be tested) | 1 |
+| 1 | Hero headline: A is the default. Confirm, or pick B or C to launch first. (All three will be tested) | 1 |
 | 2 | 2–3 real photos of you (headshot + working at your desk) | 1 |
 | 3 | Instant result: how many working days until your full audit arrives? | 2 |
-| 4 | What's included in the £997 Full Assessment (confirm or change 10.1), and how many working days to deliver it? | 3 |
-| 5 | Credit guarantee window: how many days after the £997 can they use the credit? | 3 |
-| 6 | Are you VAT-registered? Does £997 include VAT? | 3 |
-| 7 | Do you also want a "free 15-minute call" option on the result page, or purchase only? | 3 |
-| 8 | Booking tool: Google Workspace appointment schedule or Cal.com? | 3 |
+| 4 | VAT: are you VAT-registered, and are £1,997 and £199 inc or ex VAT? | 3 |
+| 5 | Booking tool confirmation (Cal.com connected to your Google Calendar is recommended; section 4) and your available call times | 3 |
+| 6 | Exactly what the care plan includes | 3 |
+| 7 | Which industries to create landing variants for first | 1 |
+| 8 | The 14-day guarantee: when does the clock start? (Suggested: when you have the access you need to the client's tools) | 3 |
 | 9 | Data-safety claims: which tools and practices do you actually use with client data? (Every claim must be true) | 1 |
 | 10 | Business legal details for the footer and terms: legal name, company number (if a limited company), address | 5 |
-| 11 | First programmes and builds: names, one-line descriptions, prices, buy-online or apply | 5 |
+| 11 | First coaching programmes: names, one-line descriptions, prices, buy-online or apply | 5 |
 | 12 | Current name of the free Skool group | 1 |
 | 13 | YouTube channel and LinkedIn links for the About page | 5 |
+| 14 | Reply speed: headline B says "60 seconds" and the offer says "within minutes". What does the Enquiry Responder really deliver, including out of hours? (Every claim must be true) | 1 |
+| 15 | The "How it works" heading still reads "3 STEPS. NO SALES CALL NEEDED." but step 3 is now a free call. Keep it or change it? | 1 |
+| 16 | Is the full audit still emailed to people who don't book a call, or only walked through on the call? | 2 |
+| 17 | Approve or change the draft calculator heading "WHAT ARE SLOW REPLIES PUTTING AT RISK?" | 1 |
 
 ---
 
-## 18. Changes from v1.0
+## 18. Changes
+
+### Changes from v2.0 (v2.1, 9 October 2026)
+
+- **New funnel:** Facebook ad → Free AI Growth Audit → free 30-minute discovery call → AI Integration (fixed price) → optional monthly care plan.
+- **£997 Full AI Assessment removed** from the whole site: `/full-assessment`, `/full-assessment/booked`, the £997 home section, nav link, FAQ answers, emails and tracking events. None of it had been built, so no files were deleted.
+- **Stripe Checkout and the Stripe webhook removed** from the build plan for now. Steve invoices clients by Stripe invoice after the call. Buttons read their destination from the settings file so online payment can be added later.
+- **Result page:** main action is now "Book your free 30-minute call" with an embedded calendar. Booking triggers a confirmation, Kit tag `call-booked` and an email to Steve with the audit result.
+- **New page `/ai-integration`** (replaces `/full-assessment`): the Enquiry Responder at £1,997 fixed, 50/50 payment, "live in 14 days" guarantee, optional £199/month care plan, Admin Assistant as coming soon.
+- **One settings file** for price, payment split, timeline, care-plan price and booking link.
+- **Home page:** new headline options (default A), enquiries calculator, AI Integration section, new 3 steps, new FAQ. Nav is now AI Integration · Programmes · Blog · [Free AI Growth Audit].
+- **Free audit form:** two new questions on how enquiries arrive and how fast they're answered. One quick win always assesses enquiry handling. The result ends with "The first system I'd build for you:".
+- **Full audit draft:** Part A's next step is the call / AI Integration. Part B adds which system fits first, likely price and fit score.
+- **Programmes page:** AI Integration cards first, then coaching programmes.
+- **Ads readiness (new section 19):** cookie consent banner, Meta pixel and Conversions API after consent, hook tracking by UTM tags, industry landing variants, per-hook weekly reporting with ad spend.
+- **Events:** checkout and purchase events removed; `ai_integration_view` and `integration_interest` added; `call_booked` kept.
+- **Kit emails:** new sequence on days 0, 2, 4, 7 and 14.
+- **Booking tool:** Cal.com recommended over Google Workspace appointment schedule, to be confirmed on official docs in Phase 3.
+- **Open questions:** the £997 questions replaced; new questions 14–17 added for points this change raised.
+
+### Changes from v1.0 (v2.0, 9 October 2026)
 
 - **Pages:** cut to three main pages (Home, Programmes, Blog) plus the supporting pages they need. Removed the tools directory, `/videos`, `/start-here`, `/community` and digital products.
 - **Design:** changed from "dark/gold inspired by jointherealworld.com" to a Higgsfield-style dark AI product look with gold, The Real World's cinematic video cards, and Acquisition.com's simple structure. New fonts: Space Grotesk headlines (uppercase), Inter body.
 - **Free assessment:** now gives an instant AI score and top 3 quick wins on screen. Steve's reviewed full audit follows. The "never auto-send" rule now covers the full audit only.
-- **£997 Full AI Assessment** added, sold online from the result page and its own page, with the fee credited against a build or programme.
+- **£997 Full AI Assessment** added, sold online from the result page and its own page, with the fee credited against a build or programme. *(Removed in v2.1.)*
 - **Programmes page** for coaching programmes and productised builds. No training courses.
 - **Content:** daily (one post a day), not two. Two industry-page templates and a data-safety category added from the competitor research.
 - **Visuals:** Higgsfield asset list with approval rule.
 - **Tracking:** a full funnel event log, headline A/B/C testing and a one-setting price test.
+
+---
+
+## 19. Ads readiness (needed before Facebook ads)
+
+### 19.1 Cookie consent banner
+
+- UK rules: **Accept / Reject / Settings**, with equal prominence.
+- Nothing non-essential loads before consent. Cloudflare Web Analytics uses no cookies and is not affected.
+- The choice can be changed at any time from a "Cookie settings" link in the footer.
+- The `/cookies` and `/privacy` pages describe the Meta pixel and Conversions API.
+
+### 19.2 Meta pixel and Conversions API
+
+- The Meta pixel loads **only after consent**.
+- Custom conversion **"AuditCompleted"** fires when the result page loads. **"CallBooked"** fires on booking.
+- Meta's Conversions API (server-side) sends the same two events, **only for visitors who consented**.
+- **Before building:** check Meta's current docs and the UK consent rules, report the findings to Steve, and wait for his yes.
+
+### 19.3 Hook tracking
+
+- Store `utm_source`, `utm_campaign` and `utm_content` with every audit and every booking in D1.
+- Steve puts the ad hook ID in `utm_content`.
+
+### 19.4 Industry landing variants
+
+- If the address has `?for=builders` (or `plumbers`, `dentists`, `estate-agents`, `accountants`, `salons`, `gyms`), swap:
+  - the hero subheadline on the home page;
+  - one line of the problem section on `/ai-integration`.
+- The wording for each industry lives in one data file Steve can edit (`src/data/industries.ts`).
+- With no `?for=`, or an unknown value, the general wording shows.
+- Never invent a statistic or claim about an industry.
+
+### 19.5 Weekly review per hook
+
+The weekly review (section 13.2) reports, per hook (`utm_content`):
+
+- audits completed;
+- calls booked;
+- once Steve has entered ad spend in `data/ad-spend.csv`: cost per completed audit and cost per booked call.
+
+The small numbers rule (section 13.2) applies.
