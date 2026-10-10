@@ -123,7 +123,7 @@ export function runResultPage() {
       if (n >= steps.length - 1) return;
       steps[n].classList.replace('is-active', 'is-done');
       steps[++n].classList.add('is-active');
-    }, 25000);
+    }, 12000);
   };
 
   const fail = (message?: string) => {

@@ -39,7 +39,8 @@ Audit engine (built 10 October 2026, tested locally with a sample result only):
 - The Windows PC is signed in to Cloudflare through `wrangler login`.
 - Local database: `npm run db:local` creates it. Keys go in `.env` (see `.env.example`). With no `ANTHROPIC_API_KEY` a sample audit is returned; with no `RESEND_API_KEY` emails are skipped; with no Turnstile keys the spam check is skipped.
 - **Audit quality push (10 October 2026, evening).** Steve's instruction: the audit is the most important part of the funnel; go for the best output even if it costs more and takes longer, and scale back later if volume demands it.
-  - Model is now `claude-opus-5-5` at high effort, with web fetch (up to 8 pages) and web search (up to 5 searches), structured output. Settings are at the top of `src/lib/audit.ts`.
+  - Model is `claude-opus-5-5` with web fetch and web search, structured output. Steve then asked for token savings that don't hurt the result, since this is a quick-win report: effort is now **medium**, up to **4 pages** at 6,000 tokens each, up to **2 searches**. Settings are at the top of `src/lib/audit.ts`. Compare medium against high on the same businesses once real audits run.
+  - Steve's Anthropic key is in `.env` on the Windows PC (not on the Mac, not yet in Cloudflare).
   - Every quick win must carry evidence ("What we saw"). The result also has a business summary, a five-area score breakdown, one worked example written for the business, "what this is based on", a confidence level, and an honest short form when there is little to go on.
   - Result page, email and sample updated to match. The loading screen now says it takes a few minutes.
   - **Still untested with a real key.** First real runs must measure time and cost. Known risk: Cloudflare's free plan allows 10 ms of processor time per request, and a long streamed AI reply may exceed it; if so the options are the Workers Paid plan (ask Steve first) or a lighter way of reading the reply.
