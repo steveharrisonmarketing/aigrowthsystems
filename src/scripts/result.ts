@@ -1,0 +1,113 @@
+// Runs on the result page: asks the server for this visitor's audit and fills the page in.
+// Everything from the server is placed as plain text, never as HTML.
+
+interface Win {
+  [key: string]: string | number;
+}
+interface Result {
+  score: number;
+  scoreMeaning: string;
+  wins: Win[];
+  firstStep: string;
+  couldNotVerify: string[];
+}
+
+const $ = <T extends HTMLElement>(sel: string, root: ParentNode = document) => root.querySelector<T>(sel);
+const show = (el: HTMLElement | null, on: boolean) => el && (el.hidden = !on);
+
+function fill(data: { firstName: string; sample: boolean; result: Result }) {
+  const r = data.result;
+  document.querySelectorAll<HTMLElement>('[data-score]').forEach((el) => (el.textContent = String(r.score)));
+  $('[data-ring]')?.style.setProperty('--score', `${r.score}%`);
+  const name = $('[data-name]');
+  if (name) name.textContent = data.firstName ? `${data.firstName}, here’s your audit. ` : '';
+  const meaning = $('[data-meaning]');
+  if (meaning) meaning.textContent = r.scoreMeaning.replace(/\.$/, '') + '.';
+
+  document.querySelectorAll<HTMLElement>('[data-wins] > li').forEach((li, i) => {
+    const win = r.wins[i];
+    if (!win) return li.remove();
+    li.querySelectorAll<HTMLElement>('[data-w]').forEach((el) => (el.textContent = String(win[el.dataset.w!] ?? '')));
+  });
+
+  const first = $('[data-first-step]');
+  if (first) first.textContent = r.firstStep;
+
+  const list = $('[data-unverified]');
+  if (list && r.couldNotVerify.length) {
+    list.replaceChildren(...r.couldNotVerify.map((t) => Object.assign(document.createElement('li'), { textContent: t })));
+    show($('[data-unverified-wrap]'), true);
+  }
+  show($('[data-sample-note]'), data.sample);
+  show($('[data-emailed]'), !data.sample);
+}
+
+export function runResultPage() {
+  const result = $('[data-result]');
+  const loading = $('[data-loading]');
+  const problem = $('[data-problem]');
+  const id = new URLSearchParams(location.search).get('id');
+
+  if (!id) {
+    // No audit to show. In review mode the sample stays on screen; on the live site go to the start.
+    if (result?.dataset.review !== 'yes') location.replace('/assessment');
+    return;
+  }
+
+  const steps = [...document.querySelectorAll<HTMLElement>('[data-step]')];
+  let timer = 0;
+  const startSteps = () => {
+    steps.forEach((s) => s.classList.remove('is-done', 'is-active'));
+    let n = 0;
+    steps[0]?.classList.add('is-active');
+    timer = window.setInterval(() => {
+      if (n >= steps.length - 1) return;
+      steps[n].classList.replace('is-active', 'is-done');
+      steps[++n].classList.add('is-active');
+    }, 7000);
+  };
+
+  const fail = (message?: string) => {
+    clearInterval(timer);
+    const text = $('[data-problem-text]');
+    if (text && message) text.textContent = message;
+    show(loading, false);
+    show(problem, true);
+  };
+
+  async function load(tries = 0): Promise<void> {
+    try {
+      const response = await fetch('/api/audit-result', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ id }),
+      });
+      const data = await response.json();
+      if (data.status === 'done') {
+        clearInterval(timer);
+        fill(data);
+        show(loading, false);
+        show(result, true);
+        document.dispatchEvent(new CustomEvent('audit-completed'));
+      } else if (data.status === 'running' && tries < 45) {
+        setTimeout(() => load(tries + 1), 4000);
+      } else if (data.status === 'missing') {
+        fail('We couldn’t find that audit. The link may be incomplete.');
+      } else {
+        fail();
+      }
+    } catch {
+      fail('We couldn’t reach the server. Check your connection and try again.');
+    }
+  }
+
+  const start = () => {
+    show(result, false);
+    show(problem, false);
+    show(loading, true);
+    startSteps();
+    load();
+  };
+  $('[data-retry]')?.addEventListener('click', start);
+  start();
+}

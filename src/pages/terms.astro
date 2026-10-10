@@ -8,8 +8,17 @@ const s = offer.setup;
 
 <Legal title="Terms" description="The terms for using this website and buying services from AI Growth Systems." updated="10 October 2026">
   <h2>Who we are</h2>
-  <p>This website is run by {site.name}. Contact: <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
-  <Draft>Add the legal name and address of the business.</Draft>
+  <p>
+    This website is run by {site.name} (“we”, “us”). Contact: <a href={`mailto:${site.email}`}>{site.email}</a>. By using this
+    website or buying from us, you agree to these terms.
+  </p>
+  <Draft block>
+    Needed before you take a payment or run ads. UK law requires a business to show who is behind it. “AI Growth Systems” on
+    its own is a trading name, not a legal person. Until a limited company exists this line has to read “AI Growth Systems is
+    a trading name of Steve Harrison” with a postal address, and you are personally responsible for the business’s debts and
+    claims. Once the company is formed it becomes “AI Growth Systems Ltd”, with its company number and registered office,
+    and the company carries that responsibility. You can’t use “Ltd” before the company exists.
+  </Draft>
 
   <h2>The {site.auditName}</h2>
   <p>
@@ -50,7 +59,14 @@ const s = offer.setup;
   </p>
 
   <h2>Cancellations and refunds</h2>
-  <Draft block>Not written yet. Decide: can a client cancel before work starts and get a refund? What happens to instalments if they stop part-way? How much notice to move a call?</Draft>
+  <ul>
+    <li><strong>Moving a call:</strong> tell us at least 24 hours before and we’ll rearrange it at no charge. A call missed without that notice counts as delivered.</li>
+    <li><strong>{offer.session.name}:</strong> you can cancel for a full refund up to 48 hours before the call. After that, and once the call has taken place, it is not refundable.</li>
+    <li><strong>{offer.quickStart.name} and {s.name}:</strong> you can cancel for a full refund within 7 days of paying, provided the setup session has not taken place. After that the price is not refundable, because the work is built for your business. Our guarantees below still apply.</li>
+    <li><strong>Instalments:</strong> choosing to pay in instalments is a way of paying the full price. All instalments remain due if you stop part-way.</li>
+    <li><strong>{offer.partner.name}:</strong> cancel at any time. It runs to the end of the month already paid for and is not refunded for part of a month.</li>
+  </ul>
+  <Draft>These refund rules are my suggestion, written to protect you while staying fair. Change any you would run differently.</Draft>
 
   <h2>What you own</h2>
   <p>Everything we build for your business is yours to keep using once it is paid for. Our templates and methods stay ours, and you may use them inside your own business.</p>
@@ -58,10 +74,39 @@ const s = offer.setup;
   <h2>Tools from other companies</h2>
   <p>Your set-up uses AI tools and services run by other companies. You hold your own accounts with them, pay their fees, and are bound by their terms. We can’t be responsible for changes they make.</p>
 
+  <h2>What we need from you</h2>
+  <p>
+    To do the work we need accurate information, timely replies, and access to the accounts and tools involved. You are
+    responsible for the content you give us, for having the right to share it, and for how you and your team use AI tools
+    afterwards, including checking what they produce before it reaches a customer.
+  </p>
+
+  <h2>No guaranteed results</h2>
+  <p>
+    We set up tools and coach you to use them. What they achieve depends on your business, your market and how they are used.
+    We do not promise any level of enquiries, sales, income or savings. Estimates of time saved are estimates. Nothing on this
+    website or in our audits is legal, financial, tax or other professional advice.
+  </p>
+
   <h2>Our responsibility to you</h2>
-  <Draft block>Liability wording needs to come from a solicitor or a reviewed template. Nothing is written here yet.</Draft>
+  <ul>
+    <li>We will carry out our services with reasonable care and skill.</li>
+    <li>Nothing in these terms limits our liability for death or personal injury caused by our negligence, for fraud, or for anything else that cannot be limited by law.</li>
+    <li>Otherwise, our total liability to you for everything connected with a service is limited to the amount you paid us for that service in the 12 months before the claim arose.</li>
+    <li>We are not liable for loss of profit, revenue, business, contracts, goodwill or data, or for any indirect or consequential loss.</li>
+    <li>We are not liable for failures or changes in tools and services run by other companies, or for delays caused by events outside our reasonable control.</li>
+    <li>The free audit and the content of this website are provided as they are, without any warranty.</li>
+  </ul>
+  <Draft block>
+    This is standard protective wording for a business selling to other businesses, but I’m not a solicitor and a limit on
+    liability only holds up if it is reasonable. The strongest protection comes from three things together: forming a limited
+    company, professional indemnity insurance, and having a solicitor check these terms before launch.
+  </Draft>
+
+  <h2>Changes to these terms</h2>
+  <p>We may update these terms. The version that applies to a purchase is the one on this page on the day you buy.</p>
 
   <h2>Law</h2>
-  <p>These terms are governed by the law of England and Wales.</p>
-  <Draft>Confirm this is right for where the business is based.</Draft>
+  <p>These terms are governed by the law of England and Wales, and the courts of England and Wales have exclusive jurisdiction over any dispute.</p>
+  <Draft>Confirm England and Wales is right for where the business is based.</Draft>
 </Legal>

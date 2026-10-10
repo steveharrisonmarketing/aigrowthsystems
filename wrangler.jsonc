@@ -1,11 +1,31 @@
-// Cloudflare settings. Tells Cloudflare where the built site is.
-// For now the site is plain pages only. Server functions (the audit engine)
-// are added in Phase 2 with Astro's Cloudflare adapter.
+// Cloudflare settings: where the built site is, the database, and non-secret settings.
+// Secrets (API keys) are never written here. They go in .env on your own computer
+// and in Cloudflare's secrets for the live site.
 {
+  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "aigrowthsystems",
   "compatibility_date": "2026-10-10",
+  "compatibility_flags": ["global_fetch_strictly_public"],
+  "main": "@astrojs/cloudflare/entrypoints/server",
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
     "not_found_handling": "404-page"
+  },
+  "observability": { "enabled": true },
+  // The database that stores each audit. "database_id" is added once the
+  // database has been created in the Cloudflare account. Until then it only works locally.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "aigrowthsystems",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    // Where "new audit" notifications are sent.
+    "AUDIT_NOTIFY_EMAIL": "info@aigrowthsystems.co.uk",
+    // Resend's shared test sender. Change to info@aigrowthsystems.co.uk once the domain is verified with Resend.
+    "EMAIL_FROM": "AI Growth Systems <onboarding@resend.dev>"
   }
 }

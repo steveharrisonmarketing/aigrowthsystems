@@ -1,74 +1,82 @@
 ---
 // The page a visitor sees after the questions: their audit, then one next step.
-// Until the audit engine is connected this shows sample content so the layout can be reviewed.
+// With ?id=… in the address it loads that visitor's audit. With no id it shows sample content,
+// in review mode only, so the layout can be checked.
 import Base from '../../layouts/Base.astro';
 import Draft from '../../components/Draft.astro';
 import OfferButtons from '../../components/OfferButtons.astro';
 import { site } from '../../config/site';
 import { offer, gbp, planCredit } from '../../config/offer';
+import { sampleResult } from '../../lib/auditSample';
 
 const a = offer.session;
 
-const sample = {
-  score: 72,
-  meaning: 'Lots of room for AI to help you grow',
-  wins: [
-    {
-      title: 'Replying to enquiries',
-      problem: 'Enquiries wait until you’re free, and some go cold before you reply.',
-      fix: 'An AI assistant answers every enquiry within minutes and books the follow-up.',
-      grows: 'New customers',
-      effort: 'Low',
-    },
-    {
-      title: 'Following up quotes',
-      problem: 'Quotes go out, then nobody chases them.',
-      fix: 'Every quote gets a follow-up message a few days later, written in your voice.',
-      grows: 'Quotes turned into work',
-      effort: 'Low',
-    },
-    {
-      title: 'Chasing invoices',
-      problem: 'Late payments get chased when you remember.',
-      fix: 'Polite reminders go out on their own when a payment is late.',
-      grows: 'Getting paid sooner',
-      effort: 'Medium',
-    },
-  ],
-  firstStep: 'Start with enquiries. Write down the five questions customers ask most, and your usual answers. That’s what the assistant learns from.',
-};
+const sample = sampleResult;
 ---
 
 <Base title={`Your ${site.auditName.replace('Free ', '')} | AI Growth Systems`} description="Your AI score and top 3 quick wins." noindex landing>
+  <section class="section" data-loading hidden>
+    <div class="wrap narrow" style="text-align: center;">
+      <span class="eyebrow">Your audit</span>
+      <h1 class="h2 mt-4">Writing your audit…</h1>
+      <p class="lead mt-4" style="margin-inline: auto;">This usually takes under a minute. Please keep this page open.</p>
+      <ul class="load-steps" aria-live="polite">
+        <li data-step>Reading your answers</li>
+        <li data-step>Looking at your business</li>
+        <li data-step>Finding your quick wins</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" data-problem hidden>
+    <div class="wrap narrow" style="text-align: center;">
+      <h1 class="h2">We couldn’t finish your audit.</h1>
+      <p class="lead mt-4" style="margin-inline: auto;" data-problem-text>Something went wrong on our side. Your answers are saved.</p>
+      <div class="btn-row mt-8" style="justify-content: center;">
+        <button class="btn btn-primary" type="button" data-retry>Try again</button>
+      </div>
+      <p class="small mt-4">Still stuck? Email <a href={`mailto:${site.email}`}>{site.email}</a></p>
+    </div>
+  </section>
+
+  <div data-result data-review={site.showDraftNotes ? 'yes' : 'no'}>
   <section class="section">
     <div class="wrap narrow">
-      <Draft block>This is a sample result so you can review the layout. Real results replace it once the audit engine is connected.</Draft>
+      <div data-sample-note><Draft block>This is a sample result so you can review the layout. A real one appears when a visitor finishes the questions.</Draft></div>
 
       <span class="eyebrow mt-8">Your audit</span>
       <div class="result-top mt-5">
-        <div class="score-ring score-ring--lg" style={`--score: ${sample.score}%`}><span class="gold-text">{sample.score}</span></div>
+        <div class="score-ring score-ring--lg" data-ring style={`--score: ${sample.score}%`}><span class="gold-text" data-score>{sample.score}</span></div>
         <div>
-          <h1 class="h2">Your AI score: {sample.score} out of 100</h1>
-          <p class="lead mt-3">{sample.meaning}.</p>
+          <h1 class="h2"><span data-name></span>Your AI score: <span data-score>{sample.score}</span> out of 100</h1>
+          <p class="lead mt-3" data-meaning>{sample.scoreMeaning}.</p>
         </div>
       </div>
 
       <h2 class="h3 mt-10">Your top 3 quick wins</h2>
-      <ol class="result-wins">
+      <ol class="result-wins" data-wins>
         {sample.wins.map((win, i) => (
           <li class="card">
             <span class="step-n">{i + 1}</span>
-            <h3>{win.title}</h3>
-            <p><strong>Now:</strong> {win.problem}</p>
-            <p><strong>With AI:</strong> {win.fix}</p>
-            <p class="sample-grows">Helps with: <strong>{win.grows}</strong> · Effort to set up: {win.effort}</p>
+            <h3 data-w="title">{win.title}</h3>
+            <p><strong>Now:</strong> <span data-w="problem">{win.problem}</span></p>
+            <p><strong>With AI:</strong> <span data-w="fix">{win.fix}</span></p>
+            <p><strong>What you’d use:</strong> <span data-w="tool">{win.tool}</span></p>
+            <p class="sample-grows">Helps with: <strong data-w="helpsWith">{win.helpsWith}</strong> · Effort to set up: <span data-w="effort">{win.effort}</span></p>
+            <p class="small">Estimated time saved: about <span data-w="hoursSavedPerWeek">{win.hoursSavedPerWeek}</span> hours a week. <span data-w="reasoning">{win.reasoning}</span></p>
           </li>
         ))}
       </ol>
 
       <h2 class="h3 mt-10">Where to start</h2>
-      <p class="lead mt-3">{sample.firstStep}</p>
-      <p class="small mt-4">We’ve emailed you a copy of this audit.</p>
+      <p class="lead mt-3" data-first-step>{sample.firstStep}</p>
+
+      <div data-unverified-wrap hidden>
+        <h2 class="h3 mt-10">What we couldn’t check</h2>
+        <ul class="prose mt-3" data-unverified></ul>
+      </div>
+
+      <p class="small mt-8">Time savings are estimates from your answers, not promises. <span data-emailed hidden>We’ve emailed you a copy of this audit.</span></p>
     </div>
   </section>
 
@@ -91,4 +99,10 @@ const sample = {
       </div>
     </section>
   )}
+  </div>
 </Base>
+
+<script>
+  import { runResultPage } from '../../scripts/result';
+  runResultPage();
+</script>

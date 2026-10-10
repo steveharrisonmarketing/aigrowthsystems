@@ -6,13 +6,18 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "db:local": "wrangler d1 migrations apply aigrowthsystems --local"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
+    "@astrojs/cloudflare": "^14.3.4",
     "@fontsource/inter": "^5.3.0",
     "@fontsource/space-grotesk": "^5.3.0",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.8",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "wrangler": "^4.149.0",
+    "zod": "^4.6.5"
   }
 }

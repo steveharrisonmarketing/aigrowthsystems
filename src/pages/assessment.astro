@@ -6,6 +6,7 @@ import { site } from '../config/site';
 
 const teamSizes = ['Just me', '2–5', '6–20', '20+'];
 const aiUse = ['Not yet', 'A little', 'Regularly'];
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined;
 const challenges = ['Getting more customers', 'Turning enquiries into sales', 'Too much admin', 'Not enough time', 'Something else'];
 ---
 
@@ -71,39 +72,86 @@ const challenges = ['Getting more customers', 'Turning enquiries into sales', 'T
           <textarea class="field" id="q-more" name="more"></textarea>
         </div>
 
+        <div class="sr-only" aria-hidden="true">
+          <label for="q-fax">Leave this box empty</label>
+          <input id="q-fax" name="company_fax" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
         <label class="check">
           <input type="checkbox" name="marketing" />
           <span>Also send me occasional emails about using AI in a business. You can unsubscribe at any time.</span>
         </label>
 
         <div>
-          <p class="hint" data-form-error role="alert" style="color: var(--error); display: none; margin: 0 0 12px;">Please answer the questions marked above.</p>
+          <p class="hint" data-form-error role="alert" style="color: var(--error); display: none; margin: 0 0 12px;"></p>
+          {turnstileKey && <div class="cf-turnstile" data-sitekey={turnstileKey} data-theme="dark" data-size="flexible" style="margin-bottom: 16px;"></div>}
           <button class="btn btn-primary" type="submit">Get my free AI Growth Audit</button>
           <p class="small mt-4">We use your answers to write your audit and email it to you. <a href="/privacy">Privacy</a></p>
         </div>
-        <p data-form-pending style="display: none;"><Draft block>Your answers are fine, but the audit itself isn’t connected yet, so nothing has been sent or saved. <a href="/assessment/result" style="color: inherit;">See a sample result page</a></Draft></p>
       </form>
       <Draft>The questions are your original six, plus first name. “Biggest challenge” is now a set of buttons because tapping is quicker than typing. Tell me if you’d rather have a text box.</Draft>
     </div>
   </section>
 </Base>
 
+{turnstileKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+
 <script>
   const form = document.querySelector<HTMLFormElement>('[data-audit-form]');
   const email = document.getElementById('q-email') as HTMLInputElement | null;
-  // The email typed on the previous page is carried over.
-  try {
-    const start = JSON.parse(sessionStorage.getItem('auditStart') || '{}');
-    if (email && start.email) email.value = start.email;
-  } catch {}
+  const error = form?.querySelector<HTMLElement>('[data-form-error]');
+  const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
 
-  form?.addEventListener('submit', (e) => {
+  // The email typed on the previous page, and the ad tags from the landing address, are carried over.
+  let start: Record<string, string> = {};
+  try {
+    start = JSON.parse(sessionStorage.getItem('auditStart') || '{}');
+  } catch {}
+  if (email && start.email) email.value = start.email;
+
+  const showError = (message: string) => {
+    if (!error) return;
+    error.textContent = message;
+    error.style.display = message ? 'block' : 'none';
+  };
+
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const error = form.querySelector<HTMLElement>('[data-form-error]');
-    const pending = form.querySelector<HTMLElement>('[data-form-pending]');
-    const ok = form.checkValidity();
-    if (error) error.style.display = ok ? 'none' : 'block';
-    if (pending) pending.style.display = ok ? 'block' : 'none';
-    if (!ok) form.querySelector<HTMLElement>(':invalid:not(fieldset)')?.focus();
+    if (!form.checkValidity()) {
+      showError('Please answer every question that isn’t marked optional.');
+      form.querySelector<HTMLElement>(':invalid:not(fieldset)')?.focus();
+      return;
+    }
+    showError('');
+    const data = new FormData(form);
+    const body = {
+      ...Object.fromEntries([...data.entries()].filter(([, v]) => typeof v === 'string')),
+      marketing: data.get('marketing') === 'on',
+      turnstileToken: data.get('cf-turnstile-response') ?? '',
+      sourcePage: start.sourcePage ?? location.pathname,
+      referrer: start.referrer ?? document.referrer,
+      utm_source: start.utm_source ?? '',
+      utm_campaign: start.utm_campaign ?? '',
+      utm_content: start.utm_content ?? '',
+    };
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Sending…';
+    }
+    try {
+      const response = await fetch('/api/audit', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+      const result = await response.json();
+      if (result.ok) {
+        location.href = `/assessment/result?id=${result.id}`;
+        return;
+      }
+      showError(result.message || 'Something went wrong. Please try again.');
+    } catch {
+      showError('We couldn’t reach the server. Check your connection and try again.');
+    }
+    if (button) {
+      button.disabled = false;
+      button.textContent = 'Get my free AI Growth Audit';
+    }
   });
 </script>

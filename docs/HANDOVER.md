@@ -31,6 +31,14 @@ See the v2.3 block at the top of `CLAUDE.md`. Built and ready for Steve's review
 
 The work order and the scores for each page are in `docs/REVIEW.md`. Work through that order; re-score after each round.
 
+Audit engine (built 10 October 2026, tested locally with a sample result only):
+
+- Flow: `/free-audit` or `/` → `/assessment` → `POST /api/audit` → `/assessment/result?id=…` → `POST /api/audit-result` (writes the audit on first call, then returns the saved copy).
+- The site now uses Astro's Cloudflare adapter. `wrangler.jsonc` has a D1 database binding with no `database_id` yet, so **do not push until the database is created in Cloudflare and its id is added**, or the deploy will fail.
+- Local database: `npm run db:local` creates it. Keys go in `.env` (see `.env.example`). With no `ANTHROPIC_API_KEY` a sample audit is returned; with no `RESEND_API_KEY` emails are skipped; with no Turnstile keys the spam check is skipped.
+- Model: `claude-sonnet-5-5` with web fetch (max 3 pages), structured output, low effort. The real AI call has not been run yet: test it as soon as a key exists and measure time and cost.
+- Not built yet: Kit sign-up, event log, Meta pixel, headline split test, Stripe, call booking.
+
 The old folder `~/Desktop/Claude/aigrowthsystems-site` on the Mac is a separate, older build. Work in `~/Projects/aigrowthsystems`.
 
 ## Not done yet
