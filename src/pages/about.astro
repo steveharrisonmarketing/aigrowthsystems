@@ -1,9 +1,74 @@
 ---
-import ComingSoon from '../components/ComingSoon.astro';
+import Base from '../layouts/Base.astro';
+import Draft from '../components/Draft.astro';
+import AboutSteve from '../components/AboutSteve.astro';
+import AuditBox from '../components/AuditBox.astro';
+import { site } from '../config/site';
+import { offer } from '../config/offer';
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.founder,
+  jobTitle: 'Founder',
+  worksFor: { '@type': 'Organization', name: site.name, url: site.url },
+  url: `${site.url}/about`,
+};
+
+const steps = [
+  { title: 'We start with the business', text: 'How you win customers, where your time goes and what’s holding things up. The AI comes second.' },
+  { title: 'We set up what helps', text: 'A small number of things that support how you earn, built properly, in place of a long list of tools.' },
+  { title: 'We make sure it gets used', text: 'One-to-one coaching until you and your team use it every week.' },
+];
 ---
 
-<ComingSoon
-  title="About"
-  phase="Phase 5"
-  text="This page is written in Phase 5, from a short interview. This is a stand-in."
-/>
+<Base title="About | AI Growth Systems" description="AI Growth Systems helps UK businesses put AI to work. Founded by Steve Harrison, with more than 10 years in marketing.">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(person)} />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">About</span>
+        <h1 class="h2 mt-4">We help UK businesses put AI to work.</h1>
+        <p class="lead">
+          {site.name} shows business owners where AI fits, then sets it up with them. It starts with a free audit and goes as far
+          as building the whole thing for you.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--raised">
+    <div class="wrap">
+      <AboutSteve link={false} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">How we work</span>
+        <h2>Business first. AI second.</h2>
+      </div>
+      <div class="grid grid-3">
+        {steps.map((step, i) => (
+          <div class="card reveal">
+            <span class="step-n">{i + 1}</span>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mt-8 reveal">Everything is one-to-one. <a class="text-link" href={site.setupUrl}>See {offer.setup.name}</a></p>
+      <Draft block>
+        This page is written only from what you’ve told me so far. To make it stronger I need a few answers from you: how you got
+        into marketing, the kinds of businesses you’ve worked with, one AI set-up you’ve built that you’re proud of, and your
+        YouTube and LinkedIn links.
+      </Draft>
+    </div>
+  </section>
+
+  <section class="section section--raised">
+    <div class="wrap"><AuditBox /></div>
+  </section>
+</Base>

@@ -80,3 +80,22 @@ Each page is scored out of 10 against the same criteria after every round of cha
 ### Still open
 
 Everything in the round 1 table except the legal drafts, the cookie banner and the blog structure. The biggest single gap is that the audit does not produce a result.
+
+## Round 3 – 10 October 2026
+
+- Landing and home: new headline and subheadline from Steve; the sample audit ties each quick win to an income area (no money figures).
+- £297 offer settled: AI Growth Plan Call (2-hour call, written plan, recording), credited in full against Setup or Quick Start within 30 days. Ladder is Audit → Plan → Setup.
+- Home page cut to three steps and two paid options (Plan Call first, Setup beside it).
+- Sample result page built (`/assessment/result`): score, top 3 quick wins, where to start, then the Plan Call offer.
+- About page drafted from known facts; needs Steve's answers to finish.
+
+| Criterion | Landing | Home | Offers | Blog | About |
+|---|---|---|---|---|---|
+| Accuracy | 9 | 9 | 8 | 8 | 8 |
+| Cold-traffic conversion | 7 | 8 | 7 | n/a | n/a |
+| SEO and AEO | n/a | 7 | 7 | 5 | 6 |
+| Trust and legal | 7 | 7 | 7 | 7 | 7 |
+| Speed and phone | 8 | 8 | 8 | 8 | 8 |
+| Clarity | 9 | 9 | 8 | 8 | 8 |
+
+Still the biggest gaps: the audit doesn't produce a real result; no buy button (Stripe); no call booking (Calendly); no proof; legal gaps.
