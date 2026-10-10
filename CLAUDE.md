@@ -1,10 +1,12 @@
 # AI Growth Systems website – rules for every session
 
 Owner: Steve Harrison, AI Growth Systems (aigrowthsystems.co.uk).
-Full brief: `docs/BRIEF.md` (v2.1, 9 October 2026). Read the relevant section before starting any phase.
+Full brief: `docs/BRIEF.md` (v2.2, 10 October 2026). Read the relevant section before starting any phase.
 This file captures the rules from brief sections 0, 4, 6, 9 and 16. If this file and the brief disagree, ask Steve.
 
-**The funnel (v2.1):** Facebook ad → Free AI Growth Audit (instant score + top 3 quick wins) → free 30-minute discovery call → AI Integration (fixed price) → optional monthly care plan. The £997 Full AI Assessment and online checkout from v2.0 are gone. Visitors always see the name "Free AI Growth Audit"; the page addresses stay `/assessment`.
+**The funnel (v2.2):** Facebook ad → Free AI Growth Audit (instant score + top 3 quick wins, then Steve's reviewed audit) → free 30-minute call → AI Business Setup (6 weeks, done-for-you + coaching) → AI Partner (optional, monthly). The three main pages are Home, `/ai-business-setup` and Blog. Earlier offers (the £997 Full AI Assessment, AI Integration, the care plan, the Programmes page, online checkout) are gone; their addresses redirect to `/ai-business-setup`. Visitors always see the name "Free AI Growth Audit"; the page addresses stay `/assessment`.
+
+**Build order:** design first. The Astro project, design system, Home and `/ai-business-setup` are built and reviewed on Steve's computer; GitHub and Cloudflare set-up follows.
 
 ## 1. How to work with Steve (brief section 0)
 
@@ -25,8 +27,10 @@ Steve has never built a website in code before and runs the business part-time (
 
 - Never invent a price, statistic, case study, testimonial, client name, URL or result.
 - Prices shown are tests. No fake urgency, no fake scarcity, no countdowns, no "someone just bought" pop-ups, no income claims.
-- Never promise more enquiries, sales or income. Nothing is presented as a guaranteed outcome; the only guarantee is about delivery ("live in 14 days").
+- Never promise more enquiries, sales, income or results. Nothing is presented as a guaranteed outcome; the only guarantee is about delivery and use, word for word: "Your first AI system is live by week 3, or I keep working free until it is. If by week 6 you're not using AI every week in at least 3 tasks, I'll coach you 1:1 until you are."
 - Every price is a test kept in one settings file (`src/config/offer.ts`).
+- Start dates and places left are real numbers typed into the settings file by Steve. Never invent them; hide the block if they're blank.
+- The founding group price is labelled honestly: "founding group – first 6 businesses, in return for sharing results".
 - Nothing non-essential (including the Meta pixel) loads before cookie consent.
 - Instant results are automatic. **The full audit is never sent without Steve's approval.**
 - Every blog post has something original from Steve. No generic AI tutorials.
@@ -38,7 +42,7 @@ Steve has never built a website in code before and runs the business part-time (
 
 Related copy rules from the brief:
 
-- It is consulting, not training. Courses and general AI training are not sold.
+- It is consulting, not training. Stand-alone courses and general AI training are not sold. AI Business Setup is AI set up in the business, with coaching to use it; never describe it as a course.
 - Never claim Steve has run marketing for hundreds of businesses.
 - The Skool group is called "free AI group" on the site. Confirm its current name with Steve before writing the name anywhere. It appears in the footer and thank-you page only.
 - Testimonials, the stats bar and "What I'm seeing in audits" stay hidden until real data exists. Never type numbers in by hand.
@@ -71,7 +75,7 @@ Use these tools and no others without asking Steve. Items marked *(verify)* must
 
 **Domain:** registered at GoDaddy and stays there. At go-live, DNS moves to Cloudflare by changing nameservers. **Recreate the email records (MX, SPF, DKIM, DMARC) for info@ in Cloudflare before switching**, or email will break.
 
-**One settings file:** the AI Integration price (£1,997 test price), payment split (50/50), timeline (14 days), care-plan price (£199/month test price) and booking link live in `src/config/offer.ts`; every page and email reads from it. Never type these values anywhere else.
+**One settings file:** `src/config/offer.ts` holds the AI Business Setup price (£2,497 test price), instalments (3 × £897), founding group price (£1,997) with its on/off switch and label, group cap (6), next group start date, places left, programme length (6 weeks), guarantee week (3), AI Partner price (£297/month test price) and the booking link. Every page and email reads from it. Never type these values anywhere else.
 
 ## 4. Design system (brief section 6)
 
@@ -143,7 +147,7 @@ All text must pass WCAG AA contrast. Check `--muted` and `--subtle` on `--card` 
 - A server function calls the Anthropic API with the form answers. The model uses web fetch on the visitor's site (home, services, about, contact) and web search for public information, and returns **structured JSON**: score, score meaning, 3 quick wins (problem, fix, tool, effort, estimated hours saved per week, one-line reasoning), and a list of what it couldn't verify.
 - **Score rubric** (each area 0–20, total 0–100; Steve approves the rubric): enquiry handling, repetitive admin, follow-up, content and marketing, current AI use (inverted: less use = more opportunity).
 - One of the top 3 quick wins always assesses enquiry handling, using the form answers on how enquiries arrive and how fast they're answered.
-- The result ends with "The first system I'd build for you:", naming one system Steve has defined.
+- The result ends with "Your AI setup plan": the first automation (default: the Enquiry Responder) and the 3 assistants (customer replies, marketing, quotes from voice notes), each tailored to the visitor's answers. Then "Book your free call" and a link to `/ai-business-setup`.
 - Every time estimate is labelled "estimate" with its reasoning.
 - No promises of results. No money figures for income. Never promise more enquiries or sales.
 - If the website can't be read, say so and base the result on the form answers.
@@ -154,13 +158,13 @@ All text must pass WCAG AA contrast. Check `--muted` and `--subtle` on `--card` 
 ### Full audit (Steve reviews before sending)
 
 - Runs in the background after the instant result. The draft is emailed **to Steve only**, subject `Audit draft: [Business] – fit: High/Medium/Low`.
-- **Part A – client-facing draft:** what the business does and how it makes money; where time and money are being lost; specific AI fixes with named tools and real costs (searched, with the date checked); rough expected impact labelled as an estimate with reasoning; what Steve would build first and why; anything that couldn't be verified; next step (book the free 30-minute call / AI Integration).
-- **Part B – for Steve only, never sent to the prospect:** fit score and why; which system fits first; likely price (from the settings file); questions for a call; red flags.
+- **Part A – client-facing draft:** what the business does and how it makes money; where time and money are being lost; specific AI fixes with named tools and real costs (searched, with the date checked); rough expected impact labelled as an estimate with reasoning; what Steve would build first and why; anything that couldn't be verified; next step (book the free 30-minute call).
+- **Part B – for Steve only, never sent to the prospect:** fit score and why; which automation to build first; likely objections; questions for a call; red flags.
 - **Nothing in Part A or B is ever sent automatically.** Steve always edits and approves.
 - Steve's final versions go in `audits/final/`. `/improve-audit-prompt` compares drafts with finals and suggests changes to the instructions.
 
 ### Follow-up emails (Kit)
 
 - Only for people who ticked consent.
-- Day 0 result + booking link; day 2 how the Enquiry Responder works (with a build video when Steve has one); day 4 what happens on the free call; day 7 the AI Integration offer + guarantee; day 14 a real build story + free AI group link.
+- Day 0 result + booking link; day 2 a build video of one quick win (text only until Steve has a real video); day 4 what happens on the call; day 7 AI Business Setup + guarantee + next start date; day 14 a real build story + free AI group link.
 - No fake deadlines. Steve approves every email before it's used.
