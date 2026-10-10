@@ -22,7 +22,7 @@ Last updated: 10 October 2026. Read this with `CLAUDE.md` and `docs/BRIEF.md` (v
 
 ## 10 October 2026, later: direction changed (v2.3)
 
-See the v2.3 block at the top of `CLAUDE.md`. Built and ready for Steve's review, not yet approved and not pushed:
+See the v2.3 block at the top of `CLAUDE.md`. Built and ready for Steve's review, not yet approved:
 
 - `/free-audit` ad landing page (no menu, email opt-in, sample audit, 3 steps, FAQ).
 - Home page rebuilt: audit first, 4 steps, offer cards, founder section, blog stand-in, FAQ.
@@ -34,7 +34,9 @@ The work order and the scores for each page are in `docs/REVIEW.md`. Work throug
 Audit engine (built 10 October 2026, tested locally with a sample result only):
 
 - Flow: `/free-audit` or `/` → `/assessment` → `POST /api/audit` → `/assessment/result?id=…` → `POST /api/audit-result` (writes the audit on first call, then returns the saved copy).
-- The site now uses Astro's Cloudflare adapter. `wrangler.jsonc` has a D1 database binding with no `database_id` yet, so **do not push until the database is created in Cloudflare and its id is added**, or the deploy will fail.
+- The site now uses Astro's Cloudflare adapter. The D1 database `aigrowthsystems` was created in Cloudflare on 10 October 2026, its id is in `wrangler.jsonc`, and migration `0001_audits.sql` has been applied to it (`npx wrangler d1 migrations apply aigrowthsystems --remote`; new migrations need the same command).
+- **Live on the preview address since 10 October 2026:** `work` was merged into `main` and Cloudflare's automatic build published it (it takes about two minutes after a push). The live site has no API keys yet, so audits there return the sample result, no emails are sent and the spam check is skipped.
+- The Windows PC is signed in to Cloudflare through `wrangler login`.
 - Local database: `npm run db:local` creates it. Keys go in `.env` (see `.env.example`). With no `ANTHROPIC_API_KEY` a sample audit is returned; with no `RESEND_API_KEY` emails are skipped; with no Turnstile keys the spam check is skipped.
 - Model: `claude-sonnet-5-5` with web fetch (max 3 pages), structured output, low effort. The real AI call has not been run yet: test it as soon as a key exists and measure time and cost.
 - Not built yet: Kit sign-up, event log, Meta pixel, headline split test, Stripe, call booking.
