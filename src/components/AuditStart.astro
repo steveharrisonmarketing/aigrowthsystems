@@ -1,0 +1,31 @@
+---
+// The opt-in box: email only. The questions that follow are on the audit page.
+import { site } from '../config/site';
+interface Props {
+  id: string;
+  pulse?: boolean;
+}
+const { id, pulse = false } = Astro.props;
+---
+
+<form class="audit-email" data-audit-email action={site.auditUrl}>
+  <div>
+    <label class="sr-only" for={id}>Your email address</label>
+    <input class="field" id={id} name="email" type="email" placeholder="you@yourbusiness.co.uk" autocomplete="email" required />
+  </div>
+  <button class:list={['btn', 'btn-primary', { 'btn-pulse': pulse }]} type="submit">Get my free AI Growth Audit</button>
+</form>
+<p class="small mt-4">{site.auditSmallPrint}</p>
+
+<script>
+  // Carries the email into the audit questions without putting it in the address bar.
+  document.querySelectorAll<HTMLFormElement>('[data-audit-email]').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      try {
+        sessionStorage.setItem('auditStart', JSON.stringify({ email: new FormData(form).get('email') }));
+      } catch {}
+      location.href = form.getAttribute('action') || '/assessment';
+    });
+  });
+</script>

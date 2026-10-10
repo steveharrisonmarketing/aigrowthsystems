@@ -12,8 +12,10 @@ interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  // Ad landing pages: logo and button only, no menu, short footer.
+  landing?: boolean;
 }
-const { title, description, noindex = false } = Astro.props;
+const { title, description, noindex = false, landing = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -33,11 +35,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:site_name" content={site.name} />
   </head>
   <body>
-    <Header />
+    <Header minimal={landing} />
     <main>
       <slot />
     </main>
-    <Footer />
+    <Footer minimal={landing} />
 
     <script>
       // Sections fade and rise into view once. Switched off for visitors who ask for less motion.
@@ -58,19 +60,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
           { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
         );
         els.forEach((el) => io.observe(el));
-      }
-    </script>
-
-    <script>
-      // Industry landing variants: ?for=builders swaps any element marked data-variant.
-      import { industries } from '../data/industries';
-      const key = new URLSearchParams(location.search).get('for');
-      const variant = key ? industries[key.toLowerCase()] : undefined;
-      if (variant) {
-        document.querySelectorAll<HTMLElement>('[data-variant]').forEach((el) => {
-          const field = el.dataset.variant as 'heroSub' | 'problemLine';
-          if (variant[field]) el.textContent = variant[field];
-        });
       }
     </script>
   </body>

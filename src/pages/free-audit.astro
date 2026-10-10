@@ -1,0 +1,165 @@
+---
+// The ad landing page. One job: start the Free AI Growth Audit.
+// No menu, nothing about paid offers, hidden from Google.
+import Base from '../layouts/Base.astro';
+import Draft from '../components/Draft.astro';
+import Faq from '../components/Faq.astro';
+import AuditStart from '../components/AuditStart.astro';
+import { site } from '../config/site';
+
+const included = [
+  { title: 'Your AI score', text: 'A score out of 100 showing how much room there is for AI to help in your business.' },
+  { title: 'Your top 3 quick wins', text: 'The three jobs where AI could save you the most time, with the tool to use and how much effort each one takes to set up.' },
+  { title: 'Where to start', text: 'A plain-English first step, so you know what to do next.' },
+];
+
+const sampleWins = [
+  { title: 'Replying to enquiries', fix: 'AI drafts each reply for you to check and send.', effort: 'Low' },
+  { title: 'Social media posts', fix: 'AI turns one idea into a week of posts in your own voice.', effort: 'Low' },
+  { title: 'Chasing invoices', fix: 'Reminders go out on their own when a payment is late.', effort: 'Medium' },
+];
+
+const steps = [
+  { title: 'Enter your email', text: 'So we know where to send your audit.' },
+  { title: 'Answer a few quick questions', text: 'About your business and where your time goes. It takes about 2 minutes.' },
+  { title: 'Get your audit', text: 'Your AI score and top 3 quick wins, on screen in minutes and sent to your inbox.' },
+];
+
+const faqs = [
+  { q: 'Is it really free?', a: 'Yes. There’s no card and no payment at any point in the audit.' },
+  {
+    q: 'What’s the catch?',
+    a: 'There isn’t one. We help businesses put AI to work, and the audit is how we show what we do. Afterwards we may offer paid help. There’s no obligation to take it.',
+  },
+  { q: 'How long does it take?', a: 'About 2 minutes to answer the questions. Your audit appears on screen a few minutes later and is emailed to you as well.' },
+  { q: 'Do I need to be technical?', a: 'No. The questions are about your business, not about AI, and the audit is written in plain English.' },
+  { q: 'Do I need a website?', a: 'No. If you have one we’ll read it to make the audit more specific. If you don’t, the audit is based on your answers.' },
+  {
+    q: 'What happens to my information?',
+    a: 'We use your answers to write your audit and to email it to you. We don’t sell your details.',
+    draft: 'Confirm this is true before go-live, and that the privacy page says the same.',
+  },
+];
+---
+
+<Base
+  title="Free AI Growth Audit | AI Growth Systems"
+  description="Find out where AI fits in your business. Answer a few quick questions and get your AI score and top 3 quick wins in minutes. Free for UK businesses."
+  noindex
+  landing
+>
+  <section class="hero" id="start">
+    <div class="wrap">
+      <div class="hero-frame">
+        <div class="hero-visual" aria-hidden="true"></div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-content">
+          <span class="eyebrow">{site.auditName}</span>
+          <h1 data-headline>{site.headlines[site.defaultHeadline]}</h1>
+          <p class="lead">{site.heroSub}</p>
+          <AuditStart id="hero-email" pulse />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--raised">
+    <div class="wrap">
+      <div class="get-grid">
+        <div class="reveal">
+          <span class="eyebrow">What you get</span>
+          <h2 class="mt-4">Your audit, on screen in minutes.</h2>
+          <ul class="get-list">
+            {included.map((item) => (
+              <li>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="card sample reveal" aria-label="Sample audit">
+          <span class="sample-tag">Sample</span>
+          <div class="sample-top">
+            <div class="score-ring"><span class="gold-text">72</span></div>
+            <div>
+              <p class="sample-label">AI score</p>
+              <p class="sample-meaning">Lots of room for AI to help</p>
+            </div>
+          </div>
+          <p class="sample-label mt-8">Top 3 quick wins</p>
+          <ol class="sample-wins">
+            {sampleWins.map((win, i) => (
+              <li>
+                <span class="step-n">{i + 1}</span>
+                <div>
+                  <p class="sample-win">{win.title}</p>
+                  <p>{win.fix}</p>
+                  <p class="small">Effort to set up: {win.effort}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <Draft>A made-up example to show the layout. It’s replaced with a real screenshot once the audit is built.</Draft>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">How it works</span>
+        <h2>3 steps. About 2 minutes.</h2>
+      </div>
+      <div class="grid grid-3">
+        {steps.map((step, i) => (
+          <div class="card reveal">
+            <span class="step-n">{i + 1}</span>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--raised">
+    <div class="wrap narrow reveal">
+      <span class="eyebrow">Why take it</span>
+      <h2 class="mt-4">You know AI could help. You don’t know where to start.</h2>
+      <p class="lead mt-6">There are thousands of AI tools and no shortage of advice. What’s missing is someone looking at your business and telling you which few things are worth doing first.</p>
+      <ul class="tick-list mt-8">
+        <li>Built from your answers, not a generic checklist.</li>
+        <li>Plain English. No jargon and nothing to install.</li>
+        <li>Specific tools and first steps you can act on straight away.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Questions</span>
+        <h2>Before you start.</h2>
+      </div>
+      <div class="reveal"><Faq items={faqs} /></div>
+    </div>
+  </section>
+
+  <section class="section cta-band">
+    <div class="wrap reveal">
+      <h2>Find your first AI quick win.</h2>
+      <div class="cta-form"><AuditStart id="cta-email" /></div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Headline preview: ?h=a, ?h=b or ?h=c. The real one-per-visitor test is added with the server functions.
+  import { site } from '../config/site';
+  const h = new URLSearchParams(location.search).get('h')?.toLowerCase();
+  const el = document.querySelector('[data-headline]');
+  if (el && (h === 'a' || h === 'b' || h === 'c')) el.textContent = site.headlines[h];
+</script>

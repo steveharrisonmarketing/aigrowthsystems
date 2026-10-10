@@ -7,7 +7,6 @@ import Partner from '../components/Partner.astro';
 import AboutSteve from '../components/AboutSteve.astro';
 import Faq from '../components/Faq.astro';
 import { site } from '../config/site';
-import { defaultProblemLine } from '../data/industries';
 import { offer, gbp, instalmentTotal, doneForYou, weeks, groupCallMinutes, nextGroupText } from '../config/offer';
 
 const s = offer.setup;
@@ -94,7 +93,7 @@ const faqs = [
         <h2>You know AI could help. Nobody has set it up for you.</h2>
       </div>
       <div class="reveal">
-        <p class="lead" data-variant="problemLine">{defaultProblemLine}</p>
+        <p class="lead">Enquiries arrive while you’re with a customer, on a job or off for the night.</p>
         <p class="mt-5">
           Quotes, follow-ups and marketing get done late at night or not at all. You’ve heard AI can take some of that on, but
           learning it properly is another job you don’t have time for.

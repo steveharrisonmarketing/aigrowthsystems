@@ -1,34 +1,44 @@
 ---
 import { site } from '../config/site';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+interface Props {
+  minimal?: boolean;
+}
+const { minimal = false } = Astro.props;
 ---
 
 <header class="site-header">
   <div class="wrap">
-    <a class="wordmark" href="/" aria-label="AI Growth Systems – home">AI <span class="gold-text">Growth</span> Systems</a>
+    <a class="wordmark" href={minimal ? path : '/'} aria-label="AI Growth Systems – home">AI <span class="gold-text">Growth</span> Systems</a>
 
     <div class="header-right">
-      <nav class="nav-links" aria-label="Main">
-        {site.nav.map((item) => (
-          <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a>
-        ))}
-      </nav>
-      <a class="btn btn-primary btn-sm" href={site.auditUrl}>
+      {!minimal && (
+        <nav class="nav-links" aria-label="Main">
+          {site.nav.map((item) => (
+            <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a>
+          ))}
+        </nav>
+      )}
+      <a class="btn btn-primary btn-sm" href={minimal ? '#start' : site.auditUrl}>
         <span class="label-long">{site.auditName}</span>
         <span class="label-short">Free AI audit</span>
       </a>
-      <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
-        <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true">
-          <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" stroke-width="1.6"></path>
-        </svg>
-      </button>
+      {!minimal && (
+        <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+          <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true">
+            <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" stroke-width="1.6"></path>
+          </svg>
+        </button>
+      )}
     </div>
   </div>
 
-  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile">
-    {site.nav.map((item) => <a href={item.href}>{item.label}</a>)}
-    <a href="/about">About</a>
-  </nav>
+  {!minimal && (
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile">
+      {site.nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      <a href="/about">About</a>
+    </nav>
+  )}
 </header>
 
 <script>

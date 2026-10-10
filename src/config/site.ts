@@ -5,6 +5,8 @@ export const site = {
   email: 'info@aigrowthsystems.co.uk',
   auditName: 'Free AI Growth Audit',
   auditUrl: '/assessment',
+  // The ad landing page: no menu, only the audit. Hidden from Google.
+  landingUrl: '/free-audit',
   setupUrl: '/ai-business-setup',
 
   // The free AI group (Skool). Its name is confirmed with Steve before it is written anywhere.
@@ -19,14 +21,15 @@ export const site = {
     { label: 'Blog', href: '/blog' },
   ],
 
-  // Home page headline test. To preview one, add ?h=a, ?h=b or ?h=c to the address.
+  // Headline test for the landing page and home page. To preview one, add ?h=a, ?h=b or ?h=c to the address.
   defaultHeadline: 'a' as 'a' | 'b' | 'c',
   headlines: {
-    a: 'AI set up in your business in 6 weeks.',
-    b: 'You don’t need to learn AI. You need it set up for you.',
-    c: 'Every enquiry you answer late is one a competitor can answer first.',
+    a: 'Find out where AI fits in your business. Free, in minutes.',
+    b: 'See where AI could save you hours every week.',
+    c: 'Your business, scored for AI. Top 3 quick wins on screen in minutes.',
   },
 
   heroSub:
-    'Tell us about your business. Get your AI score and top 3 quick wins on screen in minutes — then a full audit reviewed by Steve.',
+    'Answer a few quick questions about your business. Get your AI score and your top 3 quick wins on screen in minutes, and by email.',
+  auditSmallPrint: 'Free. About 2 minutes. UK businesses.',
 };

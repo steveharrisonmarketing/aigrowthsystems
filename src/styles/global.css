@@ -287,6 +287,40 @@ h3, .h3 { font-size: clamp(20px, 2.2vw, 24px); letter-spacing: -0.03em; line-hei
 @media (min-width: 820px) { .audit-start { grid-template-columns: 1fr 1fr auto; } }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
+/* ── Landing page: opt-in box, what you get, sample audit ───────────────── */
+.audit-email { display: grid; gap: 10px; margin-top: 28px; max-width: 600px; }
+@media (min-width: 640px) { .audit-email { grid-template-columns: 1fr auto; } }
+.cta-form { display: grid; justify-items: center; }
+.cta-form .audit-email { width: 100%; text-align: left; }
+.cta-band .cta-form .btn { margin-top: 0; }
+.get-grid { display: grid; gap: 40px; }
+@media (min-width: 900px) { .get-grid { grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; } }
+.get-list { list-style: none; padding: 0; margin: 36px 0 0; display: grid; gap: 28px; }
+.get-list h3 { margin-bottom: 8px; }
+.sample { position: relative; }
+.sample-tag {
+  position: absolute; top: 18px; right: 18px;
+  font: 600 12px/1 var(--font-body); letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); border: 1px dashed rgba(255, 255, 255, 0.24); border-radius: 999px; padding: 6px 10px;
+}
+.sample-top { display: flex; align-items: center; gap: 20px; }
+.score-ring {
+  flex: none; width: 104px; height: 104px; border-radius: 50%;
+  display: grid; place-items: center; position: relative;
+  background: conic-gradient(var(--gold) 72%, rgba(255, 255, 255, 0.08) 0);
+}
+.score-ring::before { content: ''; position: absolute; inset: 8px; border-radius: 50%; background: var(--card); }
+.score-ring span { position: relative; font: 700 40px/1 var(--font-display); letter-spacing: -0.04em; }
+.sample-label { font: 600 13px/1.3 var(--font-body); color: var(--subtle); text-transform: uppercase; letter-spacing: 0.06em; }
+.sample-meaning { color: var(--text); font-weight: 500; margin-top: 6px; }
+.sample-wins { list-style: none; padding: 0; margin: 4px 0 0; }
+.sample-wins li { display: flex; gap: 16px; padding-block: 16px; border-top: 1px solid var(--border); }
+.sample-wins li:first-child { border-top: 0; }
+.sample-wins .step-n { flex: none; margin: 0; }
+.sample-win { color: var(--text); font-weight: 600; }
+.footer-bottom--bare { margin-top: 0; padding-top: 0; border-top: 0; }
+.footer-legal { display: flex; gap: 20px; }
+
 /* ── Calculator ─────────────────────────────────────────────────────────── */
 .calc { display: grid; gap: 20px; }
 @media (min-width: 900px) { .calc { grid-template-columns: 1fr 1fr; align-items: stretch; } }
