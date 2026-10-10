@@ -13,12 +13,12 @@
     "not_found_handling": "404-page"
   },
   "observability": { "enabled": true },
-  // The database that stores each audit. "database_id" is added once the
-  // database has been created in the Cloudflare account. Until then it only works locally.
+  // The database that stores each audit (created in Cloudflare on 10 October 2026).
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "aigrowthsystems",
+      "database_id": "2ca1da8f-c512-4788-8f65-0a9e2bfd3326",
       "migrations_dir": "migrations"
     }
   ],
