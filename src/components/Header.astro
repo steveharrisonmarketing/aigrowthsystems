@@ -36,7 +36,6 @@ const { minimal = false } = Astro.props;
   {!minimal && (
     <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile">
       {site.nav.map((item) => <a href={item.href}>{item.label}</a>)}
-      <a href="/about">About</a>
     </nav>
   )}
 </header>

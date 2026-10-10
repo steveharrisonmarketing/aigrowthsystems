@@ -1,0 +1,27 @@
+---
+// The button(s) for one offer, decided by its "buy" setting in src/config/offer.ts.
+// A buy button only appears once that offer has a Stripe payment link.
+import { offer, gbp, type BuyMode } from '../config/offer';
+import Draft from './Draft.astro';
+interface Props {
+  id: 'session' | 'setup' | 'quickStart' | 'partner';
+  buy: BuyMode;
+  checkoutUrl: string;
+  price?: number;
+  callLabel?: string;
+}
+const { id, buy, checkoutUrl, price, callLabel = 'Book your free call' } = Astro.props;
+const wantsOnline = buy !== 'call';
+const canBuy = wantsOnline && checkoutUrl !== '';
+const showCall = buy !== 'online' || !canBuy;
+---
+
+<div class="btn-row mt-8">
+  {canBuy && (
+    <a class="btn btn-primary" href={checkoutUrl} data-offer={id} data-action="buy">Buy now{price ? ` – ${gbp(price)}` : ''}</a>
+  )}
+  {showCall && (
+    <a class:list={['btn', canBuy ? 'btn-secondary' : 'btn-primary']} href={offer.bookingUrl} data-offer={id} data-action="call">{callLabel}</a>
+  )}
+</div>
+{wantsOnline && !canBuy && <Draft>The “Buy now” button appears here once this offer’s Stripe payment link is pasted into src/config/offer.ts.</Draft>}

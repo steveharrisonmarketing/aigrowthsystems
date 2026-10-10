@@ -2,22 +2,10 @@
 // The ad landing page. One job: start the Free AI Growth Audit.
 // No menu, nothing about paid offers, hidden from Google.
 import Base from '../layouts/Base.astro';
-import Draft from '../components/Draft.astro';
 import Faq from '../components/Faq.astro';
+import AuditPreview from '../components/AuditPreview.astro';
 import AuditStart from '../components/AuditStart.astro';
 import { site } from '../config/site';
-
-const included = [
-  { title: 'Your AI score', text: 'A score out of 100 showing how much room there is for AI to help in your business.' },
-  { title: 'Your top 3 quick wins', text: 'The three jobs where AI could save you the most time, with the tool to use and how much effort each one takes to set up.' },
-  { title: 'Where to start', text: 'A plain-English first step, so you know what to do next.' },
-];
-
-const sampleWins = [
-  { title: 'Replying to enquiries', fix: 'AI drafts each reply for you to check and send.', effort: 'Low' },
-  { title: 'Social media posts', fix: 'AI turns one idea into a week of posts in your own voice.', effort: 'Low' },
-  { title: 'Chasing invoices', fix: 'Reminders go out on their own when a payment is late.', effort: 'Medium' },
-];
 
 const steps = [
   { title: 'Enter your email', text: 'So we know where to send your audit.' },
@@ -65,45 +53,7 @@ const faqs = [
 
   <section class="section section--raised">
     <div class="wrap">
-      <div class="get-grid">
-        <div class="reveal">
-          <span class="eyebrow">What you get</span>
-          <h2 class="mt-4">Your audit, on screen in minutes.</h2>
-          <ul class="get-list">
-            {included.map((item) => (
-              <li>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div class="card sample reveal" aria-label="Sample audit">
-          <span class="sample-tag">Sample</span>
-          <div class="sample-top">
-            <div class="score-ring"><span class="gold-text">72</span></div>
-            <div>
-              <p class="sample-label">AI score</p>
-              <p class="sample-meaning">Lots of room for AI to help</p>
-            </div>
-          </div>
-          <p class="sample-label mt-8">Top 3 quick wins</p>
-          <ol class="sample-wins">
-            {sampleWins.map((win, i) => (
-              <li>
-                <span class="step-n">{i + 1}</span>
-                <div>
-                  <p class="sample-win">{win.title}</p>
-                  <p>{win.fix}</p>
-                  <p class="small">Effort to set up: {win.effort}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-          <Draft>A made-up example to show the layout. It’s replaced with a real screenshot once the audit is built.</Draft>
-        </div>
-      </div>
+      <AuditPreview />
     </div>
   </section>
 

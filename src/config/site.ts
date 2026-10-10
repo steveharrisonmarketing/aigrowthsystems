@@ -19,6 +19,7 @@ export const site = {
   nav: [
     { label: 'AI Business Setup', href: '/ai-business-setup' },
     { label: 'Blog', href: '/blog' },
+    { label: 'About', href: '/about' },
   ],
 
   // Headline test for the landing page and home page. To preview one, add ?h=a, ?h=b or ?h=c to the address.

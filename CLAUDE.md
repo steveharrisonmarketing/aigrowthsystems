@@ -1,12 +1,22 @@
 # AI Growth Systems website – rules for every session
 
 Owner: Steve Harrison, AI Growth Systems (aigrowthsystems.co.uk).
-Full brief: `docs/BRIEF.md` (v2.2, 10 October 2026). Read the relevant section before starting any phase.
+Full brief: `docs/BRIEF.md` (v2.2, 10 October 2026, with the v2.3 change note at the top). Read the relevant section before starting any phase.
 This file captures the rules from brief sections 0, 4, 6, 9 and 16. If this file and the brief disagree, ask Steve.
 
-**The funnel (v2.2):** Facebook ad → Free AI Growth Audit (instant score + top 3 quick wins, then Steve's reviewed audit) → free 30-minute call → AI Business Setup (6 weeks, done-for-you + coaching) → AI Partner (optional, monthly). The three main pages are Home, `/ai-business-setup` and Blog. Earlier offers (the £997 Full AI Assessment, AI Integration, the care plan, the Programmes page, online checkout) are gone; their addresses redirect to `/ai-business-setup`. Visitors always see the name "Free AI Growth Audit"; the page addresses stay `/assessment`.
+**Direction agreed 10 October 2026 (v2.3). Where anything below or in the brief disagrees with this block, this block wins.**
 
-**Build order:** design first. The Astro project, design system, Home and `/ai-business-setup` are built and reviewed on Steve's computer; GitHub and Cloudflare set-up follows.
+- **Priority:** convert cold traffic from paid ads into free audits. Ranking in Google is a long-term second goal.
+- **Funnel:** Facebook ad → `/free-audit` (ad landing page: no menu, audit only, hidden from Google) → email opt-in → a 1–2 minute questionnaire → instant audit on screen and by email → follow-up page offering the AI Action Session (£297) and a free call. Steve follows up qualified leads by hand with a more detailed audit.
+- **Pages at launch:** `/free-audit`, Home (`/`, with the menu), `/ai-business-setup` (all paid offers), `/blog`. The menu is on every page except `/free-audit` and the audit form.
+- **Voice:** always "we", never "I" and never "Steve will…". Steve is named only in the founder section, in the third person. Founder framing: 10+ years in marketing plus putting AI to work in businesses.
+- **Audience:** broad. No industry wording or industry variants. The landing page says nothing about paid offers.
+- **Offers (all one-to-one, start any week; no groups at launch, groups may be added once the model is proven):** AI Action Session £297 one-off; AI Quick Start £997; AI Business Setup £2,497 or 3 × £897 (founding client price £1,997 for the first 5 clients); AI Partner £297/month; AI Starter Kit (digital, coming soon). Steve will remove any that don’t work. Training and digital products may be added later.
+- **Checkout:** Steve wants online checkout. Each offer in `src/config/offer.ts` has `enabled`, `buy` (online / call / both) and `checkoutUrl` (a Stripe payment link). Until a link is pasted in, the button is "Book your free call". Steve has no Stripe account for this business yet and is not VAT-registered. Check Stripe’s current docs before wiring payments.
+- **Guarantee, word for word:** "Your first AI system is live by week 3, or we keep working free until it is. If by week 6 you’re not using AI every week in at least 3 tasks, we’ll keep coaching you one-to-one until you are."
+- **No income claims.** "How we measure your return" is about time saved, in hours.
+- **Removed:** the calculator, industry variants, group/cohort wording, "the full audit reviewed by Steve for everyone".
+- **Opt-in:** email only. The questionnaire asks: first name, website, team size, what takes the most time, AI use so far, biggest challenge, anything else (optional).
 
 ## 1. How to work with Steve (brief section 0)
 

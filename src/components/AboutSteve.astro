@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import photo from '../assets/steve.jpg';
 import Draft from './Draft.astro';
 interface Props {
   link?: boolean;
@@ -7,16 +9,21 @@ const { link = true } = Astro.props;
 ---
 
 <div class="about">
-  <div class="photo-slot reveal">A real photo of Steve goes here</div>
   <div class="reveal">
-    <span class="eyebrow">About Steve</span>
-    <h2 class="mt-4">Built by someone who does this every week.</h2>
+    <Image class="about-photo" src={photo} alt="Steve Harrison, founder of AI Growth Systems" width={200} height={200} />
+  </div>
+  <div class="reveal">
+    <span class="eyebrow">Who’s behind this</span>
+    <h2 class="mt-4">AI that grows the business, not automations for their own sake.</h2>
     <p class="lead mt-5">
-      I’m Steve Harrison. My background is marketing agency work: Google Ads, Facebook Ads, website conversion, and
-      email and SMS follow-up. AI Growth Systems is where I set up AI inside small UK businesses.
+      AI Growth Systems was founded by Steve Harrison. He has more than 10 years in marketing: Google Ads, Facebook Ads,
+      websites that convert, and email and SMS follow-up. Today he puts AI to work inside businesses.
     </p>
-    <p class="mt-4">Everything you see on this site comes from my own business and client work.</p>
-    {link && <p class="mt-6"><a class="text-link" href="/about">More about Steve</a></p>}
-    <Draft>Heading and wording are a first draft, to be rewritten from your answers in the About interview.</Draft>
+    <p class="mt-4">
+      That mix matters. Plenty of people can build an automation. Far fewer know which ones help a business grow.
+      We start with how you win and keep customers, then set up the AI that supports it.
+    </p>
+    {link && <p class="mt-6"><a class="text-link" href="/about">More about us</a></p>}
+    <Draft>First-draft wording for you to approve. The photo is small (200 pixels), so it’s shown small; a larger one would look sharper.</Draft>
   </div>
 </div>

@@ -20,6 +20,19 @@ Last updated: 10 October 2026. Read this with `CLAUDE.md` and `docs/BRIEF.md` (v
   - stand-in pages for `/assessment`, `/book`, `/blog`, `/about`, `/privacy`, `/cookies`, `/terms`;
   - redirects for the hidden addresses in `astro.config.mjs`.
 
+## 10 October 2026, later: direction changed (v2.3)
+
+See the v2.3 block at the top of `CLAUDE.md`. Built and ready for Steve's review, not yet approved and not pushed:
+
+- `/free-audit` ad landing page (no menu, email opt-in, sample audit, 3 steps, FAQ).
+- Home page rebuilt: audit first, 4 steps, offer cards, founder section, blog stand-in, FAQ.
+- `/ai-business-setup` rebuilt as the offers page: one-to-one, five offers read from `src/config/offer.ts`.
+- Buy buttons appear when a Stripe payment link is pasted into an offer's `checkoutUrl`.
+
+Next: blog page, then the audit questionnaire and instant result, then the follow-up page with the £297 offer and call booking.
+
+The old folder `~/Desktop/Claude/aigrowthsystems-site` on the Mac is a separate, older build. Work in `~/Projects/aigrowthsystems`.
+
 ## Not done yet
 
 - Phase 1 leftovers: Higgsfield briefs for H1–H5, each shown to Steve with model and estimated credits before any generation. PageSpeed check once the site is online.

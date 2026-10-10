@@ -9,6 +9,10 @@
 
 ---
 
+> **v2.3 change note (10 October 2026).** Steve changed direction after reviewing Phase 1. The summary is the "Direction agreed 10 October 2026 (v2.3)" block at the top of `CLAUDE.md`, and it overrides sections 1, 2, 5, 7, 9, 10, 13 and 19.4 of this brief where they differ. In short: the priority is converting cold ad traffic on a no-menu landing page (`/free-audit`); the site says "we"; the audience stays broad; launch is one-to-one only (groups may be added once the model is proven); there are five offers with online checkout planned; the calculator and industry variants are removed. This brief is rewritten as v2.3 once the offers settle.
+
+---
+
 ## 0. Read this first (instructions for Claude Code)
 
 Steve has **never built a website in code before**. He runs the business part-time (10–20 hours a week). Work with him like this:
