@@ -1,0 +1,11 @@
+// Cloudflare settings. Tells Cloudflare where the built site is.
+// For now the site is plain pages only. Server functions (the audit engine)
+// are added in Phase 2 with Astro's Cloudflare adapter.
+{
+  "name": "aigrowthsystems",
+  "compatibility_date": "2026-10-10",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
