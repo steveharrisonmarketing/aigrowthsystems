@@ -6,6 +6,11 @@ Last updated: 10 October 2026. Read this with `CLAUDE.md` and `docs/BRIEF.md` (v
 
 - Brief v2.2 and `CLAUDE.md` written and committed.
 - Phase 0, local half: Astro 7 project, Tailwind CSS 4, self-hosted fonts, `.env.example`, `.gitignore`.
+- Phase 0, online half (10 October 2026):
+  - GitHub: private repository `steveharrisonmarketing/aigrowthsystems`, branch `main`.
+  - Cloudflare: hosted as a Worker with static assets (`wrangler.jsonc`), built by Workers Builds on every push to `main` (build `npm run build`, deploy `npx wrangler deploy`).
+  - Preview address: https://aigrowthsystems.steveharrisonmarketing.workers.dev
+  - The site is static for now. Astro's Cloudflare adapter is added in Phase 2 for server functions; check Cloudflare's and Astro's current docs first.
 - Phase 1, ready for Steve's review (not yet approved):
   - design system in `src/styles/global.css`;
   - the one settings file `src/config/offer.ts`; site wording in `src/config/site.ts`;
@@ -17,7 +22,6 @@ Last updated: 10 October 2026. Read this with `CLAUDE.md` and `docs/BRIEF.md` (v
 
 ## Not done yet
 
-- Phase 0, online half: GitHub repository, Cloudflare connection, "hello" on a preview address. The Cloudflare hosting method for Astro must be checked on Cloudflare's own docs first (brief section 4).
 - Phase 1 leftovers: Higgsfield briefs for H1–H5, each shown to Steve with model and estimated credits before any generation. PageSpeed check once the site is online.
 - Phases 2–7 as in the brief.
 
