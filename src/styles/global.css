@@ -304,6 +304,7 @@ h3, .h3 { font-size: clamp(20px, 2.2vw, 24px); letter-spacing: -0.03em; line-hei
   color: var(--muted); border: 1px dashed rgba(255, 255, 255, 0.24); border-radius: 999px; padding: 6px 10px;
 }
 .sample-top { display: flex; align-items: center; gap: 20px; }
+@media (max-width: 479px) { .sample-top { margin-top: 32px; } }
 .score-ring {
   flex: none; width: 104px; height: 104px; border-radius: 50%;
   display: grid; place-items: center; position: relative;
@@ -318,6 +319,8 @@ h3, .h3 { font-size: clamp(20px, 2.2vw, 24px); letter-spacing: -0.03em; line-hei
 .sample-wins li:first-child { border-top: 0; }
 .sample-wins .step-n { flex: none; margin: 0; }
 .sample-win { color: var(--text); font-weight: 600; }
+.sample-grows { font-size: 14px; color: var(--muted); margin-top: 6px; }
+.sample-grows strong { color: var(--gold); font-weight: 600; }
 .footer-bottom--bare { margin-top: 0; padding-top: 0; border-top: 0; }
 .footer-legal { display: flex; gap: 20px; }
 

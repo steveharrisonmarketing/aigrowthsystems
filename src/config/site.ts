@@ -32,12 +32,12 @@ export const site = {
   // Headline test for the landing page and home page. To preview one, add ?h=a, ?h=b or ?h=c to the address.
   defaultHeadline: 'a' as 'a' | 'b' | 'c',
   headlines: {
-    a: 'Find out where AI fits in your business. Free, in minutes.',
+    a: 'Find out where AI grows your business. Free, in minutes.',
     b: 'See where AI could save you hours every week.',
     c: 'Your business, scored for AI. Top 3 quick wins on screen in minutes.',
   },
 
   heroSub:
-    'Answer a few quick questions about your business. Get your AI score and your top 3 quick wins on screen in minutes, and by email.',
+    'Answer a few quick questions & get your AI score and action report on screen in minutes.',
   auditSmallPrint: 'Free. About 2 minutes. UK businesses.',
 };
