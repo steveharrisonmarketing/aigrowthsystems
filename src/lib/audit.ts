@@ -136,7 +136,11 @@ export async function generateAudit(answers: AuditAnswers): Promise<Generated> {
     return { result: sampleResult, sample: true, inputTokens: 0, outputTokens: 0 };
   }
 
-  const client = new Anthropic({ apiKey: serverEnv.ANTHROPIC_API_KEY });
+  const workspace = serverEnv.ANTHROPIC_WORKSPACE_ID;
+  const client = new Anthropic({
+    apiKey: serverEnv.ANTHROPIC_API_KEY,
+    defaultHeaders: workspace ? { 'anthropic-workspace-id': workspace } : undefined,
+  });
   const messages: Anthropic.Beta.BetaMessageParam[] = [{ role: 'user', content: userMessage(answers) }];
   const tools: Anthropic.Beta.BetaToolUnion[] = answers.website
     ? [

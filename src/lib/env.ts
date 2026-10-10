@@ -7,6 +7,8 @@ interface ServerEnv {
   AUDIT_NOTIFY_EMAIL: string;
   EMAIL_FROM: string;
   ANTHROPIC_API_KEY?: string;
+  // Only needed when the API key is not tied to one workspace. Not a secret.
+  ANTHROPIC_WORKSPACE_ID?: string;
   RESEND_API_KEY?: string;
   TURNSTILE_SECRET_KEY?: string;
 }
