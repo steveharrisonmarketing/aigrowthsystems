@@ -2,7 +2,7 @@
 import Legal from '../layouts/Legal.astro';
 import Draft from '../components/Draft.astro';
 import { site } from '../config/site';
-import { offer, gbp, instalmentTotal, guarantee, quickStartGuarantee } from '../config/offer';
+import { offer, gbp, instalmentTotal, guarantee, quickStartGuarantee, planCredit } from '../config/offer';
 const s = offer.setup;
 ---
 
@@ -20,7 +20,7 @@ const s = offer.setup;
   <h2>Our paid services</h2>
   <p>Our services are for businesses, not consumers. By buying, you confirm you are buying for your business.</p>
   <ul>
-    <li><strong>{offer.session.name}:</strong> {gbp(offer.session.price)}, paid in full before the session.</li>
+    <li><strong>{offer.session.name}:</strong> {gbp(offer.session.price)}, paid in full before the call.</li>
     <li><strong>{offer.quickStart.name}:</strong> {gbp(offer.quickStart.price)}, paid in full before work starts.</li>
     <li>
       <strong>{s.name}:</strong> {gbp(s.price)} paid in full before work starts, or {s.instalments.count} monthly payments of
@@ -30,6 +30,9 @@ const s = offer.setup;
   </ul>
   <p>We are not VAT-registered, so no VAT is added to these prices.</p>
   <Draft>Check with your accountant whether charging more for instalments brings consumer-credit rules into play for sole traders and small partnerships.</Draft>
+
+  <h2>{offer.session.name} credit</h2>
+  <p>{planCredit} The credit applies once, to one purchase, and can be used with the founding client price. It has no cash value.</p>
 
   <h2>Founding client price</h2>
   <p>

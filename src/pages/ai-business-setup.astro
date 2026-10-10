@@ -9,7 +9,7 @@ import AboutSteve from '../components/AboutSteve.astro';
 import OfferButtons from '../components/OfferButtons.astro';
 import Faq from '../components/Faq.astro';
 import { site } from '../config/site';
-import { offer, gbp, instalmentTotal, doneForYou, weeks, quickStartGuarantee } from '../config/offer';
+import { offer, gbp, instalmentTotal, doneForYou, weeks, quickStartGuarantee, planCredit } from '../config/offer';
 
 const s = offer.setup;
 const f = s.founding;
@@ -39,7 +39,7 @@ const service = {
 const faqs = [
   {
     q: 'What happens on the free call?',
-    a: 'It’s 30 minutes on video. We go through your audit, what we’d set up first in your business, and which option fits. There’s no obligation.',
+    a: 'It’s 30 minutes on video. We talk through your business, what we’d set up first, and which option fits. There’s no obligation.',
   },
   {
     q: 'I’m not technical – is that OK?',
@@ -53,6 +53,10 @@ const faqs = [
     q: 'Is my business data safe?',
     a: 'Your AI workspace is set up with its data-safety settings switched on, and you get a one-page staff AI policy that says what can and can’t go into AI tools.',
     draft: 'Every data-safety claim needs your confirmation before go-live.',
+  },
+  {
+    q: `I took the ${a.name}. Do I pay full price?`,
+    a: `No. ${planCredit} This also applies to the founding client price.`,
   },
   { q: 'Can I start straight away?', a: 'Yes. Everything is one-to-one, so there are no fixed start dates. You can start any week.' },
   {
@@ -276,11 +280,11 @@ const faqs = [
         <div class="section-head reveal">
           <span class="eyebrow">Smaller options</span>
           <h2>Not ready for {s.weeks} weeks? Start smaller.</h2>
-          <p class="lead">Both are one-to-one, and you can start any week.</p>
+          <p class="lead">Both are one-to-one, and you can start any week. Most people begin with the {a.name}.</p>
         </div>
         <div class:list={['grid', { 'grid-2': q.enabled && a.enabled }]}>
           {a.enabled && (
-            <div class="card offer-card reveal" id="session">
+            <div class="card offer-card reveal" id="plan-call">
               <h3>{a.name}</h3>
               <p class="price mt-5">{gbp(a.price)}</p>
               <p class="price-sub">One-off. {offer.vatNote}</p>
@@ -288,8 +292,8 @@ const faqs = [
               <ul class="tick-list mt-6">
                 {a.includes.map((item) => <li>{item}</li>)}
               </ul>
+              <p class="mt-6" style="color: var(--text);"><strong>Your {gbp(a.price)} back:</strong> {planCredit}</p>
               <OfferButtons id="session" buy={a.buy} checkoutUrl={a.checkoutUrl} price={a.price} />
-              <Draft>The name “{a.name}” and what’s included are a first draft for you to approve or change.</Draft>
             </div>
           )}
           {q.enabled && (

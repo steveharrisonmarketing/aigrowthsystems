@@ -335,6 +335,16 @@ h3, .h3 { font-size: clamp(20px, 2.2vw, 24px); letter-spacing: -0.03em; line-hei
 }
 .small a { color: inherit; }
 
+/* ── Audit result ───────────────────────────────────────────────────────── */
+.result-top { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; }
+.score-ring--lg { width: 128px; height: 128px; background: conic-gradient(var(--gold) var(--score, 72%), rgba(255, 255, 255, 0.08) 0); }
+.score-ring--lg::before { background: var(--bg); }
+.score-ring--lg span { font-size: 48px; }
+.result-wins { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 16px; }
+.result-wins p + p { margin-top: 8px; }
+.result-wins strong { color: var(--text); }
+.result-wins .sample-grows strong { color: var(--gold); }
+
 /* ── Audit questions ────────────────────────────────────────────────────── */
 .q-form { display: grid; gap: 28px; margin-top: 40px; }
 .q-form label.q, .q-form legend { display: block; color: var(--text); font-weight: 600; margin-bottom: 10px; padding: 0; }

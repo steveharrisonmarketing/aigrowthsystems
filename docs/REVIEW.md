@@ -50,7 +50,7 @@ Each page is scored out of 10 against the same criteria after every round of cha
 | The audit isn't connected: the questionnaire ends in a draft note | Conversion (all) | Build: server function, database, AI key (Steve: Anthropic account and spend limit) |
 | No proof: no testimonials, results or real screenshot of an audit | Conversion (all) | Real audits first; then a real screenshot replaces the sample |
 | Hero visual is a stand-in gradient | Conversion (landing, home) | Higgsfield brief approved by Steve, or a real screenshot |
-| AI Action Session name and contents are a draft | Accuracy (offers, home) | Steve |
+| ~~£297 call name and contents~~ – settled 10 Oct: AI Growth Plan Call, written plan + recording, £297 credited on upgrade within 30 days | – | Done |
 | Data-safety claims unconfirmed | Accuracy, trust | Steve |
 | No buy buttons | Conversion (offers) | Steve: Stripe account and payment links |
 | "Book your free call" goes to a stand-in | Conversion (offers, home) | Steve: Calendly account and link |

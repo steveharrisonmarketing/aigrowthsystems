@@ -14,18 +14,21 @@
 export type BuyMode = 'online' | 'call' | 'both';
 
 export const offer = {
-  // One-off session offered straight after the free audit.
+  // One-off call offered straight after the free audit. Audit → Plan → Setup.
   session: {
     enabled: true,
-    name: 'AI Action Session',
+    name: 'AI Growth Plan Call',
     price: 297,
     minutes: 120,
-    summary: 'A 2-hour one-to-one call where we show you how to put your audit into practice.',
+    summary: 'A 2-hour one-to-one call that turns your audit into a step-by-step plan.',
     includes: [
       'A 2-hour one-to-one video call',
-      'Your top 3 quick wins from the audit, worked through step by step',
+      'What your audit found, and how to act on each quick win',
+      'A written action plan afterwards',
       'A recording of the call to keep',
     ],
+    // The price of the call comes off these offers if the client upgrades within this many days.
+    creditDays: 30,
     buy: 'online' as BuyMode,
     checkoutUrl: '',
   },
@@ -114,6 +117,11 @@ export const instalmentTotal = offer.setup.instalments.count * offer.setup.insta
 export const guarantee =
   `Your first AI system is live by week ${offer.setup.guaranteeWeek}, or we keep working free until it is. ` +
   `If by week ${offer.setup.weeks} you’re not using AI every week in at least 3 tasks, we’ll keep coaching you one-to-one until you are.`;
+
+// The Plan Call credit, in one sentence. Used wherever the call is offered.
+export const planCredit =
+  `Upgrade to ${offer.setup.name} or ${offer.quickStart.name} within ${offer.session.creditDays} days of your call ` +
+  `and the full ${gbp(offer.session.price)} comes off the price.`;
 
 export const quickStartGuarantee = `Live within ${offer.quickStart.guaranteeDays} days, or we keep working free until it is.`;
 

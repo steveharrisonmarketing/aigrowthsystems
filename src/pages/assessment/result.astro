@@ -1,0 +1,94 @@
+---
+// The page a visitor sees after the questions: their audit, then one next step.
+// Until the audit engine is connected this shows sample content so the layout can be reviewed.
+import Base from '../../layouts/Base.astro';
+import Draft from '../../components/Draft.astro';
+import OfferButtons from '../../components/OfferButtons.astro';
+import { site } from '../../config/site';
+import { offer, gbp, planCredit } from '../../config/offer';
+
+const a = offer.session;
+
+const sample = {
+  score: 72,
+  meaning: 'Lots of room for AI to help you grow',
+  wins: [
+    {
+      title: 'Replying to enquiries',
+      problem: 'Enquiries wait until you’re free, and some go cold before you reply.',
+      fix: 'An AI assistant answers every enquiry within minutes and books the follow-up.',
+      grows: 'New customers',
+      effort: 'Low',
+    },
+    {
+      title: 'Following up quotes',
+      problem: 'Quotes go out, then nobody chases them.',
+      fix: 'Every quote gets a follow-up message a few days later, written in your voice.',
+      grows: 'Quotes turned into work',
+      effort: 'Low',
+    },
+    {
+      title: 'Chasing invoices',
+      problem: 'Late payments get chased when you remember.',
+      fix: 'Polite reminders go out on their own when a payment is late.',
+      grows: 'Getting paid sooner',
+      effort: 'Medium',
+    },
+  ],
+  firstStep: 'Start with enquiries. Write down the five questions customers ask most, and your usual answers. That’s what the assistant learns from.',
+};
+---
+
+<Base title={`Your ${site.auditName.replace('Free ', '')} | AI Growth Systems`} description="Your AI score and top 3 quick wins." noindex landing>
+  <section class="section">
+    <div class="wrap narrow">
+      <Draft block>This is a sample result so you can review the layout. Real results replace it once the audit engine is connected.</Draft>
+
+      <span class="eyebrow mt-8">Your audit</span>
+      <div class="result-top mt-5">
+        <div class="score-ring score-ring--lg" style={`--score: ${sample.score}%`}><span class="gold-text">{sample.score}</span></div>
+        <div>
+          <h1 class="h2">Your AI score: {sample.score} out of 100</h1>
+          <p class="lead mt-3">{sample.meaning}.</p>
+        </div>
+      </div>
+
+      <h2 class="h3 mt-10">Your top 3 quick wins</h2>
+      <ol class="result-wins">
+        {sample.wins.map((win, i) => (
+          <li class="card">
+            <span class="step-n">{i + 1}</span>
+            <h3>{win.title}</h3>
+            <p><strong>Now:</strong> {win.problem}</p>
+            <p><strong>With AI:</strong> {win.fix}</p>
+            <p class="sample-grows">Helps with: <strong>{win.grows}</strong> · Effort to set up: {win.effort}</p>
+          </li>
+        ))}
+      </ol>
+
+      <h2 class="h3 mt-10">Where to start</h2>
+      <p class="lead mt-3">{sample.firstStep}</p>
+      <p class="small mt-4">We’ve emailed you a copy of this audit.</p>
+    </div>
+  </section>
+
+  {a.enabled && (
+    <section class="section section--raised">
+      <div class="wrap narrow">
+        <span class="eyebrow">Your next step</span>
+        <h2 class="mt-4">Turn this audit into a plan.</h2>
+        <p class="lead mt-4">{a.summary}</p>
+        <div class="card card--gold offer-card mt-8">
+          <h3>{a.name}</h3>
+          <p class="price mt-4">{gbp(a.price)}</p>
+          <ul class="tick-list mt-6">
+            {a.includes.map((item) => <li>{item}</li>)}
+          </ul>
+          <p class="mt-6" style="color: var(--text);"><strong>Your {gbp(a.price)} back:</strong> {planCredit}</p>
+          <OfferButtons id="session" buy={a.buy} checkoutUrl={a.checkoutUrl} price={a.price} callLabel="Book your free call first" />
+        </div>
+        <p class="mt-8">Want it done for you instead? <a class="text-link" href={site.setupUrl}>See {offer.setup.name}</a></p>
+      </div>
+    </section>
+  )}
+</Base>
