@@ -4,16 +4,38 @@
 interface Win {
   [key: string]: string | number;
 }
+// The newer fields are optional so that audits saved before they existed still display.
 interface Result {
   score: number;
   scoreMeaning: string;
   wins: Win[];
   firstStep: string;
   couldNotVerify: string[];
+  businessSummary?: string;
+  scoreBreakdown?: { area: string; score: number; why: string }[];
+  example?: { title: string; customerMessage: string; reply: string; note: string };
+  basedOn?: string[];
+  confidence?: string;
 }
 
 const $ = <T extends HTMLElement>(sel: string, root: ParentNode = document) => root.querySelector<T>(sel);
 const show = (el: HTMLElement | null, on: boolean) => el && (el.hidden = !on);
+const el = (tag: string, text: string, className = '') => {
+  const node = document.createElement(tag);
+  node.textContent = text;
+  if (className) node.className = className;
+  return node;
+};
+const setText = (sel: string, text: string) => {
+  const node = $(sel);
+  if (node) node.textContent = text;
+};
+
+const confidenceText: Record<string, string> = {
+  High: 'We had plenty to go on, so this audit is specific to your business.',
+  Medium: 'We had some information to go on. Tell us more and we can be more specific.',
+  Low: 'We had very little to go on, so this audit is short. Tell us more and we can be much more specific.',
+};
 
 function fill(data: { firstName: string; sample: boolean; result: Result }) {
   const r = data.result;
@@ -27,11 +49,48 @@ function fill(data: { firstName: string; sample: boolean; result: Result }) {
   document.querySelectorAll<HTMLElement>('[data-wins] > li').forEach((li, i) => {
     const win = r.wins[i];
     if (!win) return li.remove();
-    li.querySelectorAll<HTMLElement>('[data-w]').forEach((el) => (el.textContent = String(win[el.dataset.w!] ?? '')));
+    li.querySelectorAll<HTMLElement>('[data-w]').forEach((field) => (field.textContent = String(win[field.dataset.w!] ?? '')));
+    show(li.querySelector<HTMLElement>('.win-evidence'), Boolean(win.evidence));
   });
 
   const first = $('[data-first-step]');
   if (first) first.textContent = r.firstStep;
+
+  show($('[data-business-wrap]'), Boolean(r.businessSummary));
+  setText('[data-business]', r.businessSummary ?? '');
+
+  const breakdown = $('[data-breakdown]');
+  show($('[data-breakdown-wrap]'), Boolean(r.scoreBreakdown?.length));
+  if (breakdown && r.scoreBreakdown?.length) {
+    breakdown.replaceChildren(
+      ...r.scoreBreakdown.map((b) => {
+        const li = document.createElement('li');
+        const n = el('span', String(b.score), 'score-area-n');
+        n.append(el('small', '/20'));
+        const body = document.createElement('span');
+        body.append(el('strong', b.area), document.createElement('br'), b.why);
+        li.append(n, body);
+        return li;
+      }),
+    );
+  }
+
+  show($('[data-example-wrap]'), Boolean(r.example?.reply));
+  if (r.example) {
+    setText('[data-example-title]', r.example.title);
+    setText('[data-example-customer]', r.example.customerMessage);
+    setText('[data-example-reply]', r.example.reply);
+    setText('[data-example-note]', r.example.note);
+  }
+
+  const based = $('[data-based]');
+  show($('[data-based-wrap]'), Boolean(r.basedOn?.length));
+  if (based && r.basedOn?.length) based.replaceChildren(...r.basedOn.map((t) => el('li', t)));
+  const confidence = $('[data-confidence]');
+  if (confidence && r.confidence && confidenceText[r.confidence] && !data.sample) {
+    confidence.textContent = confidenceText[r.confidence];
+    show(confidence, true);
+  }
 
   const list = $('[data-unverified]');
   if (list && r.couldNotVerify.length) {
@@ -64,7 +123,7 @@ export function runResultPage() {
       if (n >= steps.length - 1) return;
       steps[n].classList.replace('is-active', 'is-done');
       steps[++n].classList.add('is-active');
-    }, 7000);
+    }, 25000);
   };
 
   const fail = (message?: string) => {
@@ -89,7 +148,7 @@ export function runResultPage() {
         show(loading, false);
         show(result, true);
         document.dispatchEvent(new CustomEvent('audit-completed'));
-      } else if (data.status === 'running' && tries < 45) {
+      } else if (data.status === 'running' && tries < 150) {
         setTimeout(() => load(tries + 1), 4000);
       } else if (data.status === 'missing') {
         fail('We couldn’t find that audit. The link may be incomplete.');

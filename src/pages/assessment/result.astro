@@ -19,11 +19,14 @@ const sample = sampleResult;
     <div class="wrap narrow" style="text-align: center;">
       <span class="eyebrow">Your audit</span>
       <h1 class="h2 mt-4">Writing your audit…</h1>
-      <p class="lead mt-4" style="margin-inline: auto;">This usually takes under a minute. Please keep this page open.</p>
+      <p class="lead mt-4" style="margin-inline: auto;">We read your website properly, so this takes a few minutes. Please keep this page open.</p>
       <ul class="load-steps" aria-live="polite">
         <li data-step>Reading your answers</li>
-        <li data-step>Looking at your business</li>
-        <li data-step>Finding your quick wins</li>
+        <li data-step>Reading your website</li>
+        <li data-step>Looking at what’s public about your business</li>
+        <li data-step>Working out your quick wins</li>
+        <li data-step>Writing an example for your business</li>
+        <li data-step>Checking every point against what we found</li>
       </ul>
     </div>
   </section>
@@ -53,12 +56,31 @@ const sample = sampleResult;
         </div>
       </div>
 
+      <div data-business-wrap>
+        <h2 class="h3 mt-10">What we understood about your business</h2>
+        <p class="lead mt-3" data-business>{sample.businessSummary}</p>
+      </div>
+
+      <div data-breakdown-wrap>
+        <h2 class="h3 mt-10">How your score adds up</h2>
+        <ul class="score-areas mt-4" data-breakdown>
+          {sample.scoreBreakdown.map((b) => (
+            <li>
+              <span class="score-area-n">{b.score}<small>/20</small></span>
+              <span><strong>{b.area}</strong><br />{b.why}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="small mt-3">A higher number means more room for AI to help in that area.</p>
+      </div>
+
       <h2 class="h3 mt-10">Your top 3 quick wins</h2>
       <ol class="result-wins" data-wins>
         {sample.wins.map((win, i) => (
           <li class="card">
             <span class="step-n">{i + 1}</span>
             <h3 data-w="title">{win.title}</h3>
+            <p class="win-evidence"><strong>What we saw:</strong> <span data-w="evidence">{win.evidence}</span></p>
             <p><strong>Now:</strong> <span data-w="problem">{win.problem}</span></p>
             <p><strong>With AI:</strong> <span data-w="fix">{win.fix}</span></p>
             <p><strong>What you’d use:</strong> <span data-w="tool">{win.tool}</span></p>
@@ -68,8 +90,28 @@ const sample = sampleResult;
         ))}
       </ol>
 
+      <div data-example-wrap>
+        <h2 class="h3 mt-10">An example made for your business</h2>
+        <div class="card example-card mt-4">
+          <p class="eyebrow" data-example-title>{sample.example.title}</p>
+          <p class="example-label mt-5">A customer writes</p>
+          <p class="example-msg" data-example-customer>{sample.example.customerMessage}</p>
+          <p class="example-label mt-5">Your AI assistant drafts, for you to approve</p>
+          <p class="example-msg example-msg--reply" data-example-reply>{sample.example.reply}</p>
+          <p class="small mt-4" data-example-note>{sample.example.note}</p>
+        </div>
+      </div>
+
       <h2 class="h3 mt-10">Where to start</h2>
       <p class="lead mt-3" data-first-step>{sample.firstStep}</p>
+
+      <div data-based-wrap>
+        <h2 class="h3 mt-10">What this audit is based on</h2>
+        <ul class="prose mt-3" data-based>
+          {sample.basedOn.map((item) => <li>{item}</li>)}
+        </ul>
+        <p class="small mt-3" data-confidence hidden></p>
+      </div>
 
       <div data-unverified-wrap hidden>
         <h2 class="h3 mt-10">What we couldn’t check</h2>

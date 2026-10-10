@@ -38,7 +38,13 @@ Audit engine (built 10 October 2026, tested locally with a sample result only):
 - **Live on the preview address since 10 October 2026:** `work` was merged into `main` and Cloudflare's automatic build published it (it takes about two minutes after a push). The live site has no API keys yet, so audits there return the sample result, no emails are sent and the spam check is skipped.
 - The Windows PC is signed in to Cloudflare through `wrangler login`.
 - Local database: `npm run db:local` creates it. Keys go in `.env` (see `.env.example`). With no `ANTHROPIC_API_KEY` a sample audit is returned; with no `RESEND_API_KEY` emails are skipped; with no Turnstile keys the spam check is skipped.
-- Model: `claude-sonnet-5-5` with web fetch (max 3 pages), structured output, low effort. The real AI call has not been run yet: test it as soon as a key exists and measure time and cost.
+- **Audit quality push (10 October 2026, evening).** Steve's instruction: the audit is the most important part of the funnel; go for the best output even if it costs more and takes longer, and scale back later if volume demands it.
+  - Model is now `claude-opus-5-5` at high effort, with web fetch (up to 8 pages) and web search (up to 5 searches), structured output. Settings are at the top of `src/lib/audit.ts`.
+  - Every quick win must carry evidence ("What we saw"). The result also has a business summary, a five-area score breakdown, one worked example written for the business, "what this is based on", a confidence level, and an honest short form when there is little to go on.
+  - Result page, email and sample updated to match. The loading screen now says it takes a few minutes.
+  - **Still untested with a real key.** First real runs must measure time and cost. Known risk: Cloudflare's free plan allows 10 ms of processor time per request, and a long streamed AI reply may exceed it; if so the options are the Workers Paid plan (ask Steve first) or a lighter way of reading the reply.
+  - Not built yet: a test bench that runs a list of test businesses and saves results side by side; a second "editor" pass over the draft.
+- **Two tiers.** The website gives the instant audit (paid API). For qualified leads, `/deep-audit <email or audit id>` (in `.claude/commands/`) pulls the lead from the database and writes a deeper audit plus a call presentation into `audits/drafts/` using Steve's Claude plan. `audits/` is not saved to GitHub because it holds personal data, so drafts stay on the computer that made them.
 - Not built yet: Kit sign-up, event log, Meta pixel, headline split test, Stripe, call booking.
 
 The old folder `~/Desktop/Claude/aigrowthsystems-site` on the Mac is a separate, older build. Work in `~/Projects/aigrowthsystems`.

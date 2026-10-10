@@ -44,11 +44,12 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (row.status === 'done' && row.result_json) return payload(JSON.parse(row.result_json), row.is_sample === 1);
 
-  // Claim the job so two open tabs don't both pay for it. A claim older than 3 minutes is treated as abandoned.
+  // Claim the job so two open tabs don't both pay for it. A claim older than 8 minutes is treated as abandoned
+  // (a deep audit can take several minutes).
   const claim = await db
     .prepare(
       `UPDATE audits SET status = 'running', started_at = strftime('%Y-%m-%dT%H:%M:%SZ', 'now')
-       WHERE id = ? AND (status IN ('pending', 'failed') OR (status = 'running' AND started_at < strftime('%Y-%m-%dT%H:%M:%SZ', 'now', '-3 minutes')))`,
+       WHERE id = ? AND (status IN ('pending', 'failed') OR (status = 'running' AND started_at < strftime('%Y-%m-%dT%H:%M:%SZ', 'now', '-8 minutes')))`,
     )
     .bind(id)
     .run();

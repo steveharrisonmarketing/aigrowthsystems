@@ -9,6 +9,9 @@ dist/
 .env.*
 !.env.example
 
+# audit drafts and test results: these hold leads' personal data, so they stay on this computer
+audits/
+
 # system files
 .DS_Store
 Thumbs.db
