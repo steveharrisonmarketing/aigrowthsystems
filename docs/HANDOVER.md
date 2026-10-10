@@ -48,7 +48,9 @@ The old folder `~/Desktop/Claude/aigrowthsystems-site` on the Mac is a separate,
 
 ## Waiting on Steve
 
-1. Does the look work? Changes to either page?
+Steve has seen the design on his phone and says it looks great. He has changes he wants to make and will list them in the next session (first session on his Mac). Phase 1 is not formally approved until those are done.
+
+1. His list of design and content changes.
 2. Approve or change the draft headings: "4 STEPS. IT STARTS WITH A FREE AUDIT." and "WHAT ARE SLOW REPLIES PUTTING AT RISK?"
 3. Approve or change the comparison table wording and the FAQ answers.
 4. Which tools and practices he really uses with client data (replaces the three placeholder data-safety points).
