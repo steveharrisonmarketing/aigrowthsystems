@@ -1,9 +1,109 @@
 ---
-import ComingSoon from '../components/ComingSoon.astro';
+// The audit questions. Reached from the email opt-in. No menu, so there is one thing to do.
+import Base from '../layouts/Base.astro';
+import Draft from '../components/Draft.astro';
+import { site } from '../config/site';
+
+const teamSizes = ['Just me', '2–5', '6–20', '20+'];
+const aiUse = ['Not yet', 'A little', 'Regularly'];
+const challenges = ['Getting more customers', 'Turning enquiries into sales', 'Too much admin', 'Not enough time', 'Something else'];
 ---
 
-<ComingSoon
-  title="Free AI Growth Audit"
-  phase="Phase 2"
-  text="The audit form and the instant result are built next, in Phase 2. This page is a stand-in so the buttons have somewhere to go."
-/>
+<Base title={`${site.auditName} | AI Growth Systems`} description="A few quick questions about your business. About 2 minutes." noindex landing>
+  <section class="section">
+    <div class="wrap narrow">
+      <span class="eyebrow">{site.auditName}</span>
+      <h1 class="h2 mt-4">Tell us about your business.</h1>
+      <p class="lead mt-4">About 2 minutes. Your audit appears on screen straight after and is emailed to you.</p>
+
+      <form class="q-form" data-audit-form novalidate>
+        <div class="grid grid-2">
+          <div>
+            <label class="q" for="q-name">First name</label>
+            <input class="field" id="q-name" name="firstName" type="text" autocomplete="given-name" required />
+          </div>
+          <div>
+            <label class="q" for="q-email">Email</label>
+            <input class="field" id="q-email" name="email" type="email" autocomplete="email" placeholder="you@yourbusiness.co.uk" required />
+          </div>
+        </div>
+
+        <div>
+          <label class="q" for="q-site">Website</label>
+          <input class="field" id="q-site" name="website" type="text" inputmode="url" autocomplete="url" placeholder="yourbusiness.co.uk" />
+          <p class="hint">No website? Leave this blank.</p>
+        </div>
+
+        <fieldset>
+          <legend>Team size</legend>
+          <div class="choices">
+            {teamSizes.map((v) => (
+              <label class="choice"><input type="radio" name="teamSize" value={v} required /><span>{v}</span></label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div>
+          <label class="q" for="q-tasks">What tasks take the most time in your business?</label>
+          <textarea class="field" id="q-tasks" name="tasks" placeholder="e.g. replying to emails, social media posts, chasing invoices, booking appointments" required></textarea>
+        </div>
+
+        <fieldset>
+          <legend>Have you used any AI tools before?</legend>
+          <div class="choices">
+            {aiUse.map((v) => (
+              <label class="choice"><input type="radio" name="aiUse" value={v} required /><span>{v}</span></label>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>What’s your biggest business challenge right now?</legend>
+          <div class="choices">
+            {challenges.map((v) => (
+              <label class="choice"><input type="radio" name="challenge" value={v} required /><span>{v}</span></label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div>
+          <label class="q" for="q-more">Anything else you’d like us to know? <span style="color: var(--subtle); font-weight: 400;">(optional)</span></label>
+          <textarea class="field" id="q-more" name="more"></textarea>
+        </div>
+
+        <label class="check">
+          <input type="checkbox" name="marketing" />
+          <span>Also send me occasional emails about using AI in a business. You can unsubscribe at any time.</span>
+        </label>
+
+        <div>
+          <p class="hint" data-form-error role="alert" style="color: var(--error); display: none; margin: 0 0 12px;">Please answer the questions marked above.</p>
+          <button class="btn btn-primary" type="submit">Get my free AI Growth Audit</button>
+          <p class="small mt-4">We use your answers to write your audit and email it to you. <a href="/privacy">Privacy</a></p>
+        </div>
+        <p data-form-pending style="display: none;"><Draft block>Your answers are fine, but the audit itself isn’t connected yet. That’s the next thing to be built, so nothing has been sent or saved.</Draft></p>
+      </form>
+      <Draft>The questions are your original six, plus first name. “Biggest challenge” is now a set of buttons because tapping is quicker than typing. Tell me if you’d rather have a text box.</Draft>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-audit-form]');
+  const email = document.getElementById('q-email') as HTMLInputElement | null;
+  // The email typed on the previous page is carried over.
+  try {
+    const start = JSON.parse(sessionStorage.getItem('auditStart') || '{}');
+    if (email && start.email) email.value = start.email;
+  } catch {}
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const error = form.querySelector<HTMLElement>('[data-form-error]');
+    const pending = form.querySelector<HTMLElement>('[data-form-pending]');
+    const ok = form.checkValidity();
+    if (error) error.style.display = ok ? 'none' : 'block';
+    if (pending) pending.style.display = ok ? 'block' : 'none';
+    if (!ok) form.querySelector<HTMLElement>(':invalid:not(fieldset)')?.focus();
+  });
+</script>

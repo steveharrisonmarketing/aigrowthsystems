@@ -1,0 +1,32 @@
+---
+// A clearly labelled sample of the audit. Replaced by a real screenshot once the audit is built.
+const sampleWins = [
+  { title: 'Replying to enquiries', fix: 'AI drafts each reply for you to check and send.', effort: 'Low' },
+  { title: 'Social media posts', fix: 'AI turns one idea into a week of posts in your own voice.', effort: 'Low' },
+  { title: 'Chasing invoices', fix: 'Reminders go out on their own when a payment is late.', effort: 'Medium' },
+];
+---
+
+<div class="card sample">
+  <span class="sample-tag">Sample</span>
+  <div class="sample-top">
+    <div class="score-ring"><span class="gold-text">72</span></div>
+    <div>
+      <p class="sample-label">AI score</p>
+      <p class="sample-meaning">Lots of room for AI to help</p>
+    </div>
+  </div>
+  <p class="sample-label mt-8">Top 3 quick wins</p>
+  <ol class="sample-wins">
+    {sampleWins.map((win, i) => (
+      <li>
+        <span class="step-n">{i + 1}</span>
+        <div>
+          <p class="sample-win">{win.title}</p>
+          <p>{win.fix}</p>
+          <p class="small">Effort to set up: {win.effort}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>

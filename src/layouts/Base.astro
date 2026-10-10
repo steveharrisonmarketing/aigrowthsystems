@@ -17,6 +17,16 @@ interface Props {
 }
 const { title, description, noindex = false, landing = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  url: site.url,
+  email: site.email,
+  areaServed: 'GB',
+  founder: { '@type': 'Person', name: site.founder },
+};
 ---
 
 <!doctype html>
@@ -28,11 +38,16 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {(noindex || site.showDraftNotes) && <meta name="robots" content="noindex" />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#0B0B0D" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="en_GB" />
+    <script type="application/ld+json" set:html={JSON.stringify(org)} />
+    <slot name="head" />
   </head>
   <body>
     <Header minimal={landing} />

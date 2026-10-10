@@ -20,6 +20,22 @@ const showFounding = f.enabled;
 const showCapacity = offer.capacity.enabled && offer.capacity.newClientsThisMonth !== null;
 const showSmaller = q.enabled || a.enabled;
 
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: s.name,
+  description: s.summary,
+  provider: { '@type': 'Organization', name: site.name, url: site.url },
+  areaServed: 'GB',
+  offers: [
+    s.enabled && { name: s.name, price: s.price },
+    q.enabled && { name: q.name, price: q.price },
+    a.enabled && { name: a.name, price: a.price },
+  ]
+    .filter((o): o is { name: string; price: number } => Boolean(o))
+    .map((o) => ({ '@type': 'Offer', name: o.name, price: o.price, priceCurrency: 'GBP' })),
+};
+
 const faqs = [
   {
     q: 'What happens on the free call?',
@@ -54,6 +70,8 @@ const faqs = [
   title="AI Business Setup | AI set up in your business in 6 weeks"
   description="AI Business Setup: we build your AI set-up, then coach you one-to-one to use it. For UK owner-run businesses. Fixed price, start any week."
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(service)} />
+
   <!-- Hero -->
   <section class="hero hero--page">
     <div class="wrap">
@@ -244,7 +262,7 @@ const faqs = [
           <p class="mt-4">
             Or {s.instalments.count} payments of <strong>{gbp(s.instalments.amount)}</strong>, which is {gbp(instalmentTotal)} in total.
           </p>
-          {!showFounding && <OfferButtons id="setup" buy={s.buy} checkoutUrl={s.checkoutUrl} price={s.price} />}
+          <OfferButtons id="setup" buy={s.buy} checkoutUrl={s.checkoutUrl} price={s.price} />
         </div>
       </div>
       <p class="small mt-6 reveal" style="text-align: center;">These are test prices and may change. {offer.vatNote}</p>

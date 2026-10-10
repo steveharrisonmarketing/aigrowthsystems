@@ -29,7 +29,7 @@ See the v2.3 block at the top of `CLAUDE.md`. Built and ready for Steve's review
 - `/ai-business-setup` rebuilt as the offers page: one-to-one, five offers read from `src/config/offer.ts`.
 - Buy buttons appear when a Stripe payment link is pasted into an offer's `checkoutUrl`.
 
-Next: blog page, then the audit questionnaire and instant result, then the follow-up page with the £297 offer and call booking.
+The work order and the scores for each page are in `docs/REVIEW.md`. Work through that order; re-score after each round.
 
 The old folder `~/Desktop/Claude/aigrowthsystems-site` on the Mac is a separate, older build. Work in `~/Projects/aigrowthsystems`.
 

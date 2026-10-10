@@ -26,6 +26,10 @@ const cards = [
 ].filter(Boolean) as { name: string; price: string; text: string; href: string; gold?: boolean }[];
 
 const faqs = [
+  {
+    q: `What is the ${site.auditName}?`,
+    a: 'A short online questionnaire about your business. From your answers we give you an AI score out of 100, the top 3 jobs where AI could save you the most time, and a first step to take. It’s free and takes about 2 minutes.',
+  },
   { q: 'Is the audit really free?', a: 'Yes. There’s no card and no payment at any point in the audit, and no obligation to buy anything afterwards.' },
   { q: 'How long does it take?', a: 'About 2 minutes to answer the questions. Your audit appears on screen a few minutes later and is emailed to you as well.' },
   { q: 'Do I need to be technical?', a: 'No. The questions are about your business, not about AI, and the audit is written in plain English.' },

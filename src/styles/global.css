@@ -321,6 +321,35 @@ h3, .h3 { font-size: clamp(20px, 2.2vw, 24px); letter-spacing: -0.03em; line-hei
 .footer-bottom--bare { margin-top: 0; padding-top: 0; border-top: 0; }
 .footer-legal { display: flex; gap: 20px; }
 
+.hero-split { position: relative; z-index: 1; display: grid; width: 100%; }
+.hero-sample { padding: 0 clamp(20px, 5vw, 72px) clamp(28px, 5vw, 72px); }
+.hero-sample .sample { background: rgba(23, 24, 28, 0.92); }
+@media (min-width: 1040px) {
+  .hero-split { grid-template-columns: 1.25fr 1fr; align-items: center; }
+  .hero-split .hero-content { padding-right: 24px; }
+  .hero-split h1 { font-size: clamp(40px, 4.6vw, 60px); }
+  .hero-sample { padding: 40px 48px 40px 0; }
+}
+.small a { color: inherit; }
+
+/* ── Audit questions ────────────────────────────────────────────────────── */
+.q-form { display: grid; gap: 28px; margin-top: 40px; }
+.q-form label.q, .q-form legend { display: block; color: var(--text); font-weight: 600; margin-bottom: 10px; padding: 0; }
+.q-form fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.q-form .hint { font-size: 14px; color: var(--subtle); margin-top: 8px; }
+.q-form textarea.field { min-height: 96px; resize: vertical; }
+.choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.choice { position: relative; }
+.choice input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.choice span {
+  display: inline-flex; align-items: center; min-height: 48px; padding: 10px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 999px; color: var(--text); font-weight: 500;
+}
+.choice input:checked + span { border-color: var(--gold); background: rgba(227, 179, 65, 0.12); color: var(--gold-light); }
+.choice input:focus-visible + span { box-shadow: 0 0 0 3px rgba(227, 179, 65, 0.3); }
+.check { display: flex; gap: 12px; align-items: flex-start; color: var(--muted); font-size: 15px; }
+.check input { width: 20px; height: 20px; margin-top: 3px; accent-color: #e3b341; flex: none; }
+
 /* ── Offers, founder photo ──────────────────────────────────────────────── */
 .cross-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
 .cross-list li { position: relative; padding-left: 30px; }

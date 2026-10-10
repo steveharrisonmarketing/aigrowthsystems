@@ -4,6 +4,7 @@
 import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
 import AuditPreview from '../components/AuditPreview.astro';
+import SampleAudit from '../components/SampleAudit.astro';
 import AuditStart from '../components/AuditStart.astro';
 import { site } from '../config/site';
 
@@ -41,11 +42,14 @@ const faqs = [
       <div class="hero-frame">
         <div class="hero-visual" aria-hidden="true"></div>
         <div class="hero-shade" aria-hidden="true"></div>
-        <div class="hero-content">
-          <span class="eyebrow">{site.auditName}</span>
-          <h1 data-headline>{site.headlines[site.defaultHeadline]}</h1>
-          <p class="lead">{site.heroSub}</p>
-          <AuditStart id="hero-email" pulse />
+        <div class="hero-split">
+          <div class="hero-content">
+            <span class="eyebrow">{site.auditName}</span>
+            <h1 data-headline>{site.headlines[site.defaultHeadline]}</h1>
+            <p class="lead">{site.heroSub}</p>
+            <AuditStart id="hero-email" pulse />
+          </div>
+          <div class="hero-sample"><SampleAudit /></div>
         </div>
       </div>
     </div>
@@ -53,7 +57,7 @@ const faqs = [
 
   <section class="section section--raised">
     <div class="wrap">
-      <AuditPreview />
+      <AuditPreview sample={false} />
     </div>
   </section>
 
@@ -71,6 +75,9 @@ const faqs = [
             <p>{step.text}</p>
           </div>
         ))}
+      </div>
+      <div class="btn-row mt-10 reveal">
+        <a class="btn btn-primary" href="#start">Get my free AI Growth Audit</a>
       </div>
     </div>
   </section>
@@ -112,4 +119,9 @@ const faqs = [
   const h = new URLSearchParams(location.search).get('h')?.toLowerCase();
   const el = document.querySelector('[data-headline]');
   if (el && (h === 'a' || h === 'b' || h === 'c')) el.textContent = site.headlines[h];
+
+  // Buttons that jump back to the top put the cursor in the email box.
+  document.querySelectorAll('a[href="#start"]').forEach((a) =>
+    a.addEventListener('click', () => setTimeout(() => document.getElementById('hero-email')?.focus({ preventScroll: true }), 50)),
+  );
 </script>

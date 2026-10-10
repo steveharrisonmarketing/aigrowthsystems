@@ -2,6 +2,10 @@
 
 export const site = {
   name: 'AI Growth Systems',
+  url: 'https://aigrowthsystems.co.uk',
+  founder: 'Steve Harrison',
+  // Pages listed in sitemap.xml. Stand-in pages are left out until they are real.
+  sitemapPages: ['/', '/ai-business-setup'],
   email: 'info@aigrowthsystems.co.uk',
   auditName: 'Free AI Growth Audit',
   auditUrl: '/assessment',

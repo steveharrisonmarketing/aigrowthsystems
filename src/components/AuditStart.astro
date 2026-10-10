@@ -15,7 +15,7 @@ const { id, pulse = false } = Astro.props;
   </div>
   <button class:list={['btn', 'btn-primary', { 'btn-pulse': pulse }]} type="submit">Get my free AI Growth Audit</button>
 </form>
-<p class="small mt-4">{site.auditSmallPrint}</p>
+<p class="small mt-4">{site.auditSmallPrint} We’ll email your audit to this address. <a href="/privacy">Privacy</a></p>
 
 <script>
   // Carries the email into the audit questions without putting it in the address bar.
