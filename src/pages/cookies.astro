@@ -1,5 +1,28 @@
 ---
-import ComingSoon from '../components/ComingSoon.astro';
+import Legal from '../layouts/Legal.astro';
+import Draft from '../components/Draft.astro';
 ---
 
-<ComingSoon title="Cookies" phase="Phase 5" text="The cookies page and the consent banner are built in Phase 5. This is a stand-in." />
+<Legal title="Cookies" description="The cookies and similar storage AI Growth Systems uses, and how to change your choice." updated="10 October 2026">
+  <h2>The short version</h2>
+  <p>This site works without cookies. We ask before setting the one optional cookie we use, and you can change your mind at any time.</p>
+  <p><button class="btn btn-secondary btn-sm" type="button" data-cookie-open>Change my cookie choice</button></p>
+
+  <h2>Essential storage</h2>
+  <p>These are needed for the site to work and are always on:</p>
+  <ul>
+    <li><strong>Your cookie choice.</strong> Stored in your browser so we don’t ask again.</li>
+    <li><strong>Your audit in progress.</strong> The email you type is held in your browser until you close the tab, so it carries over to the questions.</li>
+    <li><strong>Spam protection.</strong> The audit form uses a check that tells people from bots.</li>
+  </ul>
+
+  <h2>Marketing cookie (optional)</h2>
+  <p>
+    If you accept, the Meta pixel is loaded. It sets cookies that let us see which of our adverts on Facebook and Instagram led
+    to a completed audit or a booked call. If you reject, it is never loaded.
+  </p>
+  <Draft>The Meta pixel isn’t installed yet. This section describes what will happen once it is; nothing is set today whichever button is pressed.</Draft>
+
+  <h2>Analytics</h2>
+  <p>We count page views in a way that uses no cookies and doesn’t identify you.</p>
+</Legal>

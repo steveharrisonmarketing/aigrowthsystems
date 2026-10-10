@@ -1,0 +1,59 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import AuditBox from '../../components/AuditBox.astro';
+import { site } from '../../config/site';
+import { visiblePosts, formatDate, readingMinutes, type Post } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await visiblePosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+const published = d.status === 'published';
+
+const article = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: d.title,
+  description: d.description,
+  datePublished: d.publishDate.toISOString(),
+  dateModified: (d.updated ?? d.publishDate).toISOString(),
+  author: { '@type': 'Person', name: site.founder, url: `${site.url}/about` },
+  publisher: { '@type': 'Organization', name: site.name, url: site.url },
+  mainEntityOfPage: `${site.url}/blog/${post.id}`,
+};
+---
+
+<Base title={`${d.title} | AI Growth Systems`} description={d.description} noindex={!published}>
+  {published && <script slot="head" type="application/ld+json" set:html={JSON.stringify(article)} />}
+
+  <article class="section">
+    <div class="wrap narrow">
+      <nav class="post-meta" aria-label="Breadcrumb"><a href="/blog">Blog</a> / {d.category}</nav>
+      <h1 class="h2 mt-4">{d.title}</h1>
+      <p class="post-meta mt-4">
+        By <a href="/about">{site.founder}</a> · {formatDate(d.publishDate)}
+        {d.updated && ` · Updated ${formatDate(d.updated)}`} · {readingMinutes(post.body)} min read
+        {!published && ' · Not published'}
+      </p>
+
+      <div class="prose mt-10"><Content /></div>
+
+      {d.sources.length > 0 && (
+        <div class="prose mt-10">
+          <h2>Sources</h2>
+          <ul>{d.sources.map((src) => <li><a href={src} rel="noopener">{src}</a></li>)}</ul>
+        </div>
+      )}
+
+      <div class="mt-10"><AuditBox /></div>
+    </div>
+  </article>
+</Base>

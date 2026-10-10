@@ -20,6 +20,9 @@ export const site = {
   // that needs Steve's OK or real content. Must be false before go-live.
   showDraftNotes: true,
 
+  // The cookie choice banner. Must be on before the Facebook pixel is added or any ads run.
+  cookieBanner: true,
+
   nav: [
     { label: 'AI Business Setup', href: '/ai-business-setup' },
     { label: 'Blog', href: '/blog' },

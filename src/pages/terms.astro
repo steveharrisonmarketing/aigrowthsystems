@@ -1,5 +1,64 @@
 ---
-import ComingSoon from '../components/ComingSoon.astro';
+import Legal from '../layouts/Legal.astro';
+import Draft from '../components/Draft.astro';
+import { site } from '../config/site';
+import { offer, gbp, instalmentTotal, guarantee, quickStartGuarantee } from '../config/offer';
+const s = offer.setup;
 ---
 
-<ComingSoon title="Terms" phase="Phase 5" text="The terms are drafted in Phase 5 for Steve to check. This is a stand-in." />
+<Legal title="Terms" description="The terms for using this website and buying services from AI Growth Systems." updated="10 October 2026">
+  <h2>Who we are</h2>
+  <p>This website is run by {site.name}. Contact: <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+  <Draft>Add the legal name and address of the business.</Draft>
+
+  <h2>The {site.auditName}</h2>
+  <p>
+    The audit is free. It is written by an AI system from your answers and from public information, and it is general guidance,
+    not professional advice. Time savings in it are estimates. We don’t promise any particular result from acting on it.
+  </p>
+
+  <h2>Our paid services</h2>
+  <p>Our services are for businesses, not consumers. By buying, you confirm you are buying for your business.</p>
+  <ul>
+    <li><strong>{offer.session.name}:</strong> {gbp(offer.session.price)}, paid in full before the session.</li>
+    <li><strong>{offer.quickStart.name}:</strong> {gbp(offer.quickStart.price)}, paid in full before work starts.</li>
+    <li>
+      <strong>{s.name}:</strong> {gbp(s.price)} paid in full before work starts, or {s.instalments.count} monthly payments of
+      {gbp(s.instalments.amount)} ({gbp(instalmentTotal)} in total).
+    </li>
+    <li><strong>{offer.partner.name}:</strong> {gbp(offer.partner.pricePerMonth)} a month, paid monthly in advance. You can cancel at any time and it ends at the close of the month you’ve paid for.</li>
+  </ul>
+  <p>We are not VAT-registered, so no VAT is added to these prices.</p>
+  <Draft>Check with your accountant whether charging more for instalments brings consumer-credit rules into play for sole traders and small partnerships.</Draft>
+
+  <h2>Founding client price</h2>
+  <p>
+    The founding client price of {gbp(s.founding.price)} is for our first {s.founding.places} {s.name} clients. In return you
+    agree that we may publish an honest account of how the set-up went in your business, with your business name, after you
+    have seen it.
+  </p>
+
+  <h2>Our guarantees</h2>
+  <p><strong>{s.name}:</strong> “{guarantee}”</p>
+  <p><strong>{offer.quickStart.name}:</strong> “{quickStartGuarantee}”</p>
+  <p>
+    These guarantees cover delivery and use. They depend on you attending the calls and giving us the access and information
+    we ask for in good time. They are not a promise of extra enquiries, sales or income.
+  </p>
+
+  <h2>Cancellations and refunds</h2>
+  <Draft block>Not written yet. Decide: can a client cancel before work starts and get a refund? What happens to instalments if they stop part-way? How much notice to move a call?</Draft>
+
+  <h2>What you own</h2>
+  <p>Everything we build for your business is yours to keep using once it is paid for. Our templates and methods stay ours, and you may use them inside your own business.</p>
+
+  <h2>Tools from other companies</h2>
+  <p>Your set-up uses AI tools and services run by other companies. You hold your own accounts with them, pay their fees, and are bound by their terms. We can’t be responsible for changes they make.</p>
+
+  <h2>Our responsibility to you</h2>
+  <Draft block>Liability wording needs to come from a solicitor or a reviewed template. Nothing is written here yet.</Draft>
+
+  <h2>Law</h2>
+  <p>These terms are governed by the law of England and Wales.</p>
+  <Draft>Confirm this is right for where the business is based.</Draft>
+</Legal>

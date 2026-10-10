@@ -59,3 +59,24 @@ Each page is scored out of 10 against the same criteria after every round of cha
 | Blog has no posts; About is a stand-in; no share images | SEO and AEO | Build + Steve's material |
 | Speed not measured | Speed | PageSpeed test once pushed to the preview address |
 | Founder photo is 200 pixels | Trust | Steve |
+
+## Round 2 – 10 October 2026
+
+| Criterion | Landing | Home | Offers | Blog |
+|---|---|---|---|---|
+| Accuracy | 9 | 8 | 7 | 8 |
+| Cold-traffic conversion | 7 | 7 | 6 | n/a |
+| SEO and AEO | n/a | 7 | 6 | 5 (no real posts) |
+| Trust and legal | 7 | 7 | 7 | 7 |
+| Speed and phone | 8 | 8 | 8 | 8 |
+| Clarity | 9 | 8 | 8 | 8 |
+
+### Built in this round
+
+- Blog: post rules (a post without something original, or with a description over 155 characters, stops the build), list page, post page with article structured data, latest posts on the home page, posts added to the sitemap when published. One example post, visible in review mode only.
+- Cookie banner: Accept, Reject and Settings at equal size; choice stored in the browser; reopened from "Cookie settings" in the footer. The Meta pixel is not installed, so nothing loads on Accept yet.
+- Privacy, cookies and terms pages drafted, with gaps marked for Steve (legal name and address, retention period, refunds, liability wording).
+
+### Still open
+
+Everything in the round 1 table except the legal drafts, the cookie banner and the blog structure. The biggest single gap is that the audit does not produce a result.

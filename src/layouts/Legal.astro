@@ -1,0 +1,25 @@
+---
+// Layout for the privacy, cookies and terms pages.
+import Base from './Base.astro';
+import Draft from '../components/Draft.astro';
+interface Props {
+  title: string;
+  description: string;
+  updated: string;
+}
+const { title, description, updated } = Astro.props;
+---
+
+<Base title={`${title} | AI Growth Systems`} description={description}>
+  <section class="section">
+    <div class="wrap narrow">
+      <h1 class="h2">{title}</h1>
+      <p class="post-meta mt-4">Last updated {updated}</p>
+      <Draft block>
+        This is a first draft written to match how the site is planned to work. It is not legal advice. Please read it, fill the
+        gaps marked “Draft”, and have it checked before the site goes live.
+      </Draft>
+      <div class="prose mt-10"><slot /></div>
+    </div>
+  </section>
+</Base>

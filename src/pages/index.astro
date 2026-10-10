@@ -1,13 +1,14 @@
 ---
 // Home page. Main action: start the Free AI Growth Audit. Second: see the paid options.
 import Base from '../layouts/Base.astro';
-import Draft from '../components/Draft.astro';
 import AuditStart from '../components/AuditStart.astro';
 import AuditPreview from '../components/AuditPreview.astro';
 import AboutSteve from '../components/AboutSteve.astro';
 import Faq from '../components/Faq.astro';
 import { site } from '../config/site';
 import { offer, gbp } from '../config/offer';
+import PostCard from '../components/PostCard.astro';
+import { visiblePosts } from '../lib/posts';
 
 const s = offer.setup;
 
@@ -42,7 +43,7 @@ const faqs = [
   },
 ];
 
-const builds = ['Post 1', 'Post 2', 'Post 3'];
+const latest = (await visiblePosts()).slice(0, 3);
 ---
 
 <Base
@@ -123,25 +124,21 @@ const builds = ['Post 1', 'Post 2', 'Post 3'];
     </div>
   </section>
 
-  <!-- Latest posts -->
-  <section class="section section--raised">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="eyebrow">From the blog</span>
-        <h2>See what we’re building.</h2>
+  <!-- Latest posts: hidden until there is at least one -->
+  {latest.length > 0 && (
+    <section class="section section--raised">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">From the blog</span>
+          <h2>See what we’re building.</h2>
+        </div>
+        <div class="grid grid-3">
+          {latest.map((post) => <PostCard post={post} />)}
+        </div>
+        <p class="mt-8 reveal"><a class="text-link" href="/blog">All posts</a></p>
       </div>
-      <div class="grid grid-3">
-        {builds.map((b) => (
-          <div class="reveal">
-            <div class="video-thumb"><span class="play" aria-hidden="true"></span></div>
-            <p class="video-title">{b}</p>
-          </div>
-        ))}
-      </div>
-      <Draft>Stand-in cards. The 3 latest posts appear here once the blog has posts.</Draft>
-      <p class="mt-8 reveal"><a class="text-link" href="/blog">All posts</a></p>
-    </div>
-  </section>
+    </section>
+  )}
 
   <!-- Testimonials and "what we're seeing in audits" stay hidden until real ones exist. -->
 

@@ -1,5 +1,62 @@
 ---
-import ComingSoon from '../components/ComingSoon.astro';
+import Legal from '../layouts/Legal.astro';
+import Draft from '../components/Draft.astro';
+import { site } from '../config/site';
 ---
 
-<ComingSoon title="Privacy" phase="Phase 5" text="The privacy notice is drafted in Phase 5 for Steve to check. This is a stand-in." />
+<Legal title="Privacy notice" description="How AI Growth Systems uses the information you give us." updated="10 October 2026">
+  <h2>Who we are</h2>
+  <p>
+    {site.name} is responsible for the personal information described here. You can contact us at
+    <a href={`mailto:${site.email}`}>{site.email}</a>.
+  </p>
+  <Draft>Add the legal name of the business and its address. If you are registered with the ICO, add the registration number.</Draft>
+
+  <h2>What we collect and why</h2>
+  <h3>When you take the {site.auditName}</h3>
+  <ul>
+    <li>Your first name and email address, so we can send your audit and reply to you.</li>
+    <li>Your website address and your answers to the questions, so we can write your audit.</li>
+    <li>Which page or advert brought you here, so we know which of our marketing is useful.</li>
+  </ul>
+  <p>We use this because you asked for the audit, and because we have a legitimate interest in following up about it.</p>
+
+  <h3>When you ask for marketing emails</h3>
+  <p>If you tick the box, we send occasional emails about using AI in a business. We only do this with your consent, and every email has an unsubscribe link.</p>
+
+  <h3>When you book a call or become a client</h3>
+  <p>Your name, contact details, the time of your call, and the details needed to invoice you and deliver the work. We use this to carry out our agreement with you and to keep the records the law requires.</p>
+
+  <h3>When you visit the site</h3>
+  <p>We count page views in a way that doesn’t use cookies or identify you. If you accept the marketing cookie, Meta (Facebook and Instagram) receives information about your visit. See our <a href="/cookies">cookies page</a>.</p>
+
+  <h2>How your audit is written</h2>
+  <p>
+    Your instant audit is written by an AI system from your answers and from public pages of your website. It is general guidance
+    about where AI could help. It doesn’t make decisions about you, and you can ask a person to look at it by emailing us.
+  </p>
+
+  <h2>Who we share it with</h2>
+  <p>We don’t sell your information. We share it only with the companies that run the services we use, and only so they can provide those services:</p>
+  <ul>
+    <li>website hosting and database;</li>
+    <li>the AI provider that writes the audit;</li>
+    <li>email sending and our email list;</li>
+    <li>call booking;</li>
+    <li>payments;</li>
+    <li>advertising measurement, only if you accept the marketing cookie.</li>
+  </ul>
+  <p>Some of these companies are based outside the UK. Where that is the case, the transfer is covered by safeguards recognised under UK data protection law.</p>
+  <Draft>Each company is named here as its service is connected (planned: Cloudflare, Anthropic, Resend, Kit, Calendly, Stripe, Meta). Confirm each one’s terms cover international transfers.</Draft>
+
+  <h2>How long we keep it</h2>
+  <p>We keep audit answers and results for 24 months, then delete them. We keep client and invoice records for as long as tax law requires. You can ask us to delete your information sooner.</p>
+  <Draft>24 months is a suggestion. Tell me the period you want.</Draft>
+
+  <h2>Your rights</h2>
+  <p>
+    You can ask to see the information we hold about you, have it corrected or deleted, object to how we use it, or withdraw
+    consent to marketing at any time. Email <a href={`mailto:${site.email}`}>{site.email}</a> and we’ll reply within one month.
+  </p>
+  <p>If you’re unhappy with how we’ve handled your information, you can complain to the Information Commissioner’s Office at <a href="https://ico.org.uk" rel="noopener">ico.org.uk</a>.</p>
+</Legal>

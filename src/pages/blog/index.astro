@@ -1,9 +1,36 @@
 ---
-import ComingSoon from '../../components/ComingSoon.astro';
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import AuditBox from '../../components/AuditBox.astro';
+import Draft from '../../components/Draft.astro';
+import { visiblePosts } from '../../lib/posts';
+
+const posts = await visiblePosts();
 ---
 
-<ComingSoon
-  title="Blog"
-  phase="Phase 4"
-  text="Daily posts and build videos arrive in Phase 4. This page is a stand-in."
-/>
+<Base
+  title="Blog | AI Growth Systems"
+  description="Real AI builds and plain-English guides for UK businesses: automations, AI marketing, data safety and tool reviews."
+  noindex={posts.length === 0}
+>
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Blog</span>
+        <h1 class="h2 mt-4">AI at work in real businesses.</h1>
+        <p class="lead">What we’re building, what works and what doesn’t, in plain English.</p>
+      </div>
+
+      {posts.length > 0 ? (
+        <div class="grid grid-3">
+          {posts.map((post) => <PostCard post={post} />)}
+        </div>
+      ) : (
+        <p class="lead">The first posts are on their way.</p>
+      )}
+      <Draft>Posts marked “Not published” only show while the site is in review. Category filters and search are added once there are enough posts to need them.</Draft>
+
+      <div class="mt-10"><AuditBox /></div>
+    </div>
+  </section>
+</Base>

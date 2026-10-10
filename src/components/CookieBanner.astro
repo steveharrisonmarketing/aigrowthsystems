@@ -1,0 +1,63 @@
+---
+// Cookie choice: Accept, Reject and Settings, all the same size. Nothing optional loads before a choice.
+// Other scripts read the choice from localStorage "cookieConsent" ("accepted" or "rejected")
+// or listen for the "cookie-consent" event. Reopened from the "Cookie settings" link in the footer.
+---
+
+<div class="cookie-banner" data-cookie-banner role="dialog" aria-label="Cookie choice" hidden>
+  <p>
+    We’d like to use one marketing cookie to see which of our adverts are useful. It’s only set if you accept.{' '}
+    <a href="/cookies">Cookie details</a>
+  </p>
+  <div class="cookie-actions">
+    <button class="btn btn-secondary btn-sm" type="button" data-cookie="accepted">Accept</button>
+    <button class="btn btn-secondary btn-sm" type="button" data-cookie="rejected">Reject</button>
+    <button class="btn btn-secondary btn-sm" type="button" data-cookie-more aria-expanded="false">Settings</button>
+  </div>
+  <div class="cookie-settings" data-cookie-panel hidden>
+    <label class="check"><input type="checkbox" checked disabled /><span>Essential: needed for the site to work. Always on.</span></label>
+    <label class="check"><input type="checkbox" data-cookie-marketing /><span>Marketing: lets us measure our adverts on Facebook and Instagram.</span></label>
+    <div><button class="btn btn-secondary btn-sm" type="button" data-cookie-save>Save my choice</button></div>
+  </div>
+</div>
+
+<script>
+  const KEY = 'cookieConsent';
+  const banner = document.querySelector<HTMLElement>('[data-cookie-banner]');
+  const panel = banner?.querySelector<HTMLElement>('[data-cookie-panel]');
+  const marketing = banner?.querySelector<HTMLInputElement>('[data-cookie-marketing]');
+  const read = () => {
+    try {
+      return localStorage.getItem(KEY);
+    } catch {
+      return null;
+    }
+  };
+  const choose = (value: string) => {
+    try {
+      localStorage.setItem(KEY, value);
+    } catch {}
+    if (banner) banner.hidden = true;
+    document.dispatchEvent(new CustomEvent('cookie-consent', { detail: value }));
+  };
+
+  if (banner && !read()) banner.hidden = false;
+
+  banner?.querySelectorAll<HTMLButtonElement>('[data-cookie]').forEach((b) => b.addEventListener('click', () => choose(b.dataset.cookie!)));
+  banner?.querySelector<HTMLButtonElement>('[data-cookie-more]')?.addEventListener('click', (e) => {
+    if (!panel) return;
+    panel.hidden = !panel.hidden;
+    (e.currentTarget as HTMLElement).setAttribute('aria-expanded', String(!panel.hidden));
+  });
+  banner?.querySelector('[data-cookie-save]')?.addEventListener('click', () => choose(marketing?.checked ? 'accepted' : 'rejected'));
+
+  // "Cookie settings" links reopen the banner with the current choice shown.
+  document.querySelectorAll('[data-cookie-open]').forEach((el) =>
+    el.addEventListener('click', () => {
+      if (!banner || !panel) return;
+      if (marketing) marketing.checked = read() === 'accepted';
+      panel.hidden = false;
+      banner.hidden = false;
+    }),
+  );
+</script>
