@@ -1,0 +1,14 @@
+# installed packages and build output
+node_modules/
+dist/
+.astro/
+.wrangler/
+
+# secrets – never commit these
+.env
+.env.*
+!.env.example
+
+# system files
+.DS_Store
+Thumbs.db

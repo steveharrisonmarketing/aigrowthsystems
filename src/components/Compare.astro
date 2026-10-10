@@ -1,0 +1,46 @@
+---
+// "Set up for you, not dumped on you" comparison.
+// Plain descriptions only: no prices or statistics about the alternatives.
+import { offer, gbp } from '../config/offer';
+import Draft from './Draft.astro';
+
+const rows = ['Who does the set-up', 'Built around your business', 'Your team knows how to use it', 'What it costs', 'After it’s built'];
+const columns = [
+  {
+    title: 'Learn it yourself',
+    values: ['You, in whatever time you can find', 'Only as far as you get', 'Only if you teach them', 'Your own time', 'You keep it running'],
+  },
+  {
+    title: 'AI agency',
+    values: ['The agency', 'To the scope they quote', 'Depends on the handover', 'Quoted per project', 'Depends on the contract'],
+  },
+  {
+    title: offer.setup.name,
+    gold: true,
+    values: [
+      'Steve sets it up, with you',
+      'Yes. It starts from your business brain document',
+      `Yes. ${offer.setup.weeks} weekly group calls and a staff AI policy`,
+      `Fixed price: ${gbp(offer.setup.price)}`,
+      `Optional ${offer.partner.name}, cancel any time`,
+    ],
+  },
+];
+---
+
+<div class="compare">
+  {columns.map((col) => (
+    <div class:list={['card', { 'card--gold': col.gold }]}>
+      <h3 class:list={[{ 'gold-text': col.gold }]}>{col.title}</h3>
+      <dl>
+        {rows.map((row, i) => (
+          <div>
+            <dt>{row}</dt>
+            <dd>{col.values[i]}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  ))}
+</div>
+<Draft>Comparison wording is a first draft for you to approve or change.</Draft>

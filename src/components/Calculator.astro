@@ -1,0 +1,106 @@
+---
+// Enquiries calculator (brief 7.1). Shows a value the visitor already has at risk,
+// from their own numbers. It never promises savings, sales or income.
+import { site } from '../config/site';
+---
+
+<div class="calc reveal" data-calc>
+  <div class="card">
+    <div class="calc-row">
+      <label for="calc-enq">
+        <span>Enquiries a week you miss or reply to late</span>
+        <output data-out="enq">5</output>
+      </label>
+      <input id="calc-enq" type="range" min="0" max="50" step="1" value="5" />
+    </div>
+    <div class="calc-row" style="margin-bottom: 0;">
+      <label for="calc-val">
+        <span>Average value of a job or sale</span>
+        <output data-out="val">£500</output>
+      </label>
+      <input id="calc-val" type="range" min="50" max="5000" step="50" value="500" />
+    </div>
+  </div>
+
+  <div class="card card--gold calc-out">
+    <div>
+      <p style="color: var(--text); font-weight: 500;">Value of enquiries at risk per year</p>
+      <p class="big-number mt-3" data-out="total" aria-live="polite">£120,000</p>
+      <p class="mt-4">An estimate from your own numbers — not a promise of results.</p>
+    </div>
+    <div>
+      <div class="bars" data-bars aria-hidden="true">
+        {Array.from({ length: 12 }).map(() => <span />)}
+      </div>
+      <div class="bars-axis" aria-hidden="true"><span>Month 1</span><span>Month 12</span></div>
+    </div>
+    <a class="btn btn-primary" href={site.auditUrl}>Find out where you’re losing enquiries</a>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-calc]');
+  if (root) {
+    const enq = root.querySelector<HTMLInputElement>('#calc-enq')!;
+    const val = root.querySelector<HTMLInputElement>('#calc-val')!;
+    const outEnq = root.querySelector<HTMLElement>('[data-out="enq"]')!;
+    const outVal = root.querySelector<HTMLElement>('[data-out="val"]')!;
+    const outTotal = root.querySelector<HTMLElement>('[data-out="total"]')!;
+    const bars = Array.from(root.querySelectorAll<HTMLElement>('[data-bars] span'));
+    const gbp = (n: number) => '£' + Math.round(n).toLocaleString('en-GB');
+    const WEEKS = 48;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let shown = 0;
+    let frame = 0;
+    let settle = 0;
+
+    const fill = (el: HTMLInputElement) => {
+      const pct = ((+el.value - +el.min) / (+el.max - +el.min)) * 100;
+      el.style.setProperty('--fill', pct + '%');
+    };
+
+    const countTo = (target: number) => {
+      cancelAnimationFrame(frame);
+      if (reduce) {
+        shown = target;
+        outTotal.textContent = gbp(target);
+        return;
+      }
+      const from = shown;
+      const start = performance.now();
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / 450);
+        shown = from + (target - from) * (1 - Math.pow(1 - t, 3));
+        outTotal.textContent = gbp(shown);
+        if (t < 1) frame = requestAnimationFrame(tick);
+      };
+      frame = requestAnimationFrame(tick);
+      // Safety net: always land on the exact figure, even if the animation is paused (e.g. a background tab).
+      clearTimeout(settle);
+      settle = window.setTimeout(() => {
+        cancelAnimationFrame(frame);
+        shown = target;
+        outTotal.textContent = gbp(target);
+      }, 600);
+    };
+
+    const update = () => {
+      const e = +enq.value;
+      const v = +val.value;
+      const total = e * v * WEEKS;
+      outEnq.textContent = String(e);
+      outVal.textContent = gbp(v);
+      fill(enq);
+      fill(val);
+      // Bars build up month by month to the yearly figure.
+      bars.forEach((bar, i) => {
+        bar.style.height = (total === 0 ? 0 : ((i + 1) / 12) * 100) + '%';
+      });
+      countTo(total);
+    };
+
+    enq.addEventListener('input', update);
+    val.addEventListener('input', update);
+    update();
+  }
+</script>

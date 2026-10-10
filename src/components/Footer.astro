@@ -1,0 +1,57 @@
+---
+import { site } from '../config/site';
+import Draft from './Draft.astro';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="wordmark" href="/">AI <span class="gold-text">Growth</span> Systems</a>
+        <p class="mt-4" style="max-width: 34ch;">AI set up inside small UK businesses, by Steve Harrison.</p>
+        <p class="mt-4"><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      </div>
+
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="/ai-business-setup">AI Business Setup</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href={site.auditUrl}>{site.auditName}</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>More</h4>
+        <ul>
+          <li><a href={site.groupUrl} rel="noopener">Free AI group</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/cookies">Cookies</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Newsletter</h4>
+        <p>Real AI builds from a real small business. Occasional emails.</p>
+        <form class="newsletter" data-newsletter>
+          <label class="sr-only" for="nl-email">Email address</label>
+          <input class="field" id="nl-email" type="email" placeholder="you@yourbusiness.co.uk" autocomplete="email" required />
+          <button class="btn btn-secondary btn-sm" type="submit">Join</button>
+        </form>
+        <Draft>Sign-up is connected to Kit in Phase 2. It does nothing yet.</Draft>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {year} AI Growth Systems</span>
+      <Draft>Company details go here: legal name, company number, registered address.</Draft>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelector('[data-newsletter]')?.addEventListener('submit', (e) => e.preventDefault());
+</script>

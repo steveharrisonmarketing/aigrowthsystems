@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../config/site';
+interface Props {
+  title: string;
+  phase: string;
+  text: string;
+}
+const { title, phase, text } = Astro.props;
+---
+
+<Base title={`${title} | AI Growth Systems`} description={text} noindex>
+  <section class="section">
+    <div class="wrap narrow" style="text-align: center;">
+      <span class="eyebrow">Being built – {phase}</span>
+      <h1 class="h2 mt-5">{title}</h1>
+      <p class="lead mt-5" style="margin-inline: auto;">{text}</p>
+      <div class="btn-row mt-8" style="justify-content: center;">
+        <a class="btn btn-primary" href="/">Back to home</a>
+        <a class="btn btn-secondary" href={site.setupUrl}>AI Business Setup</a>
+      </div>
+      <slot />
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,280 @@
+---
+import Base from '../layouts/Base.astro';
+import Draft from '../components/Draft.astro';
+import Compare from '../components/Compare.astro';
+import Guarantee from '../components/Guarantee.astro';
+import Partner from '../components/Partner.astro';
+import AboutSteve from '../components/AboutSteve.astro';
+import Faq from '../components/Faq.astro';
+import { site } from '../config/site';
+import { defaultProblemLine } from '../data/industries';
+import { offer, gbp, instalmentTotal, doneForYou, weeks, groupCallMinutes, nextGroupText } from '../config/offer';
+
+const s = offer.setup;
+const startText = nextGroupText();
+const showGroup = Boolean(startText) && s.placesLeft !== null;
+
+const faqs = [
+  {
+    q: 'What happens on the call?',
+    a: 'It’s 30 minutes on video with Steve. He walks you through your audit and your AI setup plan: the first automation he’d build and the three assistants. You’ll hear the price and the next start date. There’s no obligation.',
+  },
+  {
+    q: 'What if I’m not technical?',
+    a: 'You don’t need to be. The set-up is done for you, and the weekly calls show you and your team how to use it in plain English.',
+  },
+  {
+    q: 'Is my data safe?',
+    a: 'Your AI workspace is set up with its data-safety settings switched on, and you get a one-page staff AI policy that says what can and can’t go into AI tools.',
+    draft: 'Every data-safety claim needs your confirmation before go-live.',
+  },
+  {
+    q: 'How much time does it take me each week?',
+    a: `One ${groupCallMinutes}-minute group call a week for ${s.weeks} weeks, plus the 90-minute 1:1 setup session at the start. Calls are recorded, and there’s message support between them.`,
+    draft: 'Add how much time you expect owners to spend between calls.',
+  },
+  {
+    q: `What happens after ${s.weeks} weeks?`,
+    a: `Everything that was built is yours to keep using. If you’d like ongoing help, ${offer.partner.name} is ${gbp(offer.partner.pricePerMonth)} a month and you can cancel any time.`,
+  },
+];
+---
+
+<Base
+  title="AI Business Setup | AI set up in your business in 6 weeks"
+  description="AI Business Setup: done-for-you AI set-up plus weekly group coaching for UK owner-run service businesses with 2–20 staff. Fixed price. Book a free call."
+>
+  <!-- 1. Hero -->
+  <section class="hero hero--page">
+    <div class="wrap">
+      <div class="hero-frame">
+        <div class="hero-visual" aria-hidden="true"></div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-content">
+          <span class="eyebrow">{s.name}</span>
+          <h1>AI set up in your business in {s.weeks} weeks</h1>
+          <p class="lead">
+            Done for you, then done with you. Steve builds your AI set-up, then coaches you and your team to use it every week.
+          </p>
+          <div class="btn-row mt-8">
+            <a class="btn btn-primary btn-pulse" href={offer.bookingUrl}>Book your free call</a>
+            <a class="btn btn-secondary" href="#price">See the price</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Who it's for -->
+  <section class="section section--raised">
+    <div class="wrap">
+      <div class="grid grid-2" style="align-items: center;">
+        <div class="section-head reveal" style="margin-bottom: 0;">
+          <span class="eyebrow">Who it’s for</span>
+          <h2>UK owner-run service businesses, 2–20 staff.</h2>
+        </div>
+        <div class="card reveal">
+          <ul class="tick-list">
+            <li>You run the business and still do a lot of the admin yourself.</li>
+            <li>Enquiries reach you by phone, email, your website and social media.</li>
+            <li>You’ve tried an AI tool or two, and nothing has stuck.</li>
+            <li>You want it set up properly, without becoming the IT department.</li>
+          </ul>
+          <Draft>First-draft wording for you to approve.</Draft>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. The problem -->
+  <section class="section">
+    <div class="wrap narrow">
+      <div class="section-head reveal">
+        <span class="eyebrow">The problem</span>
+        <h2>You know AI could help. Nobody has set it up for you.</h2>
+      </div>
+      <div class="reveal">
+        <p class="lead" data-variant="problemLine">{defaultProblemLine}</p>
+        <p class="mt-5">
+          Quotes, follow-ups and marketing get done late at night or not at all. You’ve heard AI can take some of that on, but
+          learning it properly is another job you don’t have time for.
+        </p>
+        <p class="mt-5">
+          So it stays as one person typing into ChatGPT now and then, while the work that eats your week stays exactly the same.
+        </p>
+        <Draft>First-draft wording. The first line changes for each industry when an ad link ends in ?for=builders (and so on).</Draft>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Comparison -->
+  <section class="section section--raised">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Your options</span>
+        <h2>Set up for you, not dumped on you.</h2>
+      </div>
+      <div class="reveal"><Compare /></div>
+    </div>
+  </section>
+
+  <!-- 5. Done for you -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Done for you</span>
+        <h2>What Steve builds for your business.</h2>
+      </div>
+      <div class="grid grid-3">
+        {doneForYou.map((item) => (
+          <div class="card reveal">
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Six-week table -->
+  <section class="section section--raised">
+    <div class="wrap">
+      <div class="grid grid-2">
+        <div class="section-head reveal" style="margin-bottom: 0;">
+          <span class="eyebrow">Done with you</span>
+          <h2>{s.weeks} weekly group calls.</h2>
+          <p class="lead">
+            {groupCallMinutes} minutes each week, in a group capped at {s.groupCap} businesses. Each call puts one part of your set-up to work.
+          </p>
+          <ul class="tick-list mt-8">
+            <li>Recordings of every call</li>
+            <li>Templates</li>
+            <li>Message support between calls</li>
+          </ul>
+        </div>
+        <div class="card reveal">
+          <table class="table">
+            <thead>
+              <tr><th>Week</th><th>What we cover</th></tr>
+            </thead>
+            <tbody>
+              {weeks.map((w) => (
+                <tr><td>{w.n}</td><td>{w.topic}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Price + payment options -->
+  <section class="section" id="price">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">The price</span>
+        <h2>One fixed price.</h2>
+      </div>
+
+      <div class:list={['grid', { 'grid-2': s.founding.enabled }]} style={s.founding.enabled ? '' : 'max-width: 620px; margin-inline: auto;'}>
+        {s.founding.enabled && (
+          <div class="card card--gold reveal" data-founding>
+            <span class="eyebrow">Founding group</span>
+            <p class="price gold-text mt-5">{gbp(s.founding.price)}</p>
+            <p class="price-sub" style="color: var(--text);">{s.founding.label}.</p>
+            <p class="mt-4">
+              “Sharing results” means you agree that Steve can publish an honest account of how the set-up went in your business, with your name on it.
+            </p>
+            <a class="btn btn-primary mt-8" href={offer.bookingUrl} data-founding-cta>Book your free call</a>
+          </div>
+        )}
+        <div class="card reveal">
+          <span class="eyebrow">{s.founding.enabled ? 'Standard price' : s.name}</span>
+          <p class:list={['price', 'mt-5', { 'gold-text': !s.founding.enabled }]} style={s.founding.enabled ? 'color: var(--text);' : ''}>{gbp(s.price)}</p>
+          <p class="price-sub">Pay in full.</p>
+          <p class="mt-4">
+            Or {s.instalments.count} payments of <strong>{gbp(s.instalments.amount)}</strong>, which is {gbp(instalmentTotal)} in total.
+          </p>
+          <p class="mt-4">Paid by invoice after your call. Nothing is paid on this website.</p>
+          {!s.founding.enabled && <a class="btn btn-primary mt-8" href={offer.bookingUrl}>Book your free call</a>}
+        </div>
+      </div>
+      <p class="small mt-6 reveal" style="text-align: center;">
+        These are test prices and may change. {offer.vatNote}
+      </p>
+      <div style="text-align: center;"><Draft>VAT wording goes here once you confirm whether prices include VAT.</Draft></div>
+    </div>
+  </section>
+
+  <!-- 8. Guarantee -->
+  <section class="section section--raised">
+    <div class="wrap">
+      <Guarantee />
+    </div>
+  </section>
+
+  <!-- 9. Next group: shown only when Steve has typed a real date and number into the settings file -->
+  {showGroup ? (
+    <section class="section">
+      <div class="wrap">
+        <div class="grid grid-2 reveal">
+          <div class="card">
+            <span class="eyebrow">Next group starts</span>
+            <p class="h2 display mt-5">{startText}</p>
+          </div>
+          <div class="card">
+            <span class="eyebrow">Places left</span>
+            <p class="big-number mt-5">{s.placesLeft}</p>
+            <p class="mt-3">of {s.groupCap} in this group.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  ) : (
+    site.showDraftNotes && (
+      <section class="section" style="padding-block: 40px;">
+        <div class="wrap">
+          <Draft block>
+            “Next group start date + places left” is hidden. It appears here when you type a real date and number into
+            src/config/offer.ts (nextGroupStart and placesLeft). Nothing is shown until then.
+          </Draft>
+        </div>
+      </section>
+    )
+  )}
+
+  <!-- 10. AI Partner -->
+  <section class="section">
+    <div class="wrap">
+      <Partner />
+    </div>
+  </section>
+
+  <!-- 11. About Steve -->
+  <section class="section section--raised">
+    <div class="wrap">
+      <AboutSteve />
+    </div>
+  </section>
+
+  <!-- 12. FAQ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Questions</span>
+        <h2>Before you book.</h2>
+      </div>
+      <div class="reveal"><Faq items={faqs} /></div>
+    </div>
+  </section>
+
+  <!-- 13. Final button -->
+  <section class="section cta-band">
+    <div class="wrap reveal">
+      <h2>See what Steve would set up first.</h2>
+      <a class="btn btn-primary" href={offer.bookingUrl}>Book your free call</a>
+      <p class="small mt-4">30 minutes. No obligation.</p>
+      <p class="mt-6">Not ready for a call? <a class="text-link" href={site.auditUrl}>Start with the {site.auditName}</a></p>
+    </div>
+  </section>
+</Base>

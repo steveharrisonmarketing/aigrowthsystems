@@ -1,0 +1,20 @@
+---
+import { offer, gbp, partnerIncludes } from '../config/offer';
+---
+
+<div class="grid grid-2" style="align-items: center;">
+  <div class="reveal">
+    <span class="eyebrow">After the {offer.setup.weeks} weeks</span>
+    <h2 class="mt-4">{offer.partner.name}</h2>
+    <p class="lead mt-5">
+      Optional monthly support that keeps your AI working and adds to it. Cancel any time.
+    </p>
+  </div>
+  <div class="card reveal">
+    <p class="price gold-text">{gbp(offer.partner.pricePerMonth)}<span style="font-size: 0.35em; letter-spacing: 0;"> /month</span></p>
+    <p class="price-sub">Cancel any time. {offer.vatNote}</p>
+    <ul class="tick-list mt-6">
+      {partnerIncludes.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+</div>

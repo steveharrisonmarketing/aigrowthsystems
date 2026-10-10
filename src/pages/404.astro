@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../config/site';
+---
+
+<Base title="Page not found | AI Growth Systems" description="That page doesn’t exist." noindex>
+  <section class="section">
+    <div class="wrap narrow" style="text-align: center;">
+      <span class="eyebrow">404</span>
+      <h1 class="h2 mt-5">That page isn’t here.</h1>
+      <p class="lead mt-5" style="margin-inline: auto;">It may have moved. These will get you back on track.</p>
+      <div class="btn-row mt-8" style="justify-content: center;">
+        <a class="btn btn-primary" href={site.auditUrl}>{site.auditName}</a>
+        <a class="btn btn-secondary" href="/">Home</a>
+      </div>
+    </div>
+  </section>
+</Base>

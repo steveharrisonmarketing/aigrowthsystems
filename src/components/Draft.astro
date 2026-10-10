@@ -1,0 +1,15 @@
+---
+// A dashed note for Steve while the site is being reviewed.
+// Hidden everywhere when site.showDraftNotes is false.
+import { site } from '../config/site';
+interface Props {
+  block?: boolean;
+}
+const { block = false } = Astro.props;
+---
+
+{site.showDraftNotes && (
+  <span class:list={['draft', { 'draft-block': block }]}>
+    <strong style="color: inherit;">Draft:</strong> <slot />
+  </span>
+)}
