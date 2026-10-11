@@ -56,9 +56,18 @@ const sample = sampleResult;
         </div>
       </div>
 
+      <p class="time-back mt-6" data-time-back>About {Math.round(sample.wins.reduce((sum, w) => sum + w.hoursSavedPerWeek, 0) * 2) / 2} hours a week back, estimated from your answers.</p>
+
       <div data-business-wrap>
         <h2 class="h3 mt-10">What we understood about your business</h2>
         <p class="lead mt-3" data-business>{sample.businessSummary}</p>
+      </div>
+
+      <div data-strengths-wrap>
+        <h2 class="h3 mt-10">What you already do well</h2>
+        <ul class="tick-list mt-4" data-strengths>
+          {sample.strengths.map((t) => <li>{t}</li>)}
+        </ul>
       </div>
 
       <div data-breakdown-wrap>
@@ -67,7 +76,10 @@ const sample = sampleResult;
           {sample.scoreBreakdown.map((b) => (
             <li>
               <span class="score-area-n">{b.score}<small>/20</small></span>
-              <span><strong>{b.area}</strong><br />{b.why}</span>
+              <span>
+                <strong>{b.area}</strong><br />{b.why}
+                <span class="score-bar" aria-hidden="true"><i style={`width: ${(b.score / 20) * 100}%`}></i></span>
+              </span>
             </li>
           ))}
         </ul>
@@ -81,6 +93,7 @@ const sample = sampleResult;
             <span class="step-n">{i + 1}</span>
             <h3 data-w="title">{win.title}</h3>
             <p class="win-evidence"><strong>What we saw:</strong> <span data-w="evidence">{win.evidence}</span></p>
+            <p><strong>What it does:</strong> <span data-w="plainMeaning">{win.plainMeaning}</span></p>
             <p><strong>Now:</strong> <span data-w="problem">{win.problem}</span></p>
             <p><strong>With AI:</strong> <span data-w="fix">{win.fix}</span></p>
             <p><strong>What you’d use:</strong> <span data-w="tool">{win.tool}</span></p>
@@ -102,8 +115,10 @@ const sample = sampleResult;
         </div>
       </div>
 
-      <h2 class="h3 mt-10">Where to start</h2>
-      <p class="lead mt-3" data-first-step>{sample.firstStep}</p>
+      <h2 class="h3 mt-10">Where to start this week</h2>
+      <ol class="first-week mt-4" data-first-week>
+        {sample.firstWeek.map((t) => <li>{t}</li>)}
+      </ol>
 
       <div data-based-wrap>
         <h2 class="h3 mt-10">What this audit is based on</h2>
@@ -119,11 +134,12 @@ const sample = sampleResult;
       </div>
 
       <p class="small mt-8">Time savings are estimates from your answers, not promises. <span data-emailed hidden>We’ve emailed you a copy of this audit.</span></p>
+      <button class="btn btn-secondary btn-sm no-print mt-6" type="button" data-print>Save as PDF</button>
     </div>
   </section>
 
   {a.enabled && (
-    <section class="section section--raised">
+    <section class="section section--raised no-print">
       <div class="wrap narrow">
         <span class="eyebrow">Your next step</span>
         <h2 class="mt-4">Turn this audit into a plan.</h2>

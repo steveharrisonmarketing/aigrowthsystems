@@ -21,6 +21,9 @@ export const AuditResult = z.object({
   businessSummary: z
     .string()
     .describe('Two sentences on what this business does and who for, taken only from the website, public information and the answers. Empty string if nothing is known.'),
+  strengths: z
+    .array(z.string())
+    .describe('Two or three things this business already does well. One short sentence each, specific to them and taken from the website, public information or the answers. Never generic praise.'),
   score: z.number().int().describe('AI opportunity score from 0 to 100: the five area scores added together'),
   scoreMeaning: z.string().describe('One short line, e.g. "Lots of room for AI to help you grow"'),
   scoreBreakdown: z
@@ -39,6 +42,7 @@ export const AuditResult = z.object({
         evidence: z
           .string()
           .describe('What we saw: the specific thing on their website, in public information or in their answers that this win rests on, and where it was seen. One or two sentences.'),
+        plainMeaning: z.string().describe('What the tool actually does, in one plain sentence for someone who has never used AI'),
         problem: z.string().describe('What happens now in this business, in one plain sentence'),
         fix: z.string().describe('What AI would do instead in this business, using their own services and channels, in one or two plain sentences'),
         tool: z.string().describe('The kind of tool, or a well-known real tool, that does this. Build on tools they already use where known.'),
@@ -57,7 +61,9 @@ export const AuditResult = z.object({
       note: z.string().describe('One sentence on what the assistant used to write it and what a person would still confirm'),
     })
     .describe('One worked example made for this business'),
-  firstStep: z.string().describe('One practical first step the owner can take this week, in two or three sentences'),
+  firstWeek: z
+    .array(z.string())
+    .describe('Exactly three small steps the owner can take this week, in order. Each one takes under an hour and starts with a verb.'),
   basedOn: z.array(z.string()).describe('What this audit is based on: each page read, each useful public source found, and "Your answers"'),
   confidence: z.enum(['High', 'Medium', 'Low']).describe('How much there was to go on'),
   couldNotVerify: z.array(z.string()).describe('Anything that could not be checked, or that we would need to know to say more'),
@@ -90,11 +96,12 @@ When a website address is given, do the research before you write. Keep it brisk
 What to produce
 - businessSummary: show the owner you understood their business.
 - An AI opportunity score from 0 to 100. Score five areas from 0 to 20 and add them up: enquiries and sales; repetitive admin; follow-up and repeat business; marketing and content; AI use today, inverted, so less AI use today means a higher score. Give each area one reason tied to something you saw or they said.
-- Exactly 3 quick wins, best first. Each is something the owner could start this week. Start from what the owner said takes the most time and their biggest challenge, then use your research to make each one specific to this business. Favour wins that help the business win or keep customers.
+- strengths: two or three things they already do well, so the owner sees AI building on something.
+- Exactly 3 quick wins, best first. Each has a plainMeaning: what the tool does, in plain words. Each is something the owner could start this week. Start from what the owner said takes the most time and their biggest challenge, then use your research to make each one specific to this business. Favour wins that help the business win or keep customers.
 - Keep every field short. This is read on a phone.
 - Every quick win needs evidence: the particular thing you saw or they said that it rests on, and where. If you cannot point to evidence for a win, choose a different win.
 - One worked example made for this business: a message one of their customers might realistically send, and the reply an AI assistant would draft for them. Use only facts from their website. Never invent a price, an opening time, availability or a policy; where a fact is unknown, the reply says a member of the team will confirm it.
-- One practical first step for this week.
+- firstWeek: exactly three small steps for this week, in order, each under an hour.
 - basedOn, confidence and couldNotVerify, filled in honestly.
 
 When there is little to go on

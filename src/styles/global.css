@@ -364,6 +364,27 @@ h3, .h3 { font-size: clamp(20px, 2.2vw, 24px); letter-spacing: -0.03em; line-hei
 .load-steps li.is-done::before { background: var(--gold); border-color: var(--gold); }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+.time-back { font: 600 18px/1.4 var(--font-body); color: var(--gold-light); }
+.score-bar { display: block; height: 6px; margin-top: 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.score-bar i { display: block; height: 100%; border-radius: 999px; background: var(--gold-gradient); }
+.first-week { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; counter-reset: wk; }
+.first-week li { position: relative; padding: 14px 16px 14px 56px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; color: var(--text); }
+.first-week li::before { counter-increment: wk; content: counter(wk); position: absolute; left: 16px; top: 14px; font: 700 14px/1 var(--font-display); color: var(--gold); }
+
+@media print {
+  :root, body { background: #fff !important; color: #111 !important; }
+  .site-header, .site-footer, .no-print, .draft, .cookie-banner, .hero-visual, .hero-shade { display: none !important; }
+  .section { padding-block: 16px !important; }
+  .card, .first-week li { background: #fff !important; border-color: #ddd !important; box-shadow: none !important; }
+  h1, h2, h3, p, li, .lead, .small { color: #111 !important; }
+  .gold-text, .time-back, .eyebrow, .sample-grows strong, .first-week li::before { color: #8a5a00 !important; -webkit-text-fill-color: #8a5a00 !important; background: none !important; }
+  .score-bar { background: #eee !important; }
+  .score-bar i { background: #b8861b !important; }
+  .score-ring--lg { background: conic-gradient(#b8861b var(--score, 72%), #eee 0) !important; }
+  .score-ring--lg::before { background: #fff !important; }
+  .result-wins li, .score-areas li, .score-area { break-inside: avoid; }
+}
+
 /* ── Audit questions ────────────────────────────────────────────────────── */
 .q-form { display: grid; gap: 28px; margin-top: 40px; }
 .q-form label.q, .q-form legend { display: block; color: var(--text); font-weight: 600; margin-bottom: 10px; padding: 0; }

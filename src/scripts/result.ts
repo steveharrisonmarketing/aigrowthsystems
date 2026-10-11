@@ -9,7 +9,8 @@ interface Result {
   score: number;
   scoreMeaning: string;
   wins: Win[];
-  firstStep: string;
+  firstWeek?: string[];
+  strengths?: string[];
   couldNotVerify: string[];
   businessSummary?: string;
   scoreBreakdown?: { area: string; score: number; why: string }[];
@@ -53,8 +54,16 @@ function fill(data: { firstName: string; sample: boolean; result: Result }) {
     show(li.querySelector<HTMLElement>('.win-evidence'), Boolean(win.evidence));
   });
 
-  const first = $('[data-first-step]');
-  if (first) first.textContent = r.firstStep;
+  const hours = r.wins.reduce((sum, w) => sum + Number(w.hoursSavedPerWeek || 0), 0);
+  // Rounded to the nearest half hour. Hours only: no money figures are shown.
+  setText('[data-time-back]', `About ${Math.round(hours * 2) / 2} hours a week back, estimated from your answers.`);
+
+  show($('[data-strengths-wrap]'), Boolean(r.strengths?.length));
+  const strengths = $('[data-strengths]');
+  if (strengths && r.strengths?.length) strengths.replaceChildren(...r.strengths.map((t) => el('li', t)));
+
+  const week = $('[data-first-week]');
+  if (week && r.firstWeek?.length) week.replaceChildren(...r.firstWeek.map((t) => el('li', t)));
 
   show($('[data-business-wrap]'), Boolean(r.businessSummary));
   setText('[data-business]', r.businessSummary ?? '');
@@ -69,6 +78,11 @@ function fill(data: { firstName: string; sample: boolean; result: Result }) {
         n.append(el('small', '/20'));
         const body = document.createElement('span');
         body.append(el('strong', b.area), document.createElement('br'), b.why);
+        const bar = document.createElement('span');
+        bar.className = 'score-bar';
+        bar.setAttribute('aria-hidden', 'true');
+        bar.append(Object.assign(document.createElement('i'), { style: `width: ${(b.score / 20) * 100}%` }));
+        body.append(bar);
         li.append(n, body);
         return li;
       }),
@@ -168,5 +182,6 @@ export function runResultPage() {
     load();
   };
   $('[data-retry]')?.addEventListener('click', start);
+  $('[data-print]')?.addEventListener('click', () => window.print());
   start();
 }
