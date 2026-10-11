@@ -22,6 +22,8 @@ Last updated: 11 October 2026. Plain-English summary of where things stand. No k
   - Legal identity shown as "Stephen Harrison trading as AI Growth Systems", with a note that sole-trader status still needs Steve's confirmation.
   - The law of England and Wales is confirmed in the terms.
 
+- **Member count check (11 Oct):** the new site (this repo) makes no "500+" or other member-count claim. "Join 500+ business owners" appears only on the old Lovable site still live on the domain (the real Skool count is 266). It goes away when the domain switches; until then it can only be fixed in Lovable.
+
 ## In progress – Fix 2 (Cloudflare)
 
 - **Database:** migration `0002_security.sql` (adds only a column and a table, removes nothing) has been applied to the live database.
