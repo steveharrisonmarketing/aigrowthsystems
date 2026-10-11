@@ -1,7 +1,9 @@
-// Receives the audit questions: spam check, one audit per email per 30 days, save, hand back the result id.
+// Receives the audit questions: rate limits, spam check, one audit per email per 30 days, save, hand back the result id.
+// The result id is only ever given to the request that created it; an existing audit is never returned by email.
 import type { APIRoute } from 'astro';
 import { serverEnv } from '../../lib/env';
 import { text, isEmail, normaliseWebsite, passedSpamCheck, json } from '../../lib/forms';
+import { withinLimit, LIMITS, HOUR, DAY } from '../../lib/rateLimit';
 
 export const prerender = false;
 
@@ -19,8 +21,13 @@ export const POST: APIRoute = async ({ request }) => {
   // A hidden box real visitors never see. If it is filled in, a bot did it.
   if (text(body.company_fax)) return json({ ok: false, message: 'Please try again.' }, 400);
 
+  const ip = request.headers.get('cf-connecting-ip') ?? 'unknown';
+  if (!(await withinLimit('audit-ip', ip, LIMITS.auditPerIpPerHour, HOUR))) {
+    return json({ ok: false, message: 'Too many attempts from this connection. Please try again in an hour.' }, 429);
+  }
+
   if (!(await passedSpamCheck(text(body.turnstileToken, 4000), request.headers.get('cf-connecting-ip')))) {
-    return json({ ok: false, message: 'The spam check did not pass. Please refresh the page and try again.' }, 400);
+    return json({ ok: false, message: 'The spam check did not pass. Please tick the check again and resubmit.' }, 400);
   }
 
   const email = text(body.email, 254).toLowerCase();
@@ -37,15 +44,20 @@ export const POST: APIRoute = async ({ request }) => {
   if (!TEAM_SIZES.includes(teamSize)) return json({ ok: false, message: 'Please choose a team size.' }, 400);
   if (!AI_USE.includes(aiUse)) return json({ ok: false, message: 'Please tell us whether you’ve used AI tools before.' }, 400);
 
+  if (!(await withinLimit('audit-email', email, LIMITS.auditPerEmailPerDay, DAY))) {
+    return json({ ok: false, message: 'Too many attempts for this email address today. Please try again tomorrow.' }, 429);
+  }
+
   try {
-    // One audit per email every 30 days protects the AI budget. A repeat visit gets the earlier result.
+    // One audit per email every 30 days protects the AI budget. The earlier result is NOT handed back here
+    // (anyone could type someone else's email); the owner has the link from their own visit or email.
     const recent = await serverEnv.DB.prepare(
       `SELECT id FROM audits WHERE email = ? AND status != 'failed' AND is_sample = 0 AND created_at > strftime('%Y-%m-%dT%H:%M:%SZ', 'now', '-30 days')
        ORDER BY created_at DESC LIMIT 1`,
     )
       .bind(email)
       .first<{ id: string }>();
-    if (recent) return json({ ok: true, id: recent.id, existing: true });
+    if (recent) return json({ ok: true, existing: true });
 
     const id = crypto.randomUUID();
     await serverEnv.DB.prepare(

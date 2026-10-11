@@ -38,7 +38,7 @@ const confidenceText: Record<string, string> = {
   Low: 'We had very little to go on, so this audit is short. Tell us more and we can be much more specific.',
 };
 
-function fill(data: { firstName: string; sample: boolean; result: Result }) {
+function fill(data: { firstName: string; sample: boolean; emailed?: boolean; result: Result }) {
   const r = data.result;
   document.querySelectorAll<HTMLElement>('[data-score]').forEach((el) => (el.textContent = String(r.score)));
   $('[data-ring]')?.style.setProperty('--score', `${r.score}%`);
@@ -112,7 +112,9 @@ function fill(data: { firstName: string; sample: boolean; result: Result }) {
     show($('[data-unverified-wrap]'), true);
   }
   show($('[data-sample-note]'), data.sample);
-  show($('[data-emailed]'), !data.sample);
+  // Only say we emailed it when the server confirmed the email was sent.
+  show($('[data-emailed]'), !data.sample && data.emailed === true);
+  show($('[data-not-emailed]'), !data.sample && data.emailed !== true);
 }
 
 export function runResultPage() {
@@ -164,6 +166,10 @@ export function runResultPage() {
         document.dispatchEvent(new CustomEvent('audit-completed'));
       } else if (data.status === 'running' && tries < 150) {
         setTimeout(() => load(tries + 1), 4000);
+      } else if (data.status === 'gave-up') {
+        fail('We couldn’t write this audit after several tries. Please email us and we’ll look into it.');
+      } else if (data.status === 'limited') {
+        fail('Too many requests from this connection. Please wait a few minutes and try again.');
       } else if (data.status === 'missing') {
         fail('We couldn’t find that audit. The link may be incomplete.');
       } else {

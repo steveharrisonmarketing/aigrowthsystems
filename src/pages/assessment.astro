@@ -140,14 +140,19 @@ const challenges = ['Getting more customers', 'Turning enquiries into sales', 'T
     try {
       const response = await fetch('/api/audit', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
       const result = await response.json();
-      if (result.ok) {
+      if (result.ok && result.existing) {
+        showError('We’ve already written an audit for this email address in the last 30 days. Please use the link from your earlier visit or email. If you can’t find it, email us.');
+      } else if (result.ok) {
         location.href = `/assessment/result?id=${result.id}`;
         return;
+      } else {
+        showError(result.message || 'Something went wrong. Please try again.');
       }
-      showError(result.message || 'Something went wrong. Please try again.');
     } catch {
       showError('We couldn’t reach the server. Check your connection and try again.');
     }
+    // A Turnstile token works once. Reset the widget so the visitor can resubmit without losing their answers.
+    (window as unknown as { turnstile?: { reset: () => void } }).turnstile?.reset();
     if (button) {
       button.disabled = false;
       button.textContent = 'Get my free AI Growth Audit';
