@@ -6,8 +6,9 @@ export const site = {
   founder: 'Steve Harrison',
   // Legal identity. Trading as a sole trader until a company is formed; update this and the footer,
   // privacy and terms pages together.
-  legalName: 'Steve Harrison',
-  tradingNote: 'AI Growth Systems is a trading name of Steve Harrison, sole trader.',
+  legalName: 'Stephen Harrison',
+  // Sole-trader status still needs Steve's confirmation (draft notes in the footer, privacy and terms pages).
+  tradingNote: 'Stephen Harrison trading as AI Growth Systems.',
   // Postal address: required by law on the site. Leave '' until it is confirmed; the footer then shows a draft note.
   postalAddress: '',
   // Pages listed in sitemap.xml. Stand-in pages are left out until they are real.
