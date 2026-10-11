@@ -22,6 +22,9 @@
       "migrations_dir": "migrations"
     }
   ],
+  // Astro's session store. Pinned to the namespace "wrangler deploy" created, because branch preview builds
+  // ("wrangler versions upload") cannot create it and failed without an id.
+  "kv_namespaces": [{ "binding": "SESSION", "id": "699f8df454074cca909192bee51dcd81" }],
   "vars": {
     // Where "new audit" notifications are sent.
     "AUDIT_NOTIFY_EMAIL": "info@aigrowthsystems.co.uk",
