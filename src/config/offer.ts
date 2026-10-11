@@ -104,7 +104,12 @@ export const offer = {
   },
 
   // Where "Book your free call" goes. Becomes the booking calendar later.
-  bookingUrl: '/book',
+  // Calendly link (e.g. https://calendly.com/your-name/free-call). Leave '' until the account exists:
+  // buttons then go to a "booking opens soon" page.
+  calendlyUrl: '',
+  get bookingUrl(): string {
+    return this.calendlyUrl || '/book';
+  },
 
   // Shown beside prices, e.g. 'No VAT to add.' Leave '' to show nothing.
   vatNote: '',

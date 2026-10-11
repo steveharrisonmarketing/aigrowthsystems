@@ -20,6 +20,10 @@ export const site = {
   // that needs Steve's OK or real content. Must be false before go-live.
   showDraftNotes: true,
 
+  // Kit (email list). Off until the Kit account and sign-up form are connected. While off, the
+  // newsletter box and the "Register interest" form are hidden rather than left doing nothing.
+  kitEnabled: false,
+
   // The cookie choice banner. Must be on before the Facebook pixel is added or any ads run.
   cookieBanner: true,
 

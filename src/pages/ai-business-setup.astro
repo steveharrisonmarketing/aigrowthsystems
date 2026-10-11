@@ -334,13 +334,16 @@ const faqs = [
             <p class="mt-3">{k.summary}</p>
             {!k.comingSoon && k.price !== null && <p class="mt-3" style="color: var(--text);"><strong>{gbp(k.price)}</strong></p>}
           </div>
-          <form class="newsletter" data-kit-interest>
-            <label class="sr-only" for="kit-email">Email address</label>
-            <input class="field" id="kit-email" type="email" placeholder="you@yourbusiness.co.uk" autocomplete="email" required />
-            <button class="btn btn-secondary btn-sm" type="submit">Register interest</button>
-          </form>
+          {site.kitEnabled ? (
+            <form class="newsletter" data-kit-interest>
+              <label class="sr-only" for="kit-email">Email address</label>
+              <input class="field" id="kit-email" type="email" placeholder="you@yourbusiness.co.uk" autocomplete="email" required />
+              <button class="btn btn-secondary btn-sm" type="submit">Register interest</button>
+            </form>
+          ) : (
+            <p class="small">Sign-up opens soon.</p>
+          )}
         </div>
-        <Draft>“Register interest” is connected to the email list when the audit is built. It does nothing yet.</Draft>
       </div>
     </section>
   )}

@@ -42,11 +42,13 @@ const { minimal = false } = Astro.props;
         <div>
           <h4>Newsletter</h4>
           <p>Real AI builds from a real small business. Occasional emails.</p>
-          <form class="newsletter" data-newsletter>
+          {site.kitEnabled && (
+        <form class="newsletter" data-newsletter>
             <label class="sr-only" for="nl-email">Email address</label>
             <input class="field" id="nl-email" type="email" placeholder="you@yourbusiness.co.uk" autocomplete="email" required />
             <button class="btn btn-secondary btn-sm" type="submit">Join</button>
           </form>
+        )}
           <Draft>Sign-up is connected to Kit in Phase 2. It does nothing yet.</Draft>
         </div>
       </div>

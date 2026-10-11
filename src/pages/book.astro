@@ -1,9 +1,27 @@
 ---
-import ComingSoon from '../components/ComingSoon.astro';
+// Where "Book your free call" goes until the Calendly link is set in src/config/offer.ts.
+import Base from '../layouts/Base.astro';
+import { site } from '../config/site';
+import { offer } from '../config/offer';
 ---
 
-<ComingSoon
-  title="Book your free call"
-  phase="Phase 3"
-  text="The booking calendar is added in Phase 3. This page is a stand-in so the “Book your free call” buttons have somewhere to go."
-/>
+<Base title="Book your free call | AI Growth Systems" description="Book a free 30-minute call with AI Growth Systems." noindex={!offer.calendlyUrl}>
+  <section class="section">
+    <div class="wrap narrow" style="text-align: center;">
+      <span class="eyebrow">Book your free call</span>
+      <h1 class="h2 mt-4">Pick a time that suits you.</h1>
+      {offer.calendlyUrl ? (
+        <>
+          <p class="lead mt-4" style="margin-inline: auto;">30 minutes on video. No obligation.</p>
+          <div class="btn-row mt-8" style="justify-content: center;">
+            <a class="btn btn-primary" href={offer.calendlyUrl} rel="noopener">Choose a time</a>
+          </div>
+        </>
+      ) : (
+        <>
+          <p class="lead mt-4" style="margin-inline: auto;">Booking opens soon. Email <a href={`mailto:${site.email}`}>{site.email}</a> and we’ll arrange a time.</p>
+        </>
+      )}
+    </div>
+  </section>
+</Base>
