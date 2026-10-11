@@ -4,6 +4,12 @@ export const site = {
   name: 'AI Growth Systems',
   url: 'https://aigrowthsystems.co.uk',
   founder: 'Steve Harrison',
+  // Legal identity. Trading as a sole trader until a company is formed; update this and the footer,
+  // privacy and terms pages together.
+  legalName: 'Steve Harrison',
+  tradingNote: 'AI Growth Systems is a trading name of Steve Harrison, sole trader.',
+  // Postal address: required by law on the site. Leave '' until it is confirmed; the footer then shows a draft note.
+  postalAddress: '',
   // Pages listed in sitemap.xml. Stand-in pages are left out until they are real.
   sitemapPages: ['/', '/ai-business-setup', '/about'],
   email: 'info@aigrowthsystems.co.uk',

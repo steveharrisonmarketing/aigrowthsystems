@@ -64,7 +64,8 @@ const { minimal = false } = Astro.props;
           <button class="link-button" type="button" data-cookie-open>Cookie settings</button>
         </span>
       )}
-      <Draft>Company details go here: legal name, company number, registered address.</Draft>
+      <span>{site.tradingNote}</span>
+      {site.postalAddress ? <span>{site.postalAddress}</span> : <Draft>Postal address needed for the footer.</Draft>}
     </div>
   </div>
 </footer>
