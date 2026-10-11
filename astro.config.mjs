@@ -5,6 +5,10 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   site: 'https://aigrowthsystems.co.uk',
   devToolbar: { enabled: false },
+  // One address form everywhere: no trailing slash. Pages are built as about.html (not about/index.html),
+  // which Cloudflare serves at /about without a redirect, matching every internal link, canonical and the sitemap.
+  trailingSlash: 'never',
+  build: { format: 'file' },
   // Hidden pages from earlier versions of the brief. They were never built;
   // their addresses send visitors to the AI Business Setup page.
   redirects: {

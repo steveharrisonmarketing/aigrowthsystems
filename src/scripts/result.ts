@@ -63,7 +63,9 @@ function fill(data: { firstName: string; sample: boolean; emailed?: boolean; res
   if (strengths && r.strengths?.length) strengths.replaceChildren(...r.strengths.map((t) => el('li', t)));
 
   const week = $('[data-first-week]');
+  // Audits saved before firstWeek existed have none: hide the section rather than show the sample steps as theirs.
   if (week && r.firstWeek?.length) week.replaceChildren(...r.firstWeek.map((t) => el('li', t)));
+  show($('[data-first-week-wrap]'), !!r.firstWeek?.length);
 
   show($('[data-business-wrap]'), Boolean(r.businessSummary));
   setText('[data-business]', r.businessSummary ?? '');

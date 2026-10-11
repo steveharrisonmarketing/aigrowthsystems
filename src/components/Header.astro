@@ -1,6 +1,6 @@
 ---
 import { site } from '../config/site';
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const path = Astro.url.pathname.replace(/(index)?\.html$/, '').replace(/\/$/, '') || '/';
 interface Props {
   minimal?: boolean;
 }
