@@ -1,6 +1,6 @@
 # Progress – AI Growth Systems website
 
-Last updated: 11 October 2026. Plain-English summary of where things stand. No keys or secrets are kept in this file.
+Last updated: 14 October 2026. Plain-English summary of where things stand. No keys or secrets are kept in this file.
 
 ## Done
 
@@ -38,8 +38,6 @@ Last updated: 11 October 2026. Plain-English summary of where things stand. No k
 
 ## Waiting on Steve
 
-1. Confirm sole-trader status.
-2. Postal address (footer, privacy, terms).
 3. ICO registration number.
 4. Privacy: which services are actually used, and how long data is kept (24 months is only a suggestion).
 5. Terms: approve the refund rules, and have an accountant check instalment pricing against consumer-credit rules.
@@ -53,7 +51,7 @@ Last updated: 11 October 2026. Plain-English summary of where things stand. No k
 
 ## Next steps
 
-- Merge order: PR #1 into `work`, then PR #2, then `work` into `main` once Steve says yes.
+- Done 14 October 2026 (Steve's yes): PR #1 and PR #2 merged into `work`, and `work` published to `main`. The preview address shows the merged version. Postal address added and sole-trader status confirmed.
 - After PR #1 is built: set the Turnstile secret on the Worker and test one audit on a preview.
 - Find and fix the cause of the branch-build failures (needs build-log access).
 - **Rules:** never push to `main` without Steve's explicit yes. No change to noindex (`showDraftNotes`) or DNS without Steve's explicit approval.
