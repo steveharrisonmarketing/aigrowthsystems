@@ -1,11 +1,10 @@
 ---
-// "What you get". With the sample audit beside it (home page) or as three cards (landing page, where the sample is in the hero).
-import Draft from './Draft.astro';
-import SampleAudit from './SampleAudit.astro';
+// "What you get" as three cards.
 interface Props {
   sample?: boolean;
 }
-const { sample = true } = Astro.props;
+// The made-up sample that sat beside this list on the home page was removed. The prop is kept so callers don't change.
+void Astro.props;
 
 const included = [
   { title: 'Your AI score', text: 'A score out of 100 showing how much room there is for AI to help in your business.' },
@@ -14,26 +13,6 @@ const included = [
 ];
 ---
 
-{sample ? (
-  <div class="get-grid">
-    <div class="reveal">
-      <span class="eyebrow">What you get</span>
-      <h2 class="mt-4">Your audit, on screen in minutes.</h2>
-      <ul class="get-list">
-        {included.map((item) => (
-          <li>
-            <h3>{item.title}</h3>
-            <p>{item.text}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-    <div class="reveal">
-      <SampleAudit />
-      <Draft>A made-up example to show the layout. It’s replaced with a real screenshot once the audit is built.</Draft>
-    </div>
-  </div>
-) : (
   <>
     <div class="section-head reveal">
       <span class="eyebrow">What you get</span>
@@ -48,4 +27,4 @@ const included = [
       ))}
     </div>
   </>
-)}
+

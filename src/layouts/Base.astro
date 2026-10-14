@@ -17,7 +17,9 @@ interface Props {
   landing?: boolean;
 }
 const { title, description, noindex = false, landing = false } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+// Pages are built as about.html but served at /about: drop the .html (and index) so the canonical matches the links.
+const cleanPath = Astro.url.pathname.replace(/(index)?\.html$/, '').replace(/(.)\/$/, '$1') || '/';
+const canonical = new URL(cleanPath, Astro.site);
 
 const org = {
   '@context': 'https://schema.org',

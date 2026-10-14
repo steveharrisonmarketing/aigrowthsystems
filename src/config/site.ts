@@ -6,10 +6,11 @@ export const site = {
   founder: 'Steve Harrison',
   // Legal identity. Trading as a sole trader until a company is formed; update this and the footer,
   // privacy and terms pages together.
-  legalName: 'Steve Harrison',
-  tradingNote: 'AI Growth Systems is a trading name of Steve Harrison, sole trader.',
+  legalName: 'Stephen Harrison',
+  // Sole-trader status confirmed by Steve on 11 October 2026.
+  tradingNote: 'Stephen Harrison trading as AI Growth Systems.',
   // Postal address: required by law on the site. Leave '' until it is confirmed; the footer then shows a draft note.
-  postalAddress: '',
+  postalAddress: '6 Glynde Avenue, Brighton, Sussex, BN2 8QR',
   // Pages listed in sitemap.xml. Stand-in pages are left out until they are real.
   sitemapPages: ['/', '/ai-business-setup', '/about'],
   email: 'info@aigrowthsystems.co.uk',
