@@ -28,13 +28,15 @@ export function escapeHtml(value: string): string {
 
 /**
  * Ask Cloudflare Turnstile whether the spam check on the form was passed.
- * With no secret key set (your own computer before keys exist) the check is skipped.
+ * Fails closed: with no secret key set, or if Cloudflare can't be reached, the check does not pass.
+ * There is no bypass. For your own computer, use Cloudflare's published test keys (see .env.example),
+ * which always pass and only work in testing.
  */
 export async function passedSpamCheck(token: string, ip: string | null): Promise<boolean> {
   const secret = serverEnv.TURNSTILE_SECRET_KEY;
   if (!secret) {
-    console.warn('Spam check skipped: TURNSTILE_SECRET_KEY is not set.');
-    return true;
+    console.error('Spam check refused: TURNSTILE_SECRET_KEY is not set.');
+    return false;
   }
   if (!token) return false;
 
@@ -45,6 +47,7 @@ export async function passedSpamCheck(token: string, ip: string | null): Promise
 
   try {
     const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body });
+    if (!response.ok) return false;
     const result = (await response.json()) as { success: boolean };
     return result.success === true;
   } catch {
